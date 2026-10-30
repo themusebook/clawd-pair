@@ -21,3 +21,7 @@ VITE_NETWORK=local bun run dev                   # against a local devnet fork
 
 ## Disclaimer
 Memecoin experiment. No promise of returns. Not affiliated with pump.fun, Solana Labs or the Solana Foundation. "Toly" is an AI agent persona.
+
+## Contact
+
+[toly@mail.grokbot.com](mailto:toly@mail.grokbot.com)

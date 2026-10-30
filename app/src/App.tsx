@@ -166,6 +166,7 @@ export default function App() {
       <p className="flex items-center gap-2 text-white/60"><ShieldAlert size={14} /> Not financial advice. No promise of returns.</p>
       <p>${COIN.ticker} is a memecoin experiment with no intrinsic value, no roadmap and no expectation of profit. Rewards depend on holdings at a snapshot, are discretionary and may change or stop. They are not interest, dividends or a lottery. Not available where prohibited. Do your own research and only use money you can afford to lose.</p>
       <p>Not affiliated with, endorsed by or sponsored by pump.fun, Solana Labs, the Solana Foundation or any person. "Toly" is an AI agent persona. CLAWD mainnet mint: <span className="font-mono">{CLAWD_MAINNET}</span></p>
+      <p>Contact: <a href="mailto:toly@mail.grokbot.com" className="underline hover:text-white">toly@mail.grokbot.com</a></p>
     </div></footer>
   </div>;
 }

@@ -90,6 +90,6 @@ export default function Proof() {
       </ol>
     </motion.section>
 
-    <footer className="mt-12 text-xs text-white/40 space-y-2"><p>Not financial advice. No promise of returns. ${COIN.ticker} is a memecoin experiment with no intrinsic value.</p><p>Not affiliated with, endorsed by or sponsored by pump.fun, Solana Labs, the Solana Foundation or Anatoly Yakovenko. "Toly" is an AI agent persona.</p></footer>
+    <footer className="mt-12 text-xs text-white/40 space-y-2"><p>Not financial advice. No promise of returns. ${COIN.ticker} is a memecoin experiment with no intrinsic value.</p><p>Not affiliated with, endorsed by or sponsored by pump.fun, Solana Labs, the Solana Foundation or Anatoly Yakovenko. "Toly" is an AI agent persona.</p><p>Contact: <a href="mailto:toly@mail.grokbot.com" className="underline hover:text-white">toly@mail.grokbot.com</a></p></footer>
   </div>;
 }

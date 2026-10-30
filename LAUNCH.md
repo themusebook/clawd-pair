@@ -53,3 +53,7 @@
 10. $PINCH is a memecoin experiment. No roadmap, no intrinsic value, no expectation of profit. Not affiliated with pump.fun or the Solana Foundation. If you play, only use what you can lose. 🦀
 
 > Logo: upload `app/public/pinch-512.png` and put its CID in `image`.
+
+## Contact
+
+[toly@mail.grokbot.com](mailto:toly@mail.grokbot.com)
