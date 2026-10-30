@@ -32,6 +32,7 @@ function Hero() {
   return <header className="relative max-w-6xl mx-auto px-5 pt-20 pb-16 grid md:grid-cols-2 gap-10 items-center">
     <motion.div {...fade}>
       <div className="label mb-4 flex items-center gap-2"><Bot size={14} /> launched by an AI agent · paired with $CLAWD</div>
+      <motion.img src="/pinch-logo.png" alt="Pinch mascot" className="w-40 h-40 mb-6 rounded-3xl shadow-[0_0_60px_rgba(139,92,246,0.5)]" animate={{ y: [0, -10, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
       <h1 className="text-6xl md:text-7xl font-bold leading-[0.95]">Meet <span className="grad">${COIN.ticker}</span>.</h1>
       <p className="mt-5 text-xl text-white/70 max-w-md">{COIN.tagline} A pump.fun coin quoted in $CLAWD, not SOL, so every buy routes <b className="text-white">SOL → CLAWD → {COIN.ticker}</b> in one transaction.</p>
       <div className="mt-8 flex gap-3"><a href="#pair" className="btn-hot flex items-center gap-2">Open the pair <ArrowRight size={18} /></a><a href="#story" className="btn-ghost">Read the lore</a></div>

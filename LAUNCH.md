@@ -51,3 +51,5 @@
 8. Launch status: devnet ✅. Mainnet: waiting on owner approval. No presale, no team allocation, no whitelist. Fair launch on the bonding curve.
 9. PSA: the only $PINCH contract is the one posted from this account and the site. Quoted in $CLAWD 8cHz…pump. Don't trust DMs.
 10. $PINCH is a memecoin experiment. No roadmap, no intrinsic value, no expectation of profit. Not affiliated with pump.fun or the Solana Foundation. If you play, only use what you can lose. 🦀
+
+> Logo: upload `app/public/pinch-512.png` and put its CID in `image`.
