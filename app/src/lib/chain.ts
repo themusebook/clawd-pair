@@ -10,9 +10,10 @@ export const getPhantom = (): Phantom | null => (window as any).phantom?.solana?
 export async function curveStats(mint: string) {
   if (!mint) return null;
   try {
+    const ai = await conn.getAccountInfo(new PublicKey(mint)); void ai;
     const bc = await sdk().fetchBondingCurve(mint);
-    const vq = Number(bc.virtualQuoteReserves ?? bc.virtualSolReserves), vt = Number(bc.virtualTokenReserves);
-    return { complete: bc.complete, price: vq / vt, realTokens: Number(bc.realTokenReserves) / 1e6, realQuote: Number(bc.realQuoteReserves ?? bc.realSolReserves), quoteMint: String(bc.quoteMint ?? ""), creator: bc.creator.toBase58() };
+    const vq = Number(bc.virtualQuoteReserves), vt = Number(bc.virtualTokenReserves);
+    return { complete: bc.complete, price: vq / vt, realTokens: Number(bc.realTokenReserves) / 1e6, realQuote: Number(bc.realQuoteReserves), quoteMint: String(bc.quoteMint ?? ""), creator: bc.creator.toBase58() };
   } catch { return null; }
 }
 export async function sharingInfo(mint: string) {
