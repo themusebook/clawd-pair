@@ -1,0 +1,4 @@
+bonding_curve HJYrK1vLqwQYjUJn3taqfaFX4yf7Yx6qCHAUGag9rAHj exists owner=6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P len=151
+  complete flag byte: 1
+pool_authority 2mWntQEeeRjhbpVwPEo46y6ZX4opATqQQ4vgPRmTFKsZ MISSING
+canonical_pool GBzd5ooMFkYtYgzUMKfzyaEJpvzxvm5FK4FDJcpVJJcH exists owner=pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA len=301

@@ -1,0 +1,9 @@
+devnet-test/
+node_modules/
+.env
+.env.*
+!.env.example
+*.key
+*keypair*.json
+dist/
+.next/

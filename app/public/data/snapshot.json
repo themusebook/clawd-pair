@@ -1,0 +1,24 @@
+{
+  "slot": 395,
+  "mintB": "6c81wh88jw2oMMDNVw1uGoLeR8vvuDjBX9TCKe6BWUKs",
+  "rule": "hold >= 1 B at slot, on-curve owners only; pro-rata of 1e9 A units",
+  "leaves": [
+    {
+      "wallet": "Hxiz93S8TNEEVujHiCmxWSAviQvKWyiGXeHu7ZEvtnxq",
+      "amount": "417681796"
+    },
+    {
+      "wallet": "FwVvjMtLnNsXnwyaxhMvy5G1YDbbFXbSSSu9xeebbiPz",
+      "amount": "582318203"
+    }
+  ],
+  "root": "c162692576f85890e7042479c8acb8bd4a091c96d18e6fedc418cac50f1cfeb0",
+  "claimant": {
+    "wallet": "FwVvjMtLnNsXnwyaxhMvy5G1YDbbFXbSSSu9xeebbiPz",
+    "amount": "582318203"
+  },
+  "proof": [
+    "637c201b26f373f5e31d587d8c10f82565ac784efed047327368b27752727542"
+  ],
+  "proofValid": true
+}

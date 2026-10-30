@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+@tailwind base; @tailwind components; @tailwind utilities;
+body { @apply bg-ink text-white font-display antialiased; background-image: radial-gradient(ellipse at 20% -10%, rgba(255,77,46,.25), transparent 50%), radial-gradient(ellipse at 90% 10%, rgba(154,140,255,.18), transparent 45%); }
+.card { @apply rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 shadow-[0_0_60px_-20px_rgba(255,77,46,.35)]; }
+.btn { @apply rounded-2xl px-5 py-3 font-semibold transition active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed; }
+.btn-hot { @apply btn bg-gradient-to-r from-claw to-pinch text-ink hover:brightness-110; }
+.btn-ghost { @apply btn border border-white/15 hover:bg-white/10; }
+.label { @apply text-xs uppercase tracking-[0.2em] text-white/50; }
+.grad { @apply bg-gradient-to-r from-claw via-pinch to-mint bg-clip-text text-transparent; }

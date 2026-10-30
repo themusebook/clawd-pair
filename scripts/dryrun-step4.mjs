@@ -1,0 +1,31 @@
+// Retry step 4 on existing B: sweep -> ATAs -> update shares -> trade -> distribute -> verify split
+import { Connection, Keypair, PublicKey, Transaction, ComputeBudgetProgram, sendAndConfirmTransaction, LAMPORTS_PER_SOL, VersionedTransaction, TransactionMessage } from "@solana/web3.js";
+import { TOKEN_2022_PROGRAM_ID, NATIVE_MINT, getAssociatedTokenAddressSync, createAssociatedTokenAccountIdempotentInstruction, getAccount } from "@solana/spl-token";
+import { OnlinePumpSdk, PUMP_SDK, feeSharingConfigPda } from "@pump-fun/pump-sdk";
+import BN from "bn.js"; import fs from "fs";
+const RPC = process.env.RPC; const CLUSTER = process.env.CLUSTER || "devnet"; if (/mainnet/.test(RPC)) throw 0;
+const c = new Connection(RPC, "confirmed"); const sdk = new OnlinePumpSdk(c);
+const kp = n => Keypair.fromSecretKey(Uint8Array.from(JSON.parse(fs.readFileSync(`devnet-test/${n}.json`))));
+const [owner, buyer, w50, w40, w10] = ["owner", "buyer", "w50", "w40", "w10"].map(kp);
+const { A, B } = JSON.parse(fs.readFileSync(`mints-${CLUSTER}.json`)); const a = new PublicKey(A), b = new PublicKey(B);
+const outF = `dryrun-${CLUSTER}.json`; const log = JSON.parse(fs.readFileSync(outF));
+const url = s => `https://explorer.solana.com/tx/${s}?cluster=${CLUSTER === "local" ? "custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899" : "devnet"}`;
+const save = () => fs.writeFileSync(outF, JSON.stringify(log, null, 2));
+async function send(step, ixs, signers) { try { const s = await sendAndConfirmTransaction(c, new Transaction().add(ComputeBudgetProgram.setComputeUnitLimit({ units: 1_200_000 }), ...ixs), signers); log.push({ step, sig: s, url: url(s) }); console.log("OK", step, s); save(); return s; } catch (e) { const m = (e.logs || e.transactionLogs || []).slice(-5).join(" | ") || e.message; log.push({ step, error: m }); console.log("FAIL", step, m); save(); } }
+const cfg = feeSharingConfigPda(b);
+const ata = w => getAssociatedTokenAddressSync(a, w, true, TOKEN_2022_PROGRAM_ID);
+const bal = async w => { try { return (await getAccount(c, ata(w), "confirmed", TOKEN_2022_PROGRAM_ID)).amount; } catch { return 0n; } };
+const sweep = await PUMP_SDK.sweepCreatorFeeInstruction({ payer: owner.publicKey, mint: b, creator: cfg, quoteMint: a, quoteTokenProgram: TOKEN_2022_PROGRAM_ID });
+const atas = [owner, w50, w40, w10].map(w => createAssociatedTokenAccountIdempotentInstruction(owner.publicKey, ata(w.publicKey), w.publicKey, a, TOKEN_2022_PROGRAM_ID));
+const upd = await PUMP_SDK.updateFeeSharesV2({ authority: owner.publicKey, mint: b, currentShareholders: [owner.publicKey], newShareholders: [{ address: w50.publicKey, shareBps: 5000 }, { address: w40.publicKey, shareBps: 4000 }, { address: w10.publicKey, shareBps: 1000 }], quoteMint: a, quoteTokenProgram: TOKEN_2022_PROGRAM_ID });
+await send("4b0 create shareholder ATAs", atas, [owner]);
+await send("4b' sweep + update_fee_shares_v2 50/40/10", [sweep, upd], [owner]);
+const hops = await sdk.resolveMultiHopRoute([NATIVE_MINT, a, b], "buy");
+const ixs = await PUMP_SDK.multiHopSwapInstructions({ user: buyer.publicKey, hops, side: "buy", amountIn: new BN(0.3 * LAMPORTS_PER_SOL), minAmountOut: new BN(1) });
+const { blockhash } = await c.getLatestBlockhash(); const vt = new VersionedTransaction(new TransactionMessage({ payerKey: buyer.publicKey, recentBlockhash: blockhash, instructions: [ComputeBudgetProgram.setComputeUnitLimit({ units: 1_400_000 }), ...ixs] }).compileToV0Message()); vt.sign([buyer]);
+const s = await c.sendTransaction(vt); await c.confirmTransaction(s); log.push({ step: "4c' multi_hop SOL->A->B 0.3 SOL (buyer)", sig: s, url: url(s) }); console.log("OK 4c'", s);
+const before = await Promise.all([w50, w40, w10].map(w => bal(w.publicKey)));
+const r = await sdk.buildDistributeCreatorFeesInstructions(b, { quoteMint: a, quoteTokenProgram: TOKEN_2022_PROGRAM_ID, payer: owner.publicKey });
+await send("4d' sweep + distribute_creator_fees_v2", r.instructions, [owner]);
+const d = (await Promise.all([w50, w40, w10].map(w => bal(w.publicKey)))).map((x, i) => x - before[i]);
+log.push({ step: "4e' fee split received (coin A base units)", w50: String(d[0]), w40: String(d[1]), w10: String(d[2]) }); save(); console.log("split", d.map(String));

@@ -1,0 +1,123 @@
+[
+  {
+    "step": "2a create_v2 A (SOL)",
+    "sig": "5CBytPzs5qRhGLKCCGpBG8sdQHqpjhLdgA7sVbNsMyBFim5KAEZ9kqzVQbnpxTtuSxGe7UAyrBwff3HLjwVyxsSw",
+    "url": "https://explorer.solana.com/tx/5CBytPzs5qRhGLKCCGpBG8sdQHqpjhLdgA7sVbNsMyBFim5KAEZ9kqzVQbnpxTtuSxGe7UAyrBwff3HLjwVyxsSw?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899",
+    "mint": "7TAUozhc7mduMf1GE12opzS4ni7e6AfYy5F8hi8ngjUQ"
+  },
+  {
+    "step": "2b buy_v3 A small (buyer)",
+    "sig": "4d75grTCaMyrXcTkxrkQ8LGkrPAZFTRp3zWiVfRcWxkbPUf3LyqPC3Ud4KV6Nuz9CftVvTe7mo6kgbE9ccXPSCrN",
+    "url": "https://explorer.solana.com/tx/4d75grTCaMyrXcTkxrkQ8LGkrPAZFTRp3zWiVfRcWxkbPUf3LyqPC3Ud4KV6Nuz9CftVvTe7mo6kgbE9ccXPSCrN?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "2c buy_v3 A to graduation (owner)",
+    "sig": "5c3xnpLtCUtKoXe2JLMQKcVCuHmrj8qfz9yadoj3s1qhcvuw6sHjDyQNcoWWnokYbB4hKonsu8qeLUQgwwuutYZz",
+    "url": "https://explorer.solana.com/tx/5c3xnpLtCUtKoXe2JLMQKcVCuHmrj8qfz9yadoj3s1qhcvuw6sHjDyQNcoWWnokYbB4hKonsu8qeLUQgwwuutYZz?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "2d migrate_v2 A",
+    "sig": "2hfB5wgCQ6ajt3bGhwPErv1yD4nTAcQMoMHiEUQDj61xuR5CLbQNVoWuULbVZw7P7Zw3DLZGkosMwnjX99WDqoYb",
+    "url": "https://explorer.solana.com/tx/2hfB5wgCQ6ajt3bGhwPErv1yD4nTAcQMoMHiEUQDj61xuR5CLbQNVoWuULbVZw7P7Zw3DLZGkosMwnjX99WDqoYb?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "3a create_v2 B (quote=A)",
+    "sig": "3Q3HwbYNM3ECQTNLNScG1phyYpUxyjUxLDP5ZMXKoCsoYmA9FBHcqgfzx7H9D2nMm6wGUgcWQPzqUCkLqXBUbwMd",
+    "url": "https://explorer.solana.com/tx/3Q3HwbYNM3ECQTNLNScG1phyYpUxyjUxLDP5ZMXKoCsoYmA9FBHcqgfzx7H9D2nMm6wGUgcWQPzqUCkLqXBUbwMd?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899",
+    "mint": "6c81wh88jw2oMMDNVw1uGoLeR8vvuDjBX9TCKe6BWUKs"
+  },
+  {
+    "step": "3b buy_v3 B with A (owner)",
+    "sig": "2QU3UhdhARGUjNyajapQeLSZYbjH8KrPU8Qr5eFt4waCtYCrsGocL7CVZCJBPPwHsmDK8TRcrvifZ7oYFLV3tqH",
+    "url": "https://explorer.solana.com/tx/2QU3UhdhARGUjNyajapQeLSZYbjH8KrPU8Qr5eFt4waCtYCrsGocL7CVZCJBPPwHsmDK8TRcrvifZ7oYFLV3tqH?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "3c sell_v3 B half (owner)",
+    "sig": "3E6snmvAQFUcW1CTWqmHLKn4FaFUdNkZyp28DGbMtGWLy7BfR4dApS57rKYmMCvyRLJkteSLS4EFMJN6n61Aohko",
+    "url": "https://explorer.solana.com/tx/3E6snmvAQFUcW1CTWqmHLKn4FaFUdNkZyp28DGbMtGWLy7BfR4dApS57rKYmMCvyRLJkteSLS4EFMJN6n61Aohko?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "3d multi_hop_swap SOL->A->B (buyer)",
+    "sig": "3pbETwN4bj3ihnPjb8UhhKouiMEiWRqYaRSaWMrp2mdqd9e9L6xvFJAkCbd5FHNTRyENqBVHhYqtgW5wP7ot45xP",
+    "url": "https://explorer.solana.com/tx/3pbETwN4bj3ihnPjb8UhhKouiMEiWRqYaRSaWMrp2mdqd9e9L6xvFJAkCbd5FHNTRyENqBVHhYqtgW5wP7ot45xP?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4a create_fee_sharing_config B",
+    "sig": "2oPLE78EjnrhdxJCgxvXEDAZr31ypV4RgeVy39K6xvCTLxcxDsxfxPs2sBVcYyDxSgcRejoMj9wFCPrMsBjthN9J",
+    "url": "https://explorer.solana.com/tx/2oPLE78EjnrhdxJCgxvXEDAZr31ypV4RgeVy39K6xvCTLxcxDsxfxPs2sBVcYyDxSgcRejoMj9wFCPrMsBjthN9J?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4b update_fee_shares_v2 50/40/10",
+    "error": "Program log: Instruction: DistributeCreatorFeesV2 | Program log: ProgramError occurred. Error Code: InvalidAccountData. Error Number: 17179869184. Error Message: An account's data contents was invalid. | Program 6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P consumed 29327 of 1144071 compute units | Program 6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P failed: invalid account data for instruction | Program pfeeUxB6jkeY1Hxd7CsFCAjcbHA9rWtchMGdZ6VojVZ consumed 85106 of 1199850 compute units | Program pfeeUxB6jkeY1Hxd7CsFCAjcbHA9rWtchMGdZ6VojVZ failed: invalid account data for instruction"
+  },
+  {
+    "step": "4c trade B to accrue fees (buyer multi-hop again)",
+    "sig": "5h9EP7237Wq2fFGsneuLdPShTX3FcSFS5YfyE5QQEbjLphJxeyMZhg4uB4h1i8z2r28UJaK2gqwzU6v7aZupkab9",
+    "url": "https://explorer.solana.com/tx/5h9EP7237Wq2fFGsneuLdPShTX3FcSFS5YfyE5QQEbjLphJxeyMZhg4uB4h1i8z2r28UJaK2gqwzU6v7aZupkab9?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4d sweep+distribute creator fees B",
+    "sig": "3RPzdB1NSQaQKP68kvzxpoFBYSHVA4VRMFWgVyzuAGFA5Lbz5eii3qrEcGAnP5R5cv1oJ7NuTMKsRvuSnLuTeHWJ",
+    "url": "https://explorer.solana.com/tx/3RPzdB1NSQaQKP68kvzxpoFBYSHVA4VRMFWgVyzuAGFA5Lbz5eii3qrEcGAnP5R5cv1oJ7NuTMKsRvuSnLuTeHWJ?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4e fee split (A base units)",
+    "w50": "0",
+    "w40": "0",
+    "w10": "0"
+  },
+  {
+    "step": "4b' sweep + ATAs + update_fee_shares_v2 50/40/10",
+    "error": "Transaction too large: 1241 > 1232"
+  },
+  {
+    "step": "4c' multi_hop SOL->A->B 0.3 SOL (buyer)",
+    "sig": "521KyMoQUpCakbhn95Nrt56qakK2gc4F74176zXfC1JwDLDy8tknJhUerrZwJqKYLCrLzSeLaX5iwAdycecTMJ6X",
+    "url": "https://explorer.solana.com/tx/521KyMoQUpCakbhn95Nrt56qakK2gc4F74176zXfC1JwDLDy8tknJhUerrZwJqKYLCrLzSeLaX5iwAdycecTMJ6X?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4d' sweep + distribute_creator_fees_v2",
+    "sig": "32ti9e7NMijapYD8KsnNzZzRwqM6VMUqX8akwKcfGSUsBi74pbN1J5uq3p93ikPruPwsNU6AL5PEVKtt9BWGVJfR",
+    "url": "https://explorer.solana.com/tx/32ti9e7NMijapYD8KsnNzZzRwqM6VMUqX8akwKcfGSUsBi74pbN1J5uq3p93ikPruPwsNU6AL5PEVKtt9BWGVJfR?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4e' fee split received (coin A base units)",
+    "w50": "0",
+    "w40": "0",
+    "w10": "0"
+  },
+  {
+    "step": "4b0 create shareholder ATAs",
+    "sig": "5rpHyKph4cLgGTXvp69gzNzid2HcTYq9T2z3mGsV982r888UfmoWVqWapkH8saQRYj8Fpjn6xXgTYENcVuWmQH6q",
+    "url": "https://explorer.solana.com/tx/5rpHyKph4cLgGTXvp69gzNzid2HcTYq9T2z3mGsV982r888UfmoWVqWapkH8saQRYj8Fpjn6xXgTYENcVuWmQH6q?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4b' sweep + update_fee_shares_v2 50/40/10",
+    "sig": "4qaBQm4GB3PsqPSXQ283sFJh5x7PUXRpXYz7M5KS1VS6SsfbCBmYHjcLn9CMRMjtCUVTHXGFE4d7gqy2iSPuAxrG",
+    "url": "https://explorer.solana.com/tx/4qaBQm4GB3PsqPSXQ283sFJh5x7PUXRpXYz7M5KS1VS6SsfbCBmYHjcLn9CMRMjtCUVTHXGFE4d7gqy2iSPuAxrG?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4c' multi_hop SOL->A->B 0.3 SOL (buyer)",
+    "sig": "4AaFqoc6dn3MmRB9vTz4Ez2mYgEYVBPuBAS3Qrgkw2YRc13sjcHdFA7JkpZUcL1SnCE2Th2S9tsF7ETAmUnGuVAZ",
+    "url": "https://explorer.solana.com/tx/4AaFqoc6dn3MmRB9vTz4Ez2mYgEYVBPuBAS3Qrgkw2YRc13sjcHdFA7JkpZUcL1SnCE2Th2S9tsF7ETAmUnGuVAZ?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4d' sweep + distribute_creator_fees_v2",
+    "sig": "5CfhiUfB45RdKkqjr2ybHVE1dkJg2KFkB5BH2UZsmGpp6UFG91j9PmtZtw7KDjc3H1BWfnykUnw9QkdKVHZuXcPm",
+    "url": "https://explorer.solana.com/tx/5CfhiUfB45RdKkqjr2ybHVE1dkJg2KFkB5BH2UZsmGpp6UFG91j9PmtZtw7KDjc3H1BWfnykUnw9QkdKVHZuXcPm?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  },
+  {
+    "step": "4e' fee split received (coin A base units)",
+    "w50": "23496195430",
+    "w40": "18796956344",
+    "w10": "4699239086"
+  },
+  {
+    "step": "5 snapshot+merkle root+claim payout (owner-signed transfer w/ memo)",
+    "sig": "5y71yPbqtZmQWqn11zW9rr79BxXJpPgdHY3DftJ7qmMSMNzb1Rms2TnkEYByFG9Vb6Ae56S7o6LpnWDHSnvLNcMz",
+    "root": "c162692576f85890e7042479c8acb8bd4a091c96d18e6fedc418cac50f1cfeb0",
+    "holders": 2,
+    "proofValid": true,
+    "url": "https://explorer.solana.com/tx/5y71yPbqtZmQWqn11zW9rr79BxXJpPgdHY3DftJ7qmMSMNzb1Rms2TnkEYByFG9Vb6Ae56S7o6LpnWDHSnvLNcMz?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+  }
+]
