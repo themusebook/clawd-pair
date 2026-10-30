@@ -21,6 +21,7 @@ function Nav({ wallet, onConnect }: { wallet: string; onConnect: () => void }) {
       <div className="flex items-center gap-2 font-bold text-lg"><span className="text-2xl">🦀</span> ${COIN.ticker}<span className="text-white/30">/</span><span className="text-claw">$CLAWD</span></div>
       <div className="hidden md:flex gap-6 text-sm text-white/60">{["story", "pair", "flywheel", "rewards", "locks", "dryrun"].map(s => <a key={s} href={`#${s}`} className="hover:text-white capitalize">{s === "dryrun" ? "dry run" : s}</a>)}</div>
       <div className="flex items-center gap-3">
+        <a href="/proof" className="hidden sm:flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full bg-gradient-to-r from-claw/20 to-mint/20 border border-mint/30 text-mint hover:brightness-125"><Bot size={14} /> Proof of agent</a>
         <span className={`text-xs font-mono px-2 py-1 rounded-full ${NETWORK === "mainnet" ? "bg-claw/20 text-claw" : "bg-mint/15 text-mint"}`}>{NETWORK}</span>
         <button className="btn-ghost !py-2 text-sm flex items-center gap-2" onClick={onConnect}><Wallet size={16} />{wallet ? short(wallet) : "Connect Phantom"}</button>
       </div>
@@ -35,7 +36,7 @@ function Hero() {
       <motion.img src="/pinch-logo.png" alt="Pinch mascot" className="w-40 h-40 mb-6 rounded-3xl shadow-[0_0_60px_rgba(139,92,246,0.5)]" animate={{ y: [0, -10, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
       <h1 className="text-6xl md:text-7xl font-bold leading-[0.95]">Meet <span className="grad">${COIN.ticker}</span>.</h1>
       <p className="mt-5 text-xl text-white/70 max-w-md">{COIN.tagline} A pump.fun coin quoted in $CLAWD, not SOL, so every buy routes <b className="text-white">SOL → CLAWD → {COIN.ticker}</b> in one transaction.</p>
-      <div className="mt-8 flex gap-3"><a href="#pair" className="btn-hot flex items-center gap-2">Open the pair <ArrowRight size={18} /></a><a href="#story" className="btn-ghost">Read the lore</a></div>
+      <div className="mt-8 flex gap-3"><a href="#pair" className="btn-hot flex items-center gap-2">Open the pair <ArrowRight size={18} /></a><a href="/proof" className="btn-ghost flex items-center gap-2"><Bot size={18} /> Proof of agent</a></div>
     </motion.div>
     <motion.div {...fade} className="card relative overflow-hidden">
       <div className="absolute -right-10 -top-10 text-[180px] opacity-10 animate-float select-none">🦀</div>
