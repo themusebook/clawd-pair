@@ -12,7 +12,7 @@ $("signin").onclick=async()=>{const p=provider();if(!p)return alert("Install a S
 function q(x){$("qi").textContent=x.image;$("qv").textContent=x.video}
 setInterval(()=>{if(!T)return;const s=Math.max(0,Math.floor((exp-Date.now())/1000));$("timer").textContent=Math.floor(s/60)+":"+String(s%60).padStart(2,"0");if(!s)logout()},1000);
 $("f").onsubmit=async e=>{e.preventDefault();const m=$("m").value.trim();if(!m)return;$("m").value="";add("u",esc(m));
- const r=await api("/api/tolybot/chat",{message:m});if(r.error)return add("",esc(r.error));add("","<b>tolybot:</b> "+esc(r.text));q(r.quota);
+ const r=await api("/api/tolybot/chat",{message:m});if(r.error)return add("",esc(r.error));add("bot",'<img src="/tolybot-256.webp" alt="tolybot"><div><b>tolybot</b><br>'+esc(r.text)+"</div>");q(r.quota);
  for(const x of r.media||[]){if(x.type==="image"&&x.url)add("",'<img src="'+esc(x.url)+'">');if(x.type==="video")poll(x.id)}};
 async function poll(id){add("","Video rendering...");for(let i=0;i<60;i++){await new Promise(r=>setTimeout(r,5000));const j=await api("/api/tolybot/video/"+encodeURIComponent(id));if(j.url)return add("",'<video controls src="'+esc(j.url)+'"></video>');if(j.error||j.status==="failed")return add("","Video failed.")}}
 $("holder").onclick=async()=>{const r=await api("/api/tolybot/holder",{});$("flag").textContent=r.error||("$CLAWD holder: "+(r.clawd_holder?"yes":"no"))};
