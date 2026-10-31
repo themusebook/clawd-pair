@@ -1,5 +1,5 @@
 {
-  "_source": "generated from snapshots/*.json by hand-run step; no rewards have been distributed",
+  "_source": "generated from snapshots/*.json; each entry labelled by network. No holder rewards have been distributed.",
   "epochs": [],
   "prototypeSnapshots": [
     {
@@ -11,6 +11,33 @@
       "merkleRoot": "5834da357a734409b3cb47ebaa3e8cdd86dad711968bc0fa5514ffd39b337e5d",
       "eligible": 1043,
       "excluded": 50,
+      "timeWeighted": false,
+      "distributed": "0",
+      "network": "mainnet"
+    },
+    {
+      "file": "snapshots/clawd-516967241.json",
+      "network": "devnet",
+      "token": "PINCH-test B",
+      "mint": "EEbZppyzACipV9fcQAiuXsaueB6yGqtcy7uf2WeiYDcf",
+      "slot": 516967241,
+      "takenAt": "2026-10-31T01:18:46.134Z",
+      "merkleRoot": "d54afa27a1e9511a4d7d2eab8b932fab2df67f643273f5d2f6b323ac483d2d64",
+      "eligible": 2,
+      "excluded": 1,
+      "timeWeighted": false,
+      "distributed": "0"
+    },
+    {
+      "file": "snapshots/clawd-516967273.json",
+      "network": "devnet",
+      "token": "CLAWD-test A",
+      "mint": "9uWdLMqEMYCg7Q4qfckLLSuoEfDdEzdfdm4wyRmLZa2y",
+      "slot": 516967273,
+      "takenAt": "2026-10-31T01:18:53.583Z",
+      "merkleRoot": "d7f9a6b298a244133ab34b307c24d50c51b7df9887ac72e4de660fe849207821",
+      "eligible": 5,
+      "excluded": 5,
       "timeWeighted": false,
       "distributed": "0"
     }

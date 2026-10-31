@@ -39,3 +39,26 @@ export async function multiHopBuy(wallet: Phantom, sol: number, slippageBps = 15
   return signature;
 }
 export const TOKEN22 = TOKEN_2022_PROGRAM_ID;
+/** Cumulative creator fees distributed to shareholders, summed from on-chain history of the fee-sharing config PDA:
+ *  every tx whose logs contain DistributeCreatorFees, adding each shareholder's quote-mint token balance increase. */
+export async function distributedFees(mint: string, quoteMint: string, shareholders: string[]) {
+  const pda = feeSharingConfigPda(new PublicKey(mint));
+  const sigs = await conn.getSignaturesForAddress(pda, { limit: 1000 });
+  const per: Record<string, bigint> = Object.fromEntries(shareholders.map(s => [s, 0n]));
+  const txs: { sig: string; amount: bigint; time: number | null }[] = [];
+  for (const s of sigs.filter(s => !s.err).reverse()) {
+    let tx = null as Awaited<ReturnType<typeof conn.getTransaction>>;
+    for (let i = 0; i < 5 && !tx; i++) { try { tx = await conn.getTransaction(s.signature, { maxSupportedTransactionVersion: 0, commitment: "confirmed" }); } catch { await new Promise(r => setTimeout(r, 800 * (i + 1))); } }
+    if (!tx?.meta || !(tx.meta.logMessages || []).some(l => /DistributeCreatorFees/.test(l))) continue;
+    const pre = tx.meta.preTokenBalances || [], post = tx.meta.postTokenBalances || [];
+    let sum = 0n;
+    for (const p of post) {
+      if (p.mint !== quoteMint || !p.owner || !(p.owner in per)) continue;
+      const b = pre.find(x => x.accountIndex === p.accountIndex);
+      const d = BigInt(p.uiTokenAmount.amount) - BigInt(b?.uiTokenAmount.amount || "0");
+      if (d > 0n) { per[p.owner] += d; sum += d; }
+    }
+    if (sum > 0n) txs.push({ sig: s.signature, amount: sum, time: s.blockTime ?? null });
+  }
+  return { total: Object.values(per).reduce((a, b) => a + b, 0n), per, txs };
+}

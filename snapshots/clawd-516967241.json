@@ -1,0 +1,55 @@
+{
+  "note": "READ-ONLY single snapshot (raw balance at slot, NOT time-weighted). Leaf amount = raw balance; prototype only.",
+  "rpc": "https://solana-devnet.api.onfinality.io/public",
+  "slot": 516967241,
+  "takenAt": "2026-10-31T01:18:46.134Z",
+  "mint": "EEbZppyzACipV9fcQAiuXsaueB6yGqtcy7uf2WeiYDcf",
+  "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+  "decimals": 6,
+  "supply": "1000000000000000",
+  "mode": "getProgramAccounts(full)",
+  "stats": {
+    "ownersWithBalance": 3,
+    "eligible": 2,
+    "excluded": 1,
+    "eligiblePctSupply": 74.2534,
+    "top10": [
+      {
+        "wallet": "HbR6EvJifiNyDdjUQG9UacJUiAEzeWLb8LiR1GpQkVMi",
+        "ui": 404783167.291156,
+        "pctSupply": 40.4783,
+        "excluded": null
+      },
+      {
+        "wallet": "6dBrKJ1pxm7uddeKoqTDQVj69ayW2bxftZETDqZPxXP1",
+        "ui": 337751601.510367,
+        "pctSupply": 33.7751,
+        "excluded": null
+      },
+      {
+        "wallet": "Ac8wtb7UXgLpfj2iKLWjjvUr14fcwyFSTeCMwgCwtjUs",
+        "ui": 257465231.198477,
+        "pctSupply": 25.7465,
+        "excluded": "off-curve(PDA/program-owned)"
+      }
+    ]
+  },
+  "merkleRoot": "d54afa27a1e9511a4d7d2eab8b932fab2df67f643273f5d2f6b323ac483d2d64",
+  "leaves": [
+    {
+      "wallet": "6dBrKJ1pxm7uddeKoqTDQVj69ayW2bxftZETDqZPxXP1",
+      "amount": "337751601510367"
+    },
+    {
+      "wallet": "HbR6EvJifiNyDdjUQG9UacJUiAEzeWLb8LiR1GpQkVMi",
+      "amount": "404783167291156"
+    }
+  ],
+  "excluded": [
+    {
+      "wallet": "Ac8wtb7UXgLpfj2iKLWjjvUr14fcwyFSTeCMwgCwtjUs",
+      "amount": "257465231198477",
+      "reason": "off-curve(PDA/program-owned)"
+    }
+  ]
+}
