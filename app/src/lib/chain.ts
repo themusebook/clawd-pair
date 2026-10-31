@@ -12,7 +12,7 @@ export async function curveStats(mint: string) {
   try {
     const bc = await sdk().fetchBondingCurve(mint);
     const vq = Number(bc.virtualQuoteReserves), vt = Number(bc.virtualTokenReserves);
-    return { complete: bc.complete, price: vq / vt, realTokens: Number(bc.realTokenReserves) / 1e6, realQuote: Number(bc.realQuoteReserves), quoteMint: String(bc.quoteMint ?? ""), creator: bc.creator.toBase58() };
+    return { complete: bc.complete, price: vq / vt, realTokens: Number(bc.realTokenReserves) / 1e6, realQuote: Number(bc.realQuoteReserves), quoteMint: String(bc.quoteMint ?? ""), creator: bc.creator.toBase58(), creatorFeeUnclaimed: String((bc as any).creatorFee ?? "0") };
   } catch { return null; }
 }
 export async function sharingInfo(mint: string) {

@@ -40,6 +40,19 @@
       "excluded": 5,
       "timeWeighted": false,
       "distributed": "0"
+    },
+    {
+      "file": "snapshots/clawd-516970785.json",
+      "network": "devnet",
+      "token": "PINCH-test B2",
+      "mint": "AVzMBtpueXn7GzsDC6XD1jFwkYq8n88xPHkgzB9Udzbc",
+      "slot": 516970785,
+      "takenAt": "2026-10-31T01:32:54.642Z",
+      "merkleRoot": "108d4e8f12d5ebece453a2eee1b1cba0b3231eec3cc7ec53c1d8fb20f1ee6ffe",
+      "eligible": 2,
+      "excluded": 1,
+      "timeWeighted": false,
+      "distributed": "0"
     }
   ]
 }

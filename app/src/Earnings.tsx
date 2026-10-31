@@ -16,20 +16,21 @@ export default function Earnings() {
   const [st, setSt] = useState<{ state: "loading" | "not-launched" | "live" | "error"; creator?: string; shareholders?: { address: string; bps: number }[]; vault?: string; dist?: { total: string; per: Record<string, string>; txs: { sig: string; amount: string }[] } }>({ state: "loading" });
   useEffect(() => {
     const t = setTimeout(() => setSt(p => p.state === "loading" ? { state: "error" } : p), 60000);
-    (async () => {
+    const load = async (n: number): Promise<void> => {
       if (!COIN_MINT) return setSt({ state: "not-launched" });
       const c = await curveStats(COIN_MINT);
-      if (!c) return setSt({ state: "not-launched" });
+      if (!c) { if (n > 0) { await new Promise(r => setTimeout(r, 3000)); return load(n - 1); } return setSt(p => p.state === "live" ? p : { state: "not-launched" }); }
       try {
         const sh = await sharingInfo(COIN_MINT).catch(() => null);
         const bal = await new OnlinePumpSdk(conn).getCreatorVaultBalanceBothPrograms(new PublicKey(c.creator)).catch(() => null);
         const shs = sh?.shareholders || []; const qm = CLAWD_MINT; // token-quoted coin: creator fees are paid in the quote coin ($CLAWD; test coin A on devnet)
-        setSt({ state: "live", creator: c.creator, shareholders: shs, vault: bal?.toString() });
+        setSt({ state: "live", creator: c.creator, shareholders: shs, vault: (BigInt(c.creatorFeeUnclaimed) + BigInt(bal?.toString() ?? "0")).toString() });
         if (shs.length) distributedFees(COIN_MINT, qm, shs.map((s: any) => s.address))
           .then(d => setSt(p => ({ ...p, dist: { total: d.total.toString(), per: Object.fromEntries(Object.entries(d.per).map(([k, v]) => [k, v.toString()])), txs: d.txs.map(x => ({ sig: x.sig, amount: x.amount.toString() })) } })))
           .catch(e => console.error("distributedFees", e));
-      } catch { setSt(p => p.state === "live" ? p : { state: "error", creator: c.creator }); }
-    })().finally(() => clearTimeout(t));
+      } catch { if (n > 0) { await new Promise(r => setTimeout(r, 3000)); return load(n - 1); } setSt(p => p.state === "live" ? p : { state: "error", creator: c.creator }); }
+    };
+    load(3).finally(() => clearTimeout(t));
   }, []);
   const net = NETWORK === "local" ? "devnet" : NETWORK;
   const epochs = ((earnings as any).epochs as any[]).filter(e => (e.network || "mainnet") === net); const protos = ((earnings as any).prototypeSnapshots as any[]).filter(p => (p.network || "mainnet") === net);
@@ -44,8 +45,8 @@ export default function Earnings() {
         <div className="label flex items-center gap-2"><Coins size={14} /> 1 · creator fees earned (agent)</div>
         <div className="text-3xl font-bold font-mono mt-2">{st.state === "loading" ? "…" : st.state === "live" ? (st.dist ? fmt(st.dist.total) : "…") : st.state === "error" ? (pending ? "0" : "unavailable") : "0"}</div>
         {st.state === "live" && <div className="text-xs text-white/60 mt-1">cumulative distributed to shareholders · quote-coin base units ({NETWORK})</div>}
-        {st.state === "live" && <div className="text-sm font-mono mt-2">unclaimed in creator vault now: {st.vault === undefined ? "unavailable (RPC)" : fmt(st.vault)}</div>}
-        <p className="text-xs text-white/50 mt-2">Source: the pump.fun creator vault (<code>creatorVaultPda(creator)</code>) for the ${COIN.ticker} creator on {NETWORK}, read live over RPC. "Distributed" sums every DistributeCreatorFees tx on the fee-sharing config (on-chain history); "unclaimed" is the current vault balance. Fees are paid in $CLAWD.</p>
+        {st.state === "live" && <div className="text-sm font-mono mt-2">unclaimed (accrued, not yet distributed) now: {st.vault === undefined ? "unavailable (RPC)" : fmt(st.vault)}</div>}
+        <p className="text-xs text-white/50 mt-2">Source: the pump.fun creator vault (<code>creatorVaultPda(creator)</code>) for the ${COIN.ticker} creator on {NETWORK}, read live over RPC. "Distributed" sums every DistributeCreatorFees tx on the fee-sharing config (on-chain history); "unclaimed" is creator fees accrued on the bonding curve (<code>creatorFee</code>, quote coin) plus the SOL creator vault, i.e. not yet swept/distributed. Fees are paid in $CLAWD.</p>
         {st.creator && <a target="_blank" href={explorer("address", st.creator)} className="text-xs font-mono underline flex items-center gap-1 mt-2">creator {short(st.creator)} <ExternalLink size={12} /></a>}
         {!!st.shareholders?.length && <div className="text-xs font-mono mt-2 space-y-0.5">{st.shareholders.map(s => <div key={s.address}><a target="_blank" className="underline" href={explorer("address", s.address)}>{short(s.address)}</a> · {(s.bps / 100).toFixed(2)}% · received {fmt(st.dist?.per[s.address])}</div>)}</div>}
         {!!st.dist?.txs.length && <div className="text-xs font-mono mt-2 space-y-0.5">{st.dist.txs.map(x => <a key={x.sig} target="_blank" href={explorer("tx", x.sig)} className="underline flex items-center gap-1">distribute {short(x.sig)} · {fmt(x.amount)} <ExternalLink size={12} /></a>)}</div>}
