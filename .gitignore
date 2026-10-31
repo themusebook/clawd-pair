@@ -8,5 +8,7 @@ node_modules/
 dist/
 .next/
 
-# local runtime sqlite
-app/data/
+# local runtime sqlite (anchored: must not match app/server/data/, which ships rules.json etc.)
+/app/data/
+!app/server/data/
+!app/server/data/**

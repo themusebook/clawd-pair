@@ -58,12 +58,16 @@ import { makeTolybot } from "./server/tolybot.mjs";
 const TOLYBOT = makeTolybot({ rpc: RPC });
 import { makeSimd } from "./server/simd.mjs";
 const SIMD = makeSimd();
+// Email-to-launch (devnet only). Off unless LAUNCH_EMAIL_ENABLED=true; exits if the devnet RPC is not devnet.
+import { startLaunchEmail } from "./server/launch-email.mjs";
+const LAUNCH = await startLaunchEmail();
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://x");
   try {
     if (await TOLYBOT(req, res, url, { json, readBody, clientIp })) return;
     if (await SIMD(req, res, url, { json })) return;
+    if (url.pathname.startsWith("/api/launch/")) { if (LAUNCH && await LAUNCH.handle(req, res, url, { json, readBody })) return; return json(res, LAUNCH ? 404 : 503, { error: LAUNCH ? "not found" : "email launch not enabled" }); }
     if (url.pathname === "/rpc" && req.method === "POST") {
       if (!RPC) return json(res, 503, { error: "RPC not configured" });
       const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: await readBody(req), signal: AbortSignal.timeout(20000) });
