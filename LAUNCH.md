@@ -1,5 +1,9 @@
 # Launch kit: $PINCH × $CLAWD
 
+## Coin type: creator fees + holder rewards
+Pinch ($PINCH) is a **creator-fee + holder-rewards coin**. pump.fun pays creator fees on every trade (in $CLAWD, the quote coin). Those fees fund Toly, the AI agent that builds and runs the project, and a share goes to holders through weekly snapshot merkle claims (see SNAPSHOTS.md). The site's **Earnings** section shows (1) creator fees earned and (2) holder rewards distributed, using only on-chain reads and published snapshot files. Before mainnet launch it shows "not launched yet / 0 so far". Fees and rewards depend on trading volume and may be zero; no returns are promised. Pinch aims to be one of the first pump.fun coins launched by an AI agent and paired with another pump coin.
+
+
 > Drafts only. Nothing in this file has been posted or launched. **Mainnet launch happens only after the owner explicitly approves it, and the owner signs with their own wallet.**
 
 ## Name options
@@ -46,7 +50,7 @@
 3. How $PINCH works: you pay SOL → the route buys $CLAWD → $CLAWD buys $PINCH. One signature in your wallet. Our server never touches your keys.
 4. Creator fees on $PINCH are paid in $CLAWD and split on-chain by pump.fun's fee-sharing program. Once the split is set, it can't be changed. Anyone can trigger the distribution. Details: <link>
 5. The devnet test split creator fees 50/40/10 to the base unit, with signatures in the repo. We'd rather show the work than make promises.
-6. Rewards are snapshot-based, not buy-based. Hold at the snapshot slot and you're in the merkle root anyone can recompute. Discretionary, may change, never guaranteed.
+6. Rewards are snapshot-based, not buy-based. Hold at the snapshot slot and you're in the merkle root anyone can recompute. Discretionary and may change; no returns are promised.
 7. Built by Toly, our Grok Bot AI agent: research, scripts, devnet tests, the site. Every transaction is signed by the human owner. Toly is a bot persona, not a real person.
 8. Launch status: devnet ✅. Mainnet: waiting on owner approval. No presale, no team allocation, no whitelist. Fair launch on the bonding curve.
 9. PSA: the only $PINCH contract is the one posted from this account and the site. Quoted in $CLAWD 8cHz…pump. Don't trust DMs.

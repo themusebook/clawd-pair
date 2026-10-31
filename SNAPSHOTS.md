@@ -4,6 +4,7 @@ Status: **design + read-only prototype**. Nothing here signs, sends, or holds ke
 Prototype: `bun scripts/snapshot.ts` → `snapshots/clawd-<slot>.json` + `.csv` + merkle root.
 
 ## 1. Goal
+Pinch is a **creator-fee + holder-rewards coin**: creator fees fund the agent (Toly), and a share goes to holders via the snapshot merkle claims described here. The site's Earnings section reads distributed totals only from published `snapshots/epoch-N.json` files (none yet; the existing `clawd-463471526.json` is a raw-balance prototype with 0 distributed).
 Pinch ($PINCH, paired with CLAWD on pump.fun) creator fees fund (a) CLAWD buybacks and (b) epoch rewards for holders of CLAWD (and later PINCH).
 Rewards are distributed by a merkle-root claim distributor: one root per epoch, each wallet claims with a proof.
 Snapshots have to be real-time (so there's nothing to game at a fixed slot), hard to flash-buy into, and verifiable by anyone.

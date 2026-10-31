@@ -1,0 +1,18 @@
+{
+  "_source": "generated from snapshots/*.json by hand-run step; no rewards have been distributed",
+  "epochs": [],
+  "prototypeSnapshots": [
+    {
+      "file": "snapshots/clawd-463471526.json",
+      "token": "CLAWD",
+      "mint": "8cHzQHUS2s2h8TzCmfqPKYiM4dSt4roa3n7MyRLApump",
+      "slot": 463471526,
+      "takenAt": "2026-10-30T23:33:40.344Z",
+      "merkleRoot": "5834da357a734409b3cb47ebaa3e8cdd86dad711968bc0fa5514ffd39b337e5d",
+      "eligible": 1043,
+      "excluded": 50,
+      "timeWeighted": false,
+      "distributed": "0"
+    }
+  ]
+}
