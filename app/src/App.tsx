@@ -5,6 +5,7 @@ import { COIN, NETWORK, MAINNET_ENABLED, CLAWD_MINT, COIN_MINT, CLAWD_MAINNET, L
 import { getPhantom, multiHopBuy, curveStats, sharingInfo, type Phantom } from "./lib/chain";
 import dryrun from "./lib/dryrun.json";
 import Earnings from "./Earnings";
+import { CountdownBanner, ClawdLive, LaunchFeed } from "./Live";
 
 const short = (s: string) => (s ? `${s.slice(0, 4)}…${s.slice(-4)}` : "—");
 const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6 } };
@@ -119,20 +120,24 @@ function Flywheel() {
 }
 
 function Rewards({ addr }: { addr: string }) {
-  const [snap, setSnap] = useState<any>(null); const [q, setQ] = useState("");
-  useEffect(() => { fetch("/data/snapshot.json").then(r => r.json()).then(setSnap).catch(() => {}); }, []);
+  // Eligibility comes from the server (/api/rewards/*): CLAWD holder snapshot + SNAPSHOTS.md rules. The CSV never ships to the browser.
+  const [stats, setStats] = useState<any>(null); const [q, setQ] = useState(""); const [hit, setHit] = useState<any>(null);
+  useEffect(() => { fetch("/api/rewards/stats").then(r => r.json()).then(setStats).catch(() => {}); }, []);
   useEffect(() => { if (addr) setQ(addr); }, [addr]);
-  const hit = useMemo(() => snap?.leaves?.find((l: any) => l.wallet === q.trim()), [snap, q]);
+  useEffect(() => { const w = q.trim(); if (!w) return setHit(null); const t = setTimeout(() => fetch(`/api/rewards/check?wallet=${encodeURIComponent(w)}`).then(r => r.json()).then(setHit).catch(() => setHit({ error: "lookup failed" })), 250); return () => clearTimeout(t); }, [q]);
   return <section id="rewards" className="max-w-6xl mx-auto px-5 py-16">
     <motion.div {...fade} className="card">
       <div className="grid md:grid-cols-2 gap-8">
         <div><h2 className="text-4xl font-bold flex items-center gap-3"><Gift className="text-pinch" /> Holder rewards</h2>
-          <p className="text-white/70 mt-4">Eligibility comes from on-chain snapshots, not from buying. Here's the rule:</p>
-          <ul className="mt-3 text-sm text-white/70 space-y-1 list-disc pl-5"><li>Hold ≥ the minimum at a published snapshot slot</li><li>Wallet only. Curves, pools and program accounts are excluded</li><li>Share is pro-rata to balance, committed to a merkle root anyone can recompute</li></ul>
-          <p className="text-xs text-white/40 mt-4 font-mono break-all">snapshot slot {snap?.slot ?? "—"} · root {snap?.root?.slice(0, 24) ?? "—"}…</p></div>
+          <p className="text-white/70 mt-4">${COIN.ticker} creator fees (paid in CLAWD) fund rewards for CLAWD holders. Eligibility comes from on-chain snapshots, not from buying. Here's the rule:</p>
+          <ul className="mt-3 text-sm text-white/70 space-y-1 list-disc pl-5"><li>Hold ≥ {stats?.minBal ?? "MIN_BAL"} CLAWD at the snapshot</li><li>Wallet only. Pool, bonding curve, program accounts (PDAs), dev, burn and CEX wallets are excluded</li><li>Score = balance capped at {stats?.capPctSupply ?? "CAP"}% of supply; reward = pool × your score ÷ total score</li></ul>
+          <p className="text-xs text-white/40 mt-4 font-mono">{stats ? `${stats.eligible} eligible of ${stats.holders} holders · rules ${stats.rulesVersion}` : "—"}</p></div>
         <div><div className="label mb-2">check a wallet</div>
-          <input value={q} onChange={e => setQ(e.target.value)} placeholder="wallet address" className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 font-mono text-sm outline-none focus:border-pinch" />
-          {q && <div className={`mt-4 rounded-2xl p-4 ${hit ? "bg-mint/10 border border-mint/30" : "bg-white/5"}`}>{hit ? <><div className="text-mint font-semibold">Eligible in this snapshot</div><div className="font-mono text-sm mt-1">{(Number(hit.amount) / 1e6).toLocaleString()} reward units</div></> : <div className="text-white/60">Not in this snapshot.</div>}</div>}
+          <input value={q} onChange={e => setQ(e.target.value)} placeholder="paste a wallet address, or connect Phantom" className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 font-mono text-sm outline-none focus:border-pinch" />
+          {hit && <div className={`mt-4 rounded-2xl p-4 ${hit.eligible ? "bg-mint/10 border border-mint/30" : "bg-white/5"}`}>{hit.error ? <div className="text-claw">{hit.error}</div>
+            : !hit.inSnapshot ? <div className="text-white/60">Not in this snapshot.</div>
+            : hit.eligible ? <><div className="text-mint font-semibold">Eligible. Rank #{hit.rank}</div><div className="font-mono text-sm mt-1">{hit.quantity.toLocaleString(undefined, { maximumFractionDigits: 2 })} CLAWD ({hit.percentage}% of supply){hit.capped && " · capped"}</div><div className="font-mono text-sm mt-1">Share of each epoch pool: <b>{hit.sharePct.toFixed(4)}%</b></div><div className="text-sm mt-1 text-white/60">{hit.rewardAmount ? `Epoch ${hit.epoch}: ${(Number(hit.rewardAmount) / 1e6).toLocaleString()} CLAWD` : "No rewards distributed yet."}</div></>
+            : <><div className="text-white/70 font-semibold">In the snapshot, not eligible</div><div className="text-sm text-white/50 mt-1">{hit.excludedReason}</div></>}</div>}
           <button className="btn-hot w-full mt-4" disabled title="Opens once an audited merkle-distributor is deployed">Claim (opens after distributor deploy)</button>
           <p className="text-xs text-white/40 mt-2">Claims will go through an on-chain merkle distributor, and you sign them yourself. The devnet test paid out with an owner-signed transfer.</p></div>
       </div>
@@ -162,7 +167,7 @@ export default function App() {
   return <div>
     <Nav wallet={addr} onConnect={connect} />
     {NETWORK !== "mainnet" && <div className="bg-mint/10 text-mint text-center text-sm py-2">You're on {NETWORK}. Test tokens only, nothing here has value.{!MAINNET_ENABLED && " Mainnet is off."}</div>}
-    <Hero /><Story /><Pair wallet={ph} /><Flywheel /><Earnings /><Rewards addr={addr} /><Locks /><DryRun />
+    <CountdownBanner /><Hero /><ClawdLive /><LaunchFeed /><Story /><Pair wallet={ph} /><Flywheel /><Earnings /><Rewards addr={addr} /><Locks /><DryRun />
     <footer className="border-t border-white/10 mt-10"><div className="max-w-6xl mx-auto px-5 py-10 text-xs text-white/40 space-y-2">
       <p className="flex items-center gap-2 text-white/60"><ShieldAlert size={14} /> Not financial advice. No promise of returns.</p>
       <p>${COIN.ticker} is a memecoin experiment with no intrinsic value, no roadmap and no expectation of profit. Rewards depend on holdings at a snapshot, are discretionary and may change or stop. They are not interest, dividends or a lottery. Not available where prohibited. Do your own research and only use money you can afford to lose.</p>

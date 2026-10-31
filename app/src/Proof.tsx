@@ -1,3 +1,4 @@
+import { PROXY_RPC, PROXY_WS } from "./lib/config";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Bot, GitCommit, FlaskConical, Rocket, Wallet, Coins, ShieldCheck, ExternalLink, ArrowLeft, Clock } from "lucide-react";
@@ -9,7 +10,7 @@ import { COIN, NETWORK } from "./lib/config";
 const AGENT_WALLET = "AvqpCvN4DyRgZdK3EHxHkRYKoebzCLCPuXwa25k6Rk6B";
 const REPO = "themusebook/clawd-pair";
 const MAINNET_MINT = NETWORK === "mainnet" ? (import.meta.env.VITE_COIN_MINT || "") : (import.meta.env.VITE_MAINNET_COIN_MINT || "");
-const MAINNET_RPC = import.meta.env.VITE_MAINNET_READ_RPC || "https://api.mainnet-beta.solana.com";
+const MAINNET_RPC = import.meta.env.VITE_MAINNET_READ_RPC || PROXY_RPC;
 const BUILD_TIME: string = typeof __BUILD_TIME__ !== "undefined" ? __BUILD_TIME__ : "";
 const fmt = (s: string) => (s ? new Date(s).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }) : "—");
 const short = (s: string) => (s ? `${s.slice(0, 6)}…${s.slice(-6)}` : "—");
@@ -28,7 +29,7 @@ export default function Proof() {
   const [bal, setBal] = useState<number | null>(null); const [sigs, setSigs] = useState<any[]>([]); const [createSig, setCreateSig] = useState("");
   useEffect(() => {
     fetch(`https://api.github.com/repos/${REPO}/commits?per_page=50`).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(setCommits).catch(e => setCErr(`GitHub API unavailable (${e}). Open the repo link to verify.`));
-    const c = new Connection(MAINNET_RPC, "confirmed"); const w = new PublicKey(AGENT_WALLET);
+    const c = new Connection(MAINNET_RPC, { commitment: "confirmed", wsEndpoint: import.meta.env.VITE_MAINNET_READ_RPC ? undefined : PROXY_WS }); const w = new PublicKey(AGENT_WALLET);
     c.getBalance(w).then(b => setBal(b / 1e9)).catch(() => {});
     c.getSignaturesForAddress(w, { limit: 10 }).then(setSigs).catch(() => {});
     if (MAINNET_MINT) c.getSignaturesForAddress(new PublicKey(MAINNET_MINT), { limit: 1000 }).then(s => { const first = s[s.length - 1]; if (first) setCreateSig(first.signature); }).catch(() => {});

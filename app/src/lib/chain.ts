@@ -2,8 +2,8 @@ import { Connection, PublicKey, VersionedTransaction, TransactionMessage, Comput
 import { NATIVE_MINT, TOKEN_2022_PROGRAM_ID } from "@solana/spl-token";
 import { OnlinePumpSdk, PUMP_SDK, feeSharingConfigPda } from "@pump-fun/pump-sdk";
 import BN from "bn.js";
-import { RPC_URL, CLAWD_MINT, COIN_MINT, NETWORK, MAINNET_ENABLED } from "./config";
-export const conn = new Connection(RPC_URL, "confirmed");
+import { RPC_URL, WS_URL, CLAWD_MINT, COIN_MINT, NETWORK, MAINNET_ENABLED } from "./config";
+export const conn = new Connection(RPC_URL, { commitment: "confirmed", wsEndpoint: WS_URL });
 const sdk = () => new OnlinePumpSdk(conn);
 export type Phantom = { publicKey: PublicKey | null; connect: () => Promise<{ publicKey: PublicKey }>; disconnect: () => Promise<void>; signAndSendTransaction: (tx: VersionedTransaction) => Promise<{ signature: string }> };
 export const getPhantom = (): Phantom | null => (window as any).phantom?.solana?.isPhantom ? (window as any).phantom.solana : null;

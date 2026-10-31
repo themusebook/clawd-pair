@@ -11,8 +11,11 @@ const SPL = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 const EXCLUDE_OWNERS: Record<string, string> = {
   GBzd5ooMFkYtYgzUMKfzyaEJpvzxvm5FK4FDJcpVJJcH: "pumpswap-pool",
   HJYrK1vLqwQYjUJn3taqfaFX4yf7Yx6qCHAUGag9rAHj: "bonding-curve",
-  // TODO: known CEX hot wallets, creator wallet, user's ~34% wallet (user decision)
 };
+// Shared with the app server: app/server/data/rewards-config.json (exclude + CEX + creator/dev + user-wallet treatment).
+try { const cfg = JSON.parse(fs.readFileSync("app/server/data/rewards-config.json", "utf8"));
+  Object.assign(EXCLUDE_OWNERS, cfg.exclude, cfg.cexHotWallets, cfg.creatorDevWallets);
+  if (cfg.userWallet?.treatment === "exclude") EXCLUDE_OWNERS[cfg.userWallet.wallet] = "user-wallet"; } catch {}
 const RPCS = (process.env.RPC ? [process.env.RPC] : []).concat([
   "https://api.mainnet-beta.solana.com", "https://solana-rpc.publicnode.com", "https://solana.drpc.org",
 ]);
