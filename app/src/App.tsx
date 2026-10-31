@@ -4,6 +4,7 @@ import { Bot, Flame, Gift, Lock, Wallet, ArrowRight, Zap, ShieldAlert, Repeat, S
 import { COIN, NETWORK, MAINNET_ENABLED, CLAWD_MINT, COIN_MINT, CLAWD_MAINNET, LAUNCH_AT, explorer } from "./lib/config";
 import { getPhantom, multiHopBuy, curveStats, sharingInfo, type Phantom } from "./lib/chain";
 import dryrun from "./lib/dryrun.json";
+import Earnings from "./Earnings";
 
 const short = (s: string) => (s ? `${s.slice(0, 4)}…${s.slice(-4)}` : "—");
 const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6 } };
@@ -19,7 +20,7 @@ function Nav({ wallet, onConnect }: { wallet: string; onConnect: () => void }) {
   return <nav className="sticky top-0 z-50 backdrop-blur-xl bg-ink/60 border-b border-white/5">
     <div className="max-w-6xl mx-auto flex items-center justify-between px-5 py-4">
       <div className="flex items-center gap-2 font-bold text-lg"><span className="text-2xl">🦀</span> ${COIN.ticker}<span className="text-white/30">/</span><span className="text-claw">$CLAWD</span></div>
-      <div className="hidden md:flex gap-6 text-sm text-white/60">{["story", "pair", "flywheel", "rewards", "locks", "dryrun"].map(s => <a key={s} href={`#${s}`} className="hover:text-white capitalize">{s === "dryrun" ? "dry run" : s}</a>)}</div>
+      <div className="hidden md:flex gap-6 text-sm text-white/60">{["story", "pair", "flywheel", "earnings", "rewards", "locks", "dryrun"].map(s => <a key={s} href={`#${s}`} className="hover:text-white capitalize">{s === "dryrun" ? "dry run" : s}</a>)}</div>
       <div className="flex items-center gap-3">
         <a href="/proof" className="hidden sm:flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full bg-gradient-to-r from-claw/20 to-mint/20 border border-mint/30 text-mint hover:brightness-125"><Bot size={14} /> Proof of agent</a>
         <span className={`text-xs font-mono px-2 py-1 rounded-full ${NETWORK === "mainnet" ? "bg-claw/20 text-claw" : "bg-mint/15 text-mint"}`}>{NETWORK}</span>
@@ -161,11 +162,12 @@ export default function App() {
   return <div>
     <Nav wallet={addr} onConnect={connect} />
     {NETWORK !== "mainnet" && <div className="bg-mint/10 text-mint text-center text-sm py-2">You're on {NETWORK}. Test tokens only, nothing here has value.{!MAINNET_ENABLED && " Mainnet is off."}</div>}
-    <Hero /><Story /><Pair wallet={ph} /><Flywheel /><Rewards addr={addr} /><Locks /><DryRun />
+    <Hero /><Story /><Pair wallet={ph} /><Flywheel /><Earnings /><Rewards addr={addr} /><Locks /><DryRun />
     <footer className="border-t border-white/10 mt-10"><div className="max-w-6xl mx-auto px-5 py-10 text-xs text-white/40 space-y-2">
       <p className="flex items-center gap-2 text-white/60"><ShieldAlert size={14} /> Not financial advice. No promise of returns.</p>
       <p>${COIN.ticker} is a memecoin experiment with no intrinsic value, no roadmap and no expectation of profit. Rewards depend on holdings at a snapshot, are discretionary and may change or stop. They are not interest, dividends or a lottery. Not available where prohibited. Do your own research and only use money you can afford to lose.</p>
       <p>Not affiliated with, endorsed by or sponsored by pump.fun, Solana Labs, the Solana Foundation or any person. "Toly" is an AI agent persona. CLAWD mainnet mint: <span className="font-mono">{CLAWD_MAINNET}</span></p>
+      <p>Built on Solana. Not affiliated with or endorsed by the Solana Foundation.</p>
       <p>Contact: <a href="mailto:toly@mail.grokbot.com" className="underline hover:text-white">toly@mail.grokbot.com</a></p>
     </div></footer>
   </div>;

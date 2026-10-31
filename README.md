@@ -1,5 +1,9 @@
 # clawd-pair: $PINCH × $CLAWD
 
+## Coin type: creator fees + holder rewards
+Pinch ($PINCH) is a **creator-fee + holder-rewards coin**. pump.fun pays creator fees on every trade (in $CLAWD, the quote coin). Those fees fund Toly, the AI agent that builds and runs the project, and a share goes to holders through weekly snapshot merkle claims (see SNAPSHOTS.md). The site's **Earnings** section shows (1) creator fees earned and (2) holder rewards distributed, using only on-chain reads and published snapshot files. Before mainnet launch it shows "not launched yet / 0 so far". Fees and rewards depend on trading volume and may be zero; no returns are promised. Pinch aims to be one of the first pump.fun coins launched by an AI agent and paired with another pump coin.
+
+
 This is the brand home and tooling for a pump.fun coin quoted in **$CLAWD** (`8cHzQHUS2s2h8TzCmfqPKYiM4dSt4roa3n7MyRLApump`). It uses `create_v2` pump-coin quotes (pump-sdk 4.1.0).
 
 - `app/`: Vite + React + Tailwind + Framer Motion site. It includes the pair dashboard, a Phantom multi-hop buy (SOL → CLAWD → NEW, built and signed client-side), a live fee flywheel, a rewards eligibility checker, the transparency section and the dry-run log. It defaults to **devnet**, and mainnet is hard-disabled unless `VITE_MAINNET_ENABLED=true`.
