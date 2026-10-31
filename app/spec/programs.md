@@ -1,0 +1,6 @@
+- **Core BPF.** Builtins may be migrated to Core BPF programs (**SIMD-0088**): Feature Gate (**SIMD-0089**), Address Lookup Table (**SIMD-0128**), Config (**SIMD-0140**), Stake (**SIMD-0196**, upgraded to v5.0.0 by **SIMD-0490**).
+- **Precompiles.** Unified behavior (**SIMD-0152**), failure constraint relaxed (**SIMD-0159**); secp256r1 precompile (**SIMD-0075**).
+- **ZK ElGamal Proof program** replaces the ZK Token Proof program (**SIMD-0153**).
+- **System program.** `CreateAccountAllowPrefund` (**SIMD-0312**).
+- **Stake program.** `MoveStake`/`MoveLamports` (**SIMD-0148**); fixed-point warmup/cooldown (**SIMD-0391**).
+- **SPL Token.** Replaced by CU-optimized p-token at the same address (**SIMD-0266**).

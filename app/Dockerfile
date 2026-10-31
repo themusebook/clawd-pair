@@ -16,6 +16,7 @@ WORKDIR /app
 RUN npm i --no-save --no-package-lock ws@8 @noble/curves@1.9.7 convex@1 >/dev/null
 COPY server.mjs ./
 COPY server ./server
+COPY spec ./spec
 COPY scripts ./scripts
 COPY --from=build /app/dist ./dist
 ENV PORT=8080 NODE_ENV=production

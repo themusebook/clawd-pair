@@ -1,0 +1,972 @@
+{
+ "note": "Fallback snapshot of SIMD frontmatter from solana-foundation/solana-improvement-documents main, used only when GitHub is unreachable.",
+ "takenAt": "2026-10-31T17:30:46.542Z",
+ "simds": [
+  {
+   "num": "0001",
+   "title": "Solana Proposal Process",
+   "status": "Living",
+   "feature": null,
+   "file": "0001-simd-process.md"
+  },
+  {
+   "num": "0007",
+   "title": "SIMD Access Policy",
+   "status": "Living",
+   "feature": null,
+   "file": "0007-access-policy.md"
+  },
+  {
+   "num": "0015",
+   "title": "Partitioned Epoch Rewards Distribution",
+   "status": "Withdrawn",
+   "feature": null,
+   "file": "0015-partitioned-epoch-reward-distribution.md"
+  },
+  {
+   "num": "0022",
+   "title": "Multi Delegation Stake Account",
+   "status": "Withdrawn",
+   "feature": null,
+   "file": "0022-multi-stake.md"
+  },
+  {
+   "num": "0033",
+   "title": "Timely Vote Credits",
+   "status": "Activated",
+   "feature": "tvcF6b1TRz353zKuhBjinZkKzjmihXmBAHJdjNYw1sQ",
+   "file": "0033-timely-vote-credits.md"
+  },
+  {
+   "num": "0046",
+   "title": "Optimistic cluster restart automation",
+   "status": "Implemented",
+   "feature": null,
+   "file": "0046-optimistic-cluster-restart-automation.md"
+  },
+  {
+   "num": "0047",
+   "title": "Syscall and Sysvar for last restart slot",
+   "status": "Activated",
+   "feature": "HooKD5NC9QNxk25QuzCssB8ecrEzGt6eXEPBUxWp1LaR",
+   "file": "0047-syscall-and-sysvar-for-last-restart-slot.md"
+  },
+  {
+   "num": "0048",
+   "title": "Native Program for verifying secp256r1 sig.",
+   "status": "Withdrawn",
+   "feature": null,
+   "file": "0048-native-program-for-secp256r1-sigverify.md"
+  },
+  {
+   "num": "0049",
+   "title": "Syscall for remaining compute units",
+   "status": "Withdrawn",
+   "feature": "5TuppMutoyzhUSfuYdhgzD47F92GL1g89KpCZQKqedxP",
+   "file": "0049-syscall-get-remaining-compute-units.md"
+  },
+  {
+   "num": "0064",
+   "title": "Transaction Receipts",
+   "status": "Stagnant",
+   "feature": null,
+   "file": "0064-transaction-receipt.md"
+  },
+  {
+   "num": "0075",
+   "title": "Precompile for verifying secp256r1 sig.",
+   "status": "Activated",
+   "feature": "srremy31J5Y25FrAApwVb9kZcfXbusYMMsvTK9aWv5q",
+   "file": "0075-precompile-for-secp256r1-sigverify.md"
+  },
+  {
+   "num": "0079",
+   "title": "Allow Commission Decrease at Any Time",
+   "status": "Activated",
+   "feature": "decoMktMcnmiq6t3u7g5BfgcQu91nKZr6RvMYf9z1Jb",
+   "file": "0079-allow_commission_decrease_at_any_time.md"
+  },
+  {
+   "num": "0083",
+   "title": "Relax Entry Constraints",
+   "status": "Accepted",
+   "feature": "ENTRYnPAoT5Swwx73YDGzMp3XnNH1kxacyvLosRHza1i",
+   "file": "0083-relax-entry-constraints.md"
+  },
+  {
+   "num": "0084",
+   "title": "Disable rent fees collection",
+   "status": "Activated",
+   "feature": "CJzY83ggJHqPGDq8VisV3U91jDJLuEaALZooBrXtnnLU",
+   "file": "0084-disable-rent-fees-collection.md"
+  },
+  {
+   "num": "0085",
+   "title": "Additional Fee-Collector Constraints",
+   "status": "Activated",
+   "feature": "prpFrMtgNmzaNzkPJg9o753fVvbHKqNrNTm76foJ2wm",
+   "file": "0085-additional-fee-collector-constraints.md"
+  },
+  {
+   "num": "0088",
+   "title": "Enable Core BPF Programs",
+   "status": "Activated",
+   "feature": null,
+   "file": "0088-enable-core-bpf-programs.md"
+  },
+  {
+   "num": "0089",
+   "title": "Programify Feature Gate Program",
+   "status": "Activated",
+   "feature": "4eohviozzEeivk1y9UbrnekbAFMDQyJz5JjA9Y6gyvky",
+   "file": "0089-programify-feature-gate-program.md"
+  },
+  {
+   "num": "0093",
+   "title": "Disable Bpf loader V2 program deployment",
+   "status": "Activated",
+   "feature": "7WeS1vfPRgeeoXArLh7879YcB9mgE9ktjPDtajXeWfXn",
+   "file": "0093-disable-bpf-loader-instructions.md"
+  },
+  {
+   "num": "0096",
+   "title": "Reward full priority fee to validator",
+   "status": "Activated",
+   "feature": "3opE3EzAKnUftUDURkzMgwpNgimBAypW1mNDYH4x4Zg7",
+   "file": "0096-reward-collected-priority-fee-in-entirety.md"
+  },
+  {
+   "num": "0105",
+   "title": "Maintain Dynamic Set of Reserved Account Keys",
+   "status": "Activated",
+   "feature": "8U4skmMVnF6k2kMvrWbQuRUT3qQSiTYpSjqmhmgfthZu",
+   "file": "0105-dynamic-reserved-accounts-set.md"
+  },
+  {
+   "num": "0118",
+   "title": "Partitioned Epoch Rewards Distribution",
+   "status": "Activated",
+   "feature": "PERzQrt5gBD1XEe2c9XdFWqwgHY3mr7cYWbm5V772V8",
+   "file": "0118-partitioned-epoch-reward-distribution.md"
+  },
+  {
+   "num": "0123",
+   "title": "Block Revenue Sharing",
+   "status": "Review",
+   "feature": null,
+   "file": "0123-block-revenue-distribution.md"
+  },
+  {
+   "num": "0127",
+   "title": "Get-Sysvar Syscall",
+   "status": "Activated",
+   "feature": "CLCoTADvV64PSrnR6QXty6Fwrt9Xc6EdxSJE4wLRePjq",
+   "file": "0127-get-sysvar-syscall.md"
+  },
+  {
+   "num": "0128",
+   "title": "Migrate Address Lookup Table to Core BPF",
+   "status": "Activated",
+   "feature": "C97eKZygrkU4JxJsZdjgbUY7iQR7rKTr4NyDWo2E5pRm",
+   "file": "0128-migrate-address-lookup-table-to-core-bpf.md"
+  },
+  {
+   "num": "0129",
+   "title": "Alt_BN128 Syscalls - Simplified Error Code",
+   "status": "Activated",
+   "feature": "JDn5q3GBeqzvUa7z67BbmVHVdE3EbUAjvFep3weR3jxX",
+   "file": "0129-alt-bn128-simplified-error-code.md"
+  },
+  {
+   "num": "0133",
+   "title": "Syscall Get-Epoch-Stake",
+   "status": "Activated",
+   "feature": "FKe75t4LXxGaQnVHdUKM6DSFifVVraGZ8LyNo7oPwy1Z",
+   "file": "0133-syscall-get-epoch-stake.md"
+  },
+  {
+   "num": "0137",
+   "title": "EC Syscalls - Abort on Unsupported Curve/Ops",
+   "status": "Activated",
+   "feature": "FuS3FPfJDKSNot99ECLXtp3rueq36hMNStJkPJwWodLh",
+   "file": "0137-curve25519-error.md"
+  },
+  {
+   "num": "0138",
+   "title": "Deprecate legacy vote instructions",
+   "status": "Activated",
+   "feature": "6Uf8S75PVh91MYgPQSHnjRAPQq6an5BDv9vomrCwDqLe",
+   "file": "0138-deprecate-legacy-vote-instructions.md"
+  },
+  {
+   "num": "0140",
+   "title": "Migrate Config to Core BPF",
+   "status": "Activated",
+   "feature": "2Fr57nzzkLYXW695UdDxDeR5fhnZWSttZeZYemrnpGFV",
+   "file": "0140-migrate-config-to-core-bpf.md"
+  },
+  {
+   "num": "0148",
+   "title": "MoveStake and MoveLamports Instructions",
+   "status": "Activated",
+   "feature": "7bTK6Jis8Xpfrs8ZoUfiMDPazTcdPcTWheZFJTA5Z6X4",
+   "file": "0148-stake-program-move-instructions.md"
+  },
+  {
+   "num": "0149",
+   "title": "Migrate Snapshot Serialized Epoch Stakes",
+   "status": "Activated",
+   "feature": null,
+   "file": "0149-migrate-snapshot-epoch-stakes.md"
+  },
+  {
+   "num": "0152",
+   "title": "Precompiles",
+   "status": "Activated",
+   "feature": "ed9tNscbWLYBooxWA7FE2B5KHWs8A6sxfY8EzezEcoo",
+   "file": "0152-precompiles.md"
+  },
+  {
+   "num": "0153",
+   "title": "ZK ElGamal Proof Program",
+   "status": "Activated",
+   "feature": "zkhiy5oLowR7HY4zogXjCjeMXyruLqBwSWH21qcFtnv",
+   "file": "0153-elgamal-proof-program.md"
+  },
+  {
+   "num": "0159",
+   "title": "Relax Precompile Failure Constraint",
+   "status": "Activated",
+   "feature": "9ypxGLzkMxi89eDerRKXWDXe44UY2z4hBig4mDhNq5Dp",
+   "file": "0159-relax-precompile-failure-constraint.md"
+  },
+  {
+   "num": "0160",
+   "title": "Static Instruction Limit",
+   "status": "Activated",
+   "feature": null,
+   "file": "0160-static-instruction-limit.md"
+  },
+  {
+   "num": "0162",
+   "title": "Remove Accounts `is_executable` Flag Checks",
+   "status": "Activated",
+   "feature": "FXs1zh47QbNnhXcnB6YiAQoJ4sGB91tKF3UFHLcKT7PM",
+   "file": "0162-remove-accounts-executable-flag-checks.md"
+  },
+  {
+   "num": "0163",
+   "title": "Lift the CPI caller restriction",
+   "status": "Withdrawn",
+   "feature": "HcW8ZjBezYYgvcbxNJwqv1t484Y2556qJsfNDWvJGZRH",
+   "file": "0163-lift-cpi-caller-restriction.md"
+  },
+  {
+   "num": "0166",
+   "title": "SBPF Dynamic stack frames",
+   "status": "Activated",
+   "feature": "JE86WkYvTrzW8HgNmrHY7dFYpCmSptUpKupbo2AdQ9cG",
+   "file": "0166-dynamic-stack-frames.md"
+  },
+  {
+   "num": "0170",
+   "title": "Reserve minimal CUs for builtins",
+   "status": "Activated",
+   "feature": "C9oAhLxDBm3ssWtJx1yBGzPY55r2rArHmN1pbQn6HogH",
+   "file": "0170-builtin-instruction-cost-and-budget.md"
+  },
+  {
+   "num": "0173",
+   "title": "SBPF instruction encoding improvements",
+   "status": "Activated",
+   "feature": "F6UVKh1ujTEFK3en2SyAL3cdVnqko1FVEXWhmdLRu6WP",
+   "file": "0173-sbpf-instruction-encoding-improvements.md"
+  },
+  {
+   "num": "0174",
+   "title": "SBPF arithmetics improvements",
+   "status": "Activated",
+   "feature": "F6UVKh1ujTEFK3en2SyAL3cdVnqko1FVEXWhmdLRu6WP",
+   "file": "0174-sbpf-arithmetics-improvements.md"
+  },
+  {
+   "num": "0175",
+   "title": "Disable Partitioned Rent Updates",
+   "status": "Activated",
+   "feature": "2B2SBNbUcr438LtGXNcJNBP2GBSxjx81F945SdSkUSfC",
+   "file": "0175-disable-partitioned-rent-collection.md"
+  },
+  {
+   "num": "0178",
+   "title": "SBPF Static Syscalls",
+   "status": "Activated",
+   "feature": "BUwGLeF3Lxyfv1J1wY8biFHBB2hrk2QhbNftQf3VV3cC",
+   "file": "0178-static-syscalls.md"
+  },
+  {
+   "num": "0180",
+   "title": "Vote Account Address Keyed Leader Schedule",
+   "status": "Activated",
+   "feature": null,
+   "file": "0180-vote-account-leader-schedule.md"
+  },
+  {
+   "num": "0182",
+   "title": "Consume requested CUs for sBPF failures",
+   "status": "Activated",
+   "feature": "B7H2caeia4ZFcpE3QcgMqbiWiBtWrdBRBSJ1DY6Ktxbq",
+   "file": "0182-conditional-cu-metering.md"
+  },
+  {
+   "num": "0183",
+   "title": "Skip Rent Rewrites",
+   "status": "Activated",
+   "feature": "CGB2jM8pwZkeeiXQ66kBMyBR6Np61mggL7XUsmLjVcrw",
+   "file": "0183-skip-rent-rewrites.md"
+  },
+  {
+   "num": "0185",
+   "title": "Vote Account v4",
+   "status": "Activated",
+   "feature": "Gx4XFcrVMt4HUvPzTpTSVkdDVgcDSjKhDN1RqRS6KDuZ",
+   "file": "0185-vote-account-v4.md"
+  },
+  {
+   "num": "0186",
+   "title": "Loaded Transaction Data Size Specification",
+   "status": "Activated",
+   "feature": null,
+   "file": "0186-loaded-transaction-data-size-specification.md"
+  },
+  {
+   "num": "0189",
+   "title": "SBPF stricter ELF headers",
+   "status": "Activated",
+   "feature": "GJav1vwg2etvSWraPT96QvYuQJswJTJwtcyARrvkhuV9",
+   "file": "0189-sbpf-stricter-elf-headers.md"
+  },
+  {
+   "num": "0191",
+   "title": "Relax Transaction Loading Constraints",
+   "status": "Activated",
+   "feature": "PaymEPK2oqwT9TXAVfadjztH2H6KfLEB9Hhd5Q5frvP",
+   "file": "0191-enable-transaction-loading-failure-fees.md"
+  },
+  {
+   "num": "0194",
+   "title": "Deprecate Rent Exemption Threshold",
+   "status": "Activated",
+   "feature": null,
+   "file": "0194-deprecate-rent-exemption-threshold.md"
+  },
+  {
+   "num": "0196",
+   "title": "Migrate Stake to Core BPF",
+   "status": "Activated",
+   "feature": "6M4oQ6eXneVhtLoiAr4yRYQY43eVLjrKbiDZDJc892yk",
+   "file": "0196-migrate-stake-to-core-bpf.md"
+  },
+  {
+   "num": "0204",
+   "title": "Slashable event verification",
+   "status": "Review",
+   "feature": null,
+   "file": "0204-slashable-event-verification.md"
+  },
+  {
+   "num": "0207",
+   "title": "Raise Block Limits to 50M CUs",
+   "status": "Activated",
+   "feature": "5oMCU3JPaFLr8Zr4ct7yFA7jdk6Mw1RmB8K4u9ZbS42z",
+   "file": "0207-raise-block-limits-to-50M.md"
+  },
+  {
+   "num": "0215",
+   "title": "Homomorphic Hashing of Account State",
+   "status": "Activated",
+   "feature": "LTHasHQX6661DaDD4S6A2TFi6QBuiwXKv66fB1obfHq",
+   "file": "0215-accounts-lattice-hash.md"
+  },
+  {
+   "num": "0219",
+   "title": "Stricter ABI and Runtime Constraints",
+   "status": "Review",
+   "feature": "C37iaPi6VE4CZDueU1vL8y6pGp5i8amAbEsF31xzz723",
+   "file": "0219-stricter-abi-and-runtime-constraints.md"
+  },
+  {
+   "num": "0220",
+   "title": "Snapshots use Accounts Lattice Hash",
+   "status": "Activated",
+   "feature": "LTsNAP8h1voEVVToMNBNqoiNQex4aqfUrbFhRH3mSQ2",
+   "file": "0220-snapshots-use-accounts-lattice-hash.md"
+  },
+  {
+   "num": "0222",
+   "title": "Fix alt-bn128 multiplication syscall length",
+   "status": "Activated",
+   "feature": "bn2puAyxUx6JUabAxYdKdJ5QHbNNmKw8dCGuGCyRrFN",
+   "file": "0222-fix-alt-bn128-multiplication-length-check.md"
+  },
+  {
+   "num": "0223",
+   "title": "Removes Accounts Delta Hash",
+   "status": "Activated",
+   "feature": "LTdLt9Ycbyoipz5fLysCi1NnDnASsZfmJLJXts5ZxZz",
+   "file": "0223-removes-accounts-delta-hash.md"
+  },
+  {
+   "num": "0232",
+   "title": "Custom Commission Collector Account",
+   "status": "Activated",
+   "feature": null,
+   "file": "0232-custom-commission-collector.md"
+  },
+  {
+   "num": "0242",
+   "title": "Static Nonce Account Only",
+   "status": "Activated",
+   "feature": "7VVhpg5oAjAmnmz1zCcSHb2Z9ecZB2FQqpnEwReka9Zm",
+   "file": "0242-static-nonce-account.md"
+  },
+  {
+   "num": "0249",
+   "title": "Delay Commission Updates",
+   "status": "Activated",
+   "feature": null,
+   "file": "0249-delay-commission-updates.md"
+  },
+  {
+   "num": "0256",
+   "title": "Increase Block Limits to 60M CUs",
+   "status": "Activated",
+   "feature": "6oMCUgfY6BzZ6jwB681J6ju5Bh6CjVXbd7NeWYqiXBSu",
+   "file": "0256-raise-block-limits-to-60M.md"
+  },
+  {
+   "num": "0266",
+   "title": "p-token: Efficient Token program",
+   "status": "Activated",
+   "feature": "ptokFjwyJtrwCa9Kgo9xoDS59V4QccBGEaRFnRPnSdP",
+   "file": "0266-efficient-token-program.md"
+  },
+  {
+   "num": "0267",
+   "title": "Sets rent_epoch to a constant in the VM",
+   "status": "Activated",
+   "feature": "RENtePQcDLrAbxAsP3k8dwVcnNYQ466hi2uKvALjnXx",
+   "file": "0267-rent-epoch-in-vm-is-a-constant.md"
+  },
+  {
+   "num": "0268",
+   "title": "Raise CPI Nesting Limit",
+   "status": "Accepted",
+   "feature": "6TkHkRmP7JZy1fdM6fg5uXn76wChQBWGokHBJzrLB3mj",
+   "file": "0268-raise-cpi-nesting-limit.md"
+  },
+  {
+   "num": "0284",
+   "title": "Alt-BN128 Little Endian compatibility",
+   "status": "Activated",
+   "feature": null,
+   "file": "0284-alt-bn128-little-endian.md"
+  },
+  {
+   "num": "0286",
+   "title": "Increase Block Limits to 100M CUs",
+   "status": "Activated",
+   "feature": null,
+   "file": "0286-raise-block-limits-to-100M.md"
+  },
+  {
+   "num": "0290",
+   "title": "Relax Fee-Payer Constraint",
+   "status": "Accepted",
+   "feature": "FEEXbxUuKobtrt1qNK5pjtzbPQhsppBTrNNG74xu4mai",
+   "file": "0290-relax-fee-payer-constraint.md"
+  },
+  {
+   "num": "0291",
+   "title": "Commission Rate in Basis Points",
+   "status": "Activated",
+   "feature": null,
+   "file": "0291-commission-rate-in-basis-points.md"
+  },
+  {
+   "num": "0296",
+   "title": "Larger Transaction Size",
+   "status": "Review",
+   "feature": null,
+   "file": "0296-larger-transactions.md"
+  },
+  {
+   "num": "0297",
+   "title": "Relax Invalid Nonced Transactions Constraint",
+   "status": "Review",
+   "feature": null,
+   "file": "0297-relax-invalid-nonce.md"
+  },
+  {
+   "num": "0298",
+   "title": "Add `bank_hash` to block footer.",
+   "status": "Idea",
+   "feature": null,
+   "file": "0298-bank-hash-in-block-footer.md"
+  },
+  {
+   "num": "0302",
+   "title": "BN254 G2 Arithmetic Syscalls",
+   "status": "Activated",
+   "feature": null,
+   "file": "0302-bn254-g2-syscalls.md"
+  },
+  {
+   "num": "0306",
+   "title": "Increase writeable account limit to 20M CUs",
+   "status": "Activated",
+   "feature": null,
+   "file": "0306-raise-account-cu-limits.md"
+  },
+  {
+   "num": "0307",
+   "title": "Add Block Footer",
+   "status": "Review",
+   "feature": null,
+   "file": "0307-add-block-footer.md"
+  },
+  {
+   "num": "0312",
+   "title": "CreateAccountAllowPrefund",
+   "status": "Activated",
+   "feature": null,
+   "file": "0312-create-account-allow-prefund.md"
+  },
+  {
+   "num": "0313",
+   "title": "Drop unchained merkle shreds",
+   "status": "Activated",
+   "feature": "5KLGJSASDVxKPjLCDWNtnABLpZjsQSrYZ8HKwcEdAMC8",
+   "file": "0313-drop-unchained-merkle-shreds.md"
+  },
+  {
+   "num": "0317",
+   "title": "Enforce 32 data + 32 coding shreds",
+   "status": "Review",
+   "feature": null,
+   "file": "0317-enforce-32-data-shreds.md"
+  },
+  {
+   "num": "0321",
+   "title": "VM Register 2 Instruction Data Pointer",
+   "status": "Activated",
+   "feature": "5xXZc66h4UdB6Yq7FzdBxBiRAFMMScMLwHxk2QZDaNZL",
+   "file": "0321-vm-r2-instruction-data-pointer.md"
+  },
+  {
+   "num": "0326",
+   "title": "Alpenglow",
+   "status": "Review",
+   "feature": null,
+   "file": "0326-alpenglow.md"
+  },
+  {
+   "num": "0332",
+   "title": "Reduce ChaCha rounds for Turbine from 20 to 8",
+   "status": "Activated",
+   "feature": null,
+   "file": "0332-cha-cha-8.md"
+  },
+  {
+   "num": "0333",
+   "title": "Serialize Block ID in Bank into Snapshot",
+   "status": "Review",
+   "feature": null,
+   "file": "0333-snapshot-include-block-id.md"
+  },
+  {
+   "num": "0334",
+   "title": "Fix alt_bn128_pairing syscall length check",
+   "status": "Activated",
+   "feature": "bnYzodLwmybj7e1HAe98yZrdJTd7we69eMMLgCXqKZm",
+   "file": "0334-fix-alt-bn128-pairing-length-check.md"
+  },
+  {
+   "num": "0337",
+   "title": "Markers for Alpenglow Fast Leader Handover",
+   "status": "Review",
+   "feature": null,
+   "file": "0337-parent-ready-update-marker.md"
+  },
+  {
+   "num": "0339",
+   "title": "Increase CPI Account Infos Limit",
+   "status": "Activated",
+   "feature": null,
+   "file": "0339-increase-cpi-account-info-limit.md"
+  },
+  {
+   "num": "0340",
+   "title": "Validate chained block id",
+   "status": "Activated",
+   "feature": null,
+   "file": "0340-validate-chained-block-id.md"
+  },
+  {
+   "num": "0357",
+   "title": "Alpenglow Validator Admission Ticket",
+   "status": "Activated",
+   "feature": null,
+   "file": "0357-alpenglow_validator_admission_ticket.md"
+  },
+  {
+   "num": "0359",
+   "title": "Poseidon Syscall - Enforce Input Length",
+   "status": "Activated",
+   "feature": null,
+   "file": "0359-poseidon-enforce-input-length.md"
+  },
+  {
+   "num": "0376",
+   "title": "Relaxing Transaction Signature Verification",
+   "status": "Review",
+   "feature": null,
+   "file": "0376-verify-strict.md"
+  },
+  {
+   "num": "0377",
+   "title": "eBPF ISA compatibility",
+   "status": "Activated",
+   "feature": null,
+   "file": "0377-ebpf-isa-compatibility.md"
+  },
+  {
+   "num": "0384",
+   "title": "Alpenglow migration",
+   "status": "Review",
+   "feature": "a1penGLz8Vm2QHYB3JPefBiU4BY3Z6JkW2k3Scw5GWP",
+   "file": "0384-alpenglow-migration.md"
+  },
+  {
+   "num": "0385",
+   "title": "Transaction V1 Format",
+   "status": "Activated",
+   "feature": null,
+   "file": "0385-transaction-v1.md"
+  },
+  {
+   "num": "0387",
+   "title": "BLS Pubkey management in vote account",
+   "status": "Activated",
+   "feature": "2uxQgtKa2ECHGs67Zdj7dgmzn2w9HiqhdcedwCWfYzzq",
+   "file": "0387-bls-pubkey-management-in-vote-account.md"
+  },
+  {
+   "num": "0388",
+   "title": "BLS12-381 Elliptic Curve Syscalls",
+   "status": "Activated",
+   "feature": null,
+   "file": "0388-bls12-381-syscalls.md"
+  },
+  {
+   "num": "0391",
+   "title": "Stake Program Float to Fixed-Point",
+   "status": "Activated",
+   "feature": null,
+   "file": "0391-replace-stake-program-floating-point.md"
+  },
+  {
+   "num": "0392",
+   "title": "Adapt Runtime for Rent Increases",
+   "status": "Activated",
+   "feature": null,
+   "file": "0392-rent-increase-adaptations.md"
+  },
+  {
+   "num": "0406",
+   "title": "Maximum instruction accounts",
+   "status": "Activated",
+   "feature": "DqbnFPASg7tHmZ6qfpdrt2M6MWoSeiicWPXxPhxqFCQ",
+   "file": "0406-maximum-instruction-accounts.md"
+  },
+  {
+   "num": "0418",
+   "title": "Enable Loader v2 to v3 Program Migrations",
+   "status": "Review",
+   "feature": null,
+   "file": "0418-enable-loader-v2-to-v3-program-migrations.md"
+  },
+  {
+   "num": "0430",
+   "title": "Relax Program Buffer Constraints",
+   "status": "Review",
+   "feature": "H5AgGhTzvHp2GH9SVGZYBpjeQPy1V9bqYQ4MmTtiCWr9",
+   "file": "0430-relax-program-buffer-constraints.md"
+  },
+  {
+   "num": "0431",
+   "title": "Loader V3: Minimum Extend Program Size",
+   "status": "Activated",
+   "feature": null,
+   "file": "0431-minimum-extend-program-size.md"
+  },
+  {
+   "num": "0432",
+   "title": "Loader V3: Reclaim Closed Program",
+   "status": "Review",
+   "feature": null,
+   "file": "0432-loader-v3-reclaim-closed-program.md"
+  },
+  {
+   "num": "0433",
+   "title": "Loader V3: Set Program Data to ELF Length",
+   "status": "Review",
+   "feature": null,
+   "file": "0433-loader-v3-set-program-data-to-elf-length.md"
+  },
+  {
+   "num": "0436",
+   "title": "Reduce lamports_per_byte to 3480",
+   "status": "Idea",
+   "feature": null,
+   "file": "0436-reduce-rent-exempt-minimum-by-2x.md"
+  },
+  {
+   "num": "0437",
+   "title": "Incrementally Reduce lamports_per_byte to 696",
+   "status": "Idea",
+   "feature": null,
+   "file": "0437-incremental-rent-reduction.md"
+  },
+  {
+   "num": "0438",
+   "title": "Safeguard for rent-exempt minimum increase",
+   "status": "Idea",
+   "feature": null,
+   "file": "0438-rent-increase-safeguard.md"
+  },
+  {
+   "num": "0444",
+   "title": "Relax program data account check in migration",
+   "status": "Activated",
+   "feature": "rexav5eNTUSNT1K2N7cfRjnthwhcP5BC25v2tA4rW4h",
+   "file": "0444-relaxing-program-data-account-requirements.md"
+  },
+  {
+   "num": "0449",
+   "title": "Direct Account Pointers in Program Input",
+   "status": "Review",
+   "feature": null,
+   "file": "0449-direct-account-pointers-in-program-input.md"
+  },
+  {
+   "num": "0458",
+   "title": "Stop special-casing of Vote CU cost",
+   "status": "Activated",
+   "feature": null,
+   "file": "0458-stop-using-static-simplevote-transaction-cost.md"
+  },
+  {
+   "num": "0459",
+   "title": "Syscall Parameter Address Restrictions",
+   "status": "Activated",
+   "feature": null,
+   "file": "0459-syscall-parameter-address-restrictions.md"
+  },
+  {
+   "num": "0460",
+   "title": "Virtual Address Space Adjustments",
+   "status": "Review",
+   "feature": null,
+   "file": "0460-virtual-address-space-adjustments.md"
+  },
+  {
+   "num": "0464",
+   "title": "Vote Account Initialize V2",
+   "status": "Review",
+   "feature": null,
+   "file": "0464-vote-account-initialize-v2.md"
+  },
+  {
+   "num": "0490",
+   "title": "Upgrade BPF Stake Program to v5.0.0",
+   "status": "Activated",
+   "feature": null,
+   "file": "0490-upgrade-stake-to-v5.md"
+  },
+  {
+   "num": "0495",
+   "title": "Core BPF Upgrade Procedure",
+   "status": "Idea",
+   "feature": null,
+   "file": "0495-core-bpf-upgrade-procedure.md"
+  },
+  {
+   "num": "0500",
+   "title": "Disable deployment of SBPF-v0, -v1 and -v2",
+   "status": "Idea",
+   "feature": null,
+   "file": "0500-disable-deployment-of-sbpf-v0-v1-v2.md"
+  },
+  {
+   "num": "0504",
+   "title": "Stricter shred validation",
+   "status": "Review",
+   "feature": null,
+   "file": "0504-stricter-shred-validation.md"
+  },
+  {
+   "num": "0506",
+   "title": "Upgrade secp256k1 to k256 (Agave-specific)",
+   "status": "Review",
+   "feature": null,
+   "file": "0505-upgrade-agave-secp256k1-to-k256.md"
+  },
+  {
+   "num": "0512",
+   "title": "Sha512 Syscall",
+   "status": "Idea",
+   "feature": null,
+   "file": "0512-sha512-syscall.md"
+  },
+  {
+   "num": "0525",
+   "title": "Reduce Slot Times",
+   "status": "Activated",
+   "feature": "iBRL5RuWhw4yqaAZu96RUULHckHTZAoe2b77qaV38JZ",
+   "file": "0525-reduce-slot-times.md"
+  },
+  {
+   "num": "0529",
+   "title": "Big Integer ModExp Syscall",
+   "status": "Idea",
+   "feature": "expH2ppKPW2ANEdEmAjfhSEcnBQJfmoX4FjuNpe9ttg",
+   "file": "0529-big-integer-modexp-syscall.md"
+  },
+  {
+   "num": "0550",
+   "title": "Double Disinflation Rate",
+   "status": "Review",
+   "feature": null,
+   "file": "0550-double-disinflation.md"
+  },
+  {
+   "num": "0553",
+   "title": "Base Inclusion and Resource-based Fee",
+   "status": "Draft",
+   "feature": "BurnUeW8qFgJm3Y4uroMvqEQDrYWbhv7p231hHbrq8LV",
+   "file": "0553-resource-fee-burn.md"
+  },
+  {
+   "num": "0558",
+   "title": "Leader Info Syscall",
+   "status": "Draft",
+   "feature": null,
+   "file": "0558-leader-info-syscall.md"
+  },
+  {
+   "num": "0565",
+   "title": "secp256r1 (NIST P-256) Curve Syscalls",
+   "status": "Draft",
+   "feature": null,
+   "file": "0565-secp256r1-syscalls.md"
+  },
+  {
+   "num": "0582",
+   "title": "Early detection of instruction trace overflow",
+   "status": "Draft",
+   "feature": null,
+   "file": "0582-instruction-cpi-limit.md"
+  },
+  {
+   "num": "0596",
+   "title": "Increase TxV1 Account Lock Limit to 96",
+   "status": "Draft",
+   "feature": null,
+   "file": "0596-increase-txv1-account-lock-limit-to-96.md"
+  },
+  {
+   "num": "0599",
+   "title": "Remove Inactive Stakes from Rewards",
+   "status": "Idea",
+   "feature": "RMsTKfD6hZnBhhNvgGBeKNrqCNkeoP3DYYxNtcuWtRg",
+   "file": "0599-rm-inactive-stakes-from-per.md"
+  },
+  {
+   "num": "0607",
+   "title": "Remove Floating Point from Runtime",
+   "status": "Draft",
+   "feature": null,
+   "file": "0607-remove-runtime-float-ops.md"
+  },
+  {
+   "num": "0608",
+   "title": "DeactivateDelinquent for Closed Vote Accounts",
+   "status": "Review",
+   "feature": null,
+   "file": "0608-closed-vote-delegation-cleanup.md"
+  },
+  {
+   "num": "0609",
+   "title": "Prohibit Vote Account Self-Withdrawals",
+   "status": "Review",
+   "feature": null,
+   "file": "0609-prohibit-vote-self-withdrawals.md"
+  },
+  {
+   "num": "0610",
+   "title": "Prohibit Nonce Account Self-Withdrawals",
+   "status": "Review",
+   "feature": null,
+   "file": "0610-prohibit-nonce-self-withdrawals.md"
+  },
+  {
+   "num": "0648",
+   "title": "Unbound LoaderV3 Instruction Data",
+   "status": "Review",
+   "feature": "UPbPFtaUVoKZuMEJsDxLfvCNuKavoVapghnzepr1e26",
+   "file": "0648-loaderv3-unbounded-instruction-data.md"
+  },
+  {
+   "num": "0650",
+   "title": "BN254 Pairing with Target Group Output",
+   "status": "Idea",
+   "feature": null,
+   "file": "0650-bn254-pairing-output.md"
+  },
+  {
+   "num": "0670",
+   "title": "ABIv1 invoke signed V2 syscall",
+   "status": "Review",
+   "feature": null,
+   "file": "0670-abiv1-invoke-signed-v2.md"
+  },
+  {
+   "num": "0683",
+   "title": "Pass ABIv1 input metadata via registers r3–r5",
+   "status": "Review",
+   "feature": null,
+   "file": "0683-input-metadata-vm-registers-r3-r5.md"
+  },
+  {
+   "num": "0684",
+   "title": "Loader V3: Allow Prefunded ProgramData",
+   "status": "Review",
+   "feature": null,
+   "file": "0684-loader-v3-allow-prefunded-programdata.md"
+  },
+  {
+   "num": "0688",
+   "title": "Single Program Runtime Environment",
+   "status": "Idea",
+   "feature": null,
+   "file": "0688-single-program-runtime-environment.md"
+  },
+  {
+   "num": "0690",
+   "title": "Hash validation in program upgrades",
+   "status": "Review",
+   "feature": null,
+   "file": "0690-hash-validation-in-program-upgrades.md"
+  }
+ ]
+}

@@ -1,0 +1,3 @@
+- **Proof of History** is a sequential SHA-256 hash chain that orders entries; it is divided into ticks ([Agave docs](https://docs.anza.xyz/consensus/synchronization)).
+- **Leader schedule.** Computed per epoch, stake-weighted; each leader gets 4 consecutive slots ([docs: leader rotation](https://docs.anza.xyz/consensus/leader-rotation); 4-slot windows reaffirmed in **SIMD-0525**). Keyed by vote account addresses; the expected signer is the vote account's validator identity (**SIMD-0180**).
+- `ticks_per_slot` is 64 (**SIMD-0525**).

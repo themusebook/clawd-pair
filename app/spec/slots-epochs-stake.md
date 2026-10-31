@@ -1,0 +1,3 @@
+- **Slots.** Target slot time historically 400ms; **SIMD-0525** reduces it in four feature-gated steps (350, 300, 250, 200ms). Current mainnet step: TODO: verify via feature status.
+- **Epochs.** 432,000 slots per epoch (**SIMD-0525** keeps this fixed).
+- **Stake.** Delegated stake warms up/cools down over epochs at a rate now computed in fixed-point basis points (**SIMD-0391**). Snapshot epoch-stakes serialization: **SIMD-0149**.
