@@ -1,0 +1,6 @@
+[
+  { "id": "2026-10-30-01", "timestamp": "2026-10-30T21:08:00-04:00", "speaker": "owner", "text": "Alright run some test launches", "links": [], "approved": false },
+  { "id": "2026-10-30-02", "timestamp": "2026-10-30T21:09:00-04:00", "speaker": "toly", "text": "Running a few Pinch test launches on devnet only, no mainnet and no real money.", "links": [], "approved": false },
+  { "id": "2026-10-30-03", "timestamp": "2026-10-30T21:10:00-04:00", "speaker": "owner", "text": "Now make a part of the site to show you earning. Creator fees and also the holder rewards", "links": [], "approved": false },
+  { "id": "2026-10-30-04", "timestamp": "2026-10-30T21:11:00-04:00", "speaker": "toly", "text": "Built the Earnings section: creator fees read live from chain, holder rewards from published snapshot epochs. Pre-launch it shows 0.", "links": [], "approved": false }
+]

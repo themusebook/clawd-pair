@@ -3,9 +3,9 @@ import { Connection, Keypair, PublicKey, Transaction, ComputeBudgetProgram, send
 import { TOKEN_2022_PROGRAM_ID, NATIVE_MINT, getAssociatedTokenAddressSync, createAssociatedTokenAccountIdempotentInstruction, getAccount } from "@solana/spl-token";
 import { OnlinePumpSdk, PUMP_SDK, feeSharingConfigPda } from "@pump-fun/pump-sdk";
 import BN from "bn.js"; import fs from "fs";
-const RPC = process.env.RPC; const CLUSTER = process.env.CLUSTER || "devnet"; if (/mainnet/.test(RPC)) throw 0;
+const RPC = process.env.RPC || "https://solana-devnet.api.onfinality.io/public"; const CLUSTER = process.env.CLUSTER || "devnet"; if (/mainnet/.test(RPC)) throw new Error("refusing mainnet");
 const c = new Connection(RPC, "confirmed"); const sdk = new OnlinePumpSdk(c);
-const kp = n => Keypair.fromSecretKey(Uint8Array.from(JSON.parse(fs.readFileSync(`devnet-test/${n}.json`))));
+const kp = n => Keypair.fromSecretKey(Uint8Array.from(JSON.parse(fs.readFileSync(`${process.env.KEYDIR || "devnet-test"}/${n}.json`))));
 const [owner, buyer, w50, w40, w10] = ["owner", "buyer", "w50", "w40", "w10"].map(kp);
 const { A, B } = JSON.parse(fs.readFileSync(`mints-${CLUSTER}.json`)); const a = new PublicKey(A), b = new PublicKey(B);
 const outF = `dryrun-${CLUSTER}.json`; const log = JSON.parse(fs.readFileSync(outF));

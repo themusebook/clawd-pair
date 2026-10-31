@@ -1,24 +1,25 @@
 // READ-ONLY one-shot holder snapshot for $CLAWD (Token-2022). No keys, no signing, no transactions.
-// Usage: bun scripts/snapshot.ts   (optional env RPC=<keyless mainnet RPC>)
+// Usage: MINT=<mint> RPC=<rpc> bun scripts/snapshot.ts  (defaults: CLAWD mint; mainnet RPCs only if ALLOW_MAINNET=true)
+// Mainnet genesis is refused unless ALLOW_MAINNET=true.
 // Output: snapshots/clawd-<slot>.json (+ .csv) with holders, exclusions, merkle root.
 // Leaf / tree format matches scripts/step5-snapshot-merkle.mjs (sha256, 0x00 leaf / 0x01 node prefix, sorted pairs).
 import { Connection, PublicKey } from "@solana/web3.js";
 import crypto from "crypto"; import fs from "fs";
 
-const MINT = new PublicKey("8cHzQHUS2s2h8TzCmfqPKYiM4dSt4roa3n7MyRLApump");
+const MINT = new PublicKey(process.env.MINT || "8cHzQHUS2s2h8TzCmfqPKYiM4dSt4roa3n7MyRLApump");
+const ALLOW_MAINNET = process.env.ALLOW_MAINNET === "true";
+const MAINNET_GENESIS = "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d";
 const T22 = new PublicKey("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb");
 const SPL = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 const EXCLUDE_OWNERS: Record<string, string> = {
   GBzd5ooMFkYtYgzUMKfzyaEJpvzxvm5FK4FDJcpVJJcH: "pumpswap-pool",
   HJYrK1vLqwQYjUJn3taqfaFX4yf7Yx6qCHAUGag9rAHj: "bonding-curve",
 };
-// Shared with the app server: app/server/data/rewards-config.json (exclude + CEX + creator/dev + user-wallet treatment).
-try { const cfg = JSON.parse(fs.readFileSync("app/server/data/rewards-config.json", "utf8"));
-  Object.assign(EXCLUDE_OWNERS, cfg.exclude, cfg.cexHotWallets, cfg.creatorDevWallets);
-  if (cfg.userWallet?.treatment === "exclude") EXCLUDE_OWNERS[cfg.userWallet.wallet] = "user-wallet"; } catch {}
-const RPCS = (process.env.RPC ? [process.env.RPC] : []).concat([
-  "https://api.mainnet-beta.solana.com", "https://solana-rpc.publicnode.com", "https://solana.drpc.org",
-]);
+// Exclusions come from config/exclude.json (AIRDROP-PLAN.md build step 2).
+try { for (const e of JSON.parse(fs.readFileSync("config/exclude.json", "utf8")).exclude) EXCLUDE_OWNERS[e.wallet] = e.reason; } catch {}
+const RPCS = process.env.RPC ? [process.env.RPC] : ALLOW_MAINNET
+  ? ["https://api.mainnet-beta.solana.com", "https://solana-rpc.publicnode.com", "https://solana.drpc.org"]
+  : ["https://solana-devnet.api.onfinality.io/public"];
 const H = (b: Buffer) => crypto.createHash("sha256").update(b).digest();
 const leafHash = (w: string, amt: bigint) => H(Buffer.concat([Buffer.from([0]), new PublicKey(w).toBuffer(), Buffer.from(amt.toString(16).padStart(16, "0"), "hex")]));
 const pair = (x: Buffer, y: Buffer) => H(Buffer.concat([Buffer.from([1]), ...(Buffer.compare(x, y) <= 0 ? [x, y] : [y, x])]));
@@ -26,6 +27,8 @@ const merkleRoot = (ls: Buffer[]) => { let l = ls; if (!l.length) return Buffer.
 
 async function run(rpc: string) {
   const c = new Connection(rpc, { commitment: "confirmed" });
+  const genesis = await c.getGenesisHash();
+  if (genesis === MAINNET_GENESIS && !ALLOW_MAINNET) throw new Error("refusing mainnet (set ALLOW_MAINNET=true)");
   const slot = await c.getSlot();
   const mintInfo = await c.getParsedAccountInfo(MINT);
   const owner = mintInfo.value?.owner.toBase58();

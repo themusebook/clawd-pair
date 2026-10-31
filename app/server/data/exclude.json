@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "updated": "2026-10-31",
+  "source": "AIRDROP-PLAN.md (owner decisions 2026-10-31)",
+  "exclude": [
+    { "wallet": "GBzd5ooMFkYtYgzUMKfzyaEJpvzxvm5FK4FDJcpVJJcH", "reason": "pumpswap pool", "note": "protocol account, 20.66% of export" },
+    { "wallet": "6rEiHJ4JUTWcC4wCUosTbaoBmpjHvUGLAQcogUwADB4Z", "reason": "owner stash", "note": "Decision 1: exclude entirely. 32.89% of export" }
+  ],
+  "flag": [
+    { "wallet": "GAVhJ6sGpaPiHujKZAYW56LZN39n7Mmvq3ne176ArFMF", "flag": "unidentified", "note": "Decision 4 open: 21.06% (163,000,000 even). Stays eligible until identified." }
+  ]
+}

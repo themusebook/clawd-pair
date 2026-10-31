@@ -44,7 +44,7 @@ const getClawd = cached(8000, async () => {
 // Holder rewards (SNAPSHOTS.md): CSV snapshot + config stay server-side; never bundled.
 import { loadRewards, isPubkey } from "./server/rewards.mjs";
 const REWARDS = loadRewards(path.join(path.dirname(fileURLToPath(import.meta.url)), "server", "data"));
-console.log(`rewards: ${REWARDS.stats.holders} holders, ${REWARDS.stats.eligible} eligible`);
+console.log(`rewards: ${REWARDS.stats.owners} holders, ${REWARDS.stats.eligible} eligible`);
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://x");
