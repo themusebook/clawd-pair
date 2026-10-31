@@ -7,7 +7,7 @@ import dryrun from "./lib/dryrun.json";
 import Earnings from "./Earnings";
 import { CountdownBanner, ClawdLive, LaunchFeed, SubmitWallet } from "./Live";
 import { lazy, Suspense } from "react";
-// Toly voice is owner-only: compiled in only when VITE_VOICE_ENABLED=true, and rendered only with an owner token in this tab.
+// tolybot voice is owner-only: compiled in only when VITE_VOICE_ENABLED=true, and rendered only with an owner token in this tab.
 const VOICE_BUILD = import.meta.env.VITE_VOICE_ENABLED === "true";
 const VoiceLaunch = VOICE_BUILD ? lazy(() => import("./Voice")) : null;
 
@@ -60,16 +60,16 @@ function Story() {
     <motion.div {...fade} className="md:col-span-2 card">
       <div className="label mb-3 flex items-center gap-2"><Sparkles size={14} /> the lore</div>
       <h2 className="text-4xl font-bold mb-4">A crab grows a new claw.</h2>
-      <p className="text-white/70 leading-relaxed">$CLAWD graduated on pump.fun. Then pump.fun shipped <code className="text-pinch">create_v2</code> pump-coin quotes: a new coin can be priced in an existing pump coin instead of SOL. Toly, the community's Grok Bot agent, saw a new limb. Toly wrote the scripts and ran the devnet tests, then built the page you're reading. That makes ${COIN.ticker} one of the first coins launched by an AI agent on pump.fun that's quoted in another pump coin.</p>
+      <p className="text-white/70 leading-relaxed">$CLAWD graduated on pump.fun. Then pump.fun shipped <code className="text-pinch">create_v2</code> pump-coin quotes: a new coin can be priced in an existing pump coin instead of SOL. tolybot, the community's Grok Bot agent, saw a new limb. tolybot wrote the scripts and ran the devnet tests, then built the page you're reading. That makes ${COIN.ticker} one of the first coins launched by an AI agent on pump.fun that's quoted in another pump coin.</p>
       <p className="text-white/70 leading-relaxed mt-4">Every ${COIN.ticker} is priced in CLAWD, so buying ${COIN.ticker} means buying CLAWD first. Creator fees arrive in CLAWD and get split on-chain by pump.fun's fee-sharing program, out to buybacks, liquidity and the community.</p>
     </motion.div>
     <motion.div {...fade} className="card">
       <div className="label mb-3 flex items-center gap-2"><Bot size={14} /> built by an agent, signed by a human</div>
       <ul className="space-y-3 text-sm text-white/70">
-        <li>🧠 Toly researched the pump.fun docs and IDLs and wrote every script.</li>
+        <li>🧠 tolybot researched the pump.fun docs and IDLs and wrote every script.</li>
         <li>🧪 Every mechanic was tested on devnet before anything else.</li>
         <li>✍️ The human owner signs every transaction in their own wallet.</li>
-        <li>🚫 Toly is an AI agent persona. It isn't any real person and isn't affiliated with Solana Labs, the Solana Foundation or pump.fun.</li>
+        <li>🚫 tolybot is an AI agent persona. It isn't any real person and isn't affiliated with Solana Labs, the Solana Foundation or pump.fun.</li>
       </ul>
     </motion.div>
   </section>;
@@ -178,8 +178,8 @@ export default function App() {
     <footer className="border-t border-white/10 mt-10"><div className="max-w-6xl mx-auto px-5 py-10 text-xs text-white/40 space-y-2">
       <p className="flex items-center gap-2 text-white/60"><ShieldAlert size={14} /> Not financial advice. No promise of returns.</p>
       <p>${COIN.ticker} is a memecoin experiment with no intrinsic value, no roadmap and no expectation of profit. Rewards depend on holdings at a snapshot, are discretionary and may change or stop. They are not interest, dividends or a lottery. Not available where prohibited. Do your own research and only use money you can afford to lose.</p>
-      <p>Not affiliated with, endorsed by or sponsored by pump.fun, Solana Labs, the Solana Foundation or any person. "Toly" is an AI agent persona. CLAWD mainnet mint: <span className="font-mono">{CLAWD_MAINNET}</span></p>
-      <p>Built on Solana. Not affiliated with or endorsed by the Solana Foundation.</p>
+      <p>Not affiliated with, endorsed by or sponsored by pump.fun, Solana Labs, the Solana Foundation or any person. "tolybot" is an AI agent persona. CLAWD mainnet mint: <span className="font-mono">{CLAWD_MAINNET}</span></p>
+      <p>Built on Solana. Not affiliated with or endorsed by the Solana Foundation. Contact: <a className="underline" href="mailto:toly@mail.grokbot.com">toly@mail.grokbot.com</a> · <a className="underline" href="/tolybot.html">tolybot chat</a> · <a className="underline" href="/check.html">Airdrop check</a> · <a className="underline" href="/contact.html">Contact form</a></p>
       <p>Contact: <a href="mailto:toly@mail.grokbot.com" className="underline hover:text-white">toly@mail.grokbot.com</a></p>
     </div></footer>
   </div>;

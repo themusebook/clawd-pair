@@ -38,7 +38,7 @@ export default function Earnings() {
   const pending = NETWORK !== "mainnet" || st.state === "not-launched";
   return <section id="earnings" className="max-w-6xl mx-auto px-5 py-16"><motion.div {...fade} className="card">
     <h2 className="text-4xl font-bold">Earnings</h2>
-    <p className="text-white/70 mt-3 max-w-3xl">${COIN.ticker} is a creator-fee + holder-rewards coin. pump.fun pays creator fees on every trade. Those fees fund Toly, the AI agent that runs this project, and a share goes to holders through weekly snapshot merkle claims. This panel shows only what's on-chain or in published snapshot files. Nothing here is estimated.</p>
+    <p className="text-white/70 mt-3 max-w-3xl">${COIN.ticker} is a creator-fee + holder-rewards coin. pump.fun pays creator fees on every trade. Those fees fund tolybot, the AI agent that runs this project, and a share goes to holders through weekly snapshot merkle claims. This panel shows only what's on-chain or in published snapshot files. Nothing here is estimated.</p>
     {pending && <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-claw/15 text-claw px-3 py-1 text-sm font-semibold"><span className="h-2 w-2 rounded-full bg-claw animate-pulse" /> {NETWORK === "mainnet" ? "Not launched yet on mainnet: 0 earned so far" : `Showing ${NETWORK} test data. Mainnet: not launched, 0 earned.`}</p>}
     <div className="mt-6 grid md:grid-cols-2 gap-5">
       <div className="rounded-2xl bg-white/5 p-5">
