@@ -44,3 +44,23 @@ export function LaunchFeed() {
       <div className="text-xs text-white/50 font-mono">{ago(l.time, now)}</div></a>)}</div>
   </div></section>;
 }
+
+export function SubmitWallet({ wallet, phantom }: { wallet: string; phantom: any }) {
+  const [st, setSt] = useState<any>(null); const [note, setNote] = useState(""); const [busy, setBusy] = useState(false); const [err, setErr] = useState("");
+  const ok = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(wallet);
+  useEffect(() => { setSt(null); setErr(""); if (!ok) return; fetch(`/api/airdrop/submission?wallet=${wallet}`).then(r => r.json()).then(setSt).catch(() => {}); }, [wallet]);
+  if (!ok) return null;
+  const submit = async (prove: boolean) => { setBusy(true); setErr("");
+    try { const body: any = { wallet, note };
+      if (prove) { if (!phantom?.publicKey || phantom.publicKey.toBase58() !== wallet) throw new Error("Connect this wallet in Phantom to prove ownership.");
+        const m = await (await fetch(`/api/airdrop/sign-message?wallet=${wallet}`)).json(); const { signature } = await phantom.signMessage(new TextEncoder().encode(m.message), "utf8");
+        let s = ""; signature.forEach((b: number) => (s += String.fromCharCode(b))); Object.assign(body, { ts: m.ts, signature: btoa(s) }); }
+      const r = await (await fetch("/api/airdrop/submit", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })).json();
+      if (r.error) throw new Error(r.error); setSt({ submitted: true, ...r }); } catch (e: any) { setErr(e.message); } finally { setBusy(false); } };
+  if (st?.submitted) return <div className="mt-3 rounded-2xl bg-white/5 p-3 text-sm"><b>Submitted, pending review</b> · {st.verified ? "verified owner" : "unverified"}{st.status !== "pending" && ` · ${st.status}`}<div className="text-xs text-white/40 mt-1">The owner reviews submissions. Submitting doesn't make a wallet eligible.</div></div>;
+  const mine = phantom?.publicKey?.toBase58() === wallet;
+  return <div className="mt-3 rounded-2xl bg-white/5 p-3 text-sm"><div className="font-semibold">Submit this wallet for consideration</div>
+    <input value={note} maxLength={280} onChange={e => setNote(e.target.value)} placeholder="optional note (no personal info), max 280 chars" className="mt-2 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none" />
+    <div className="mt-2 flex gap-2 flex-wrap"><button className="btn-ghost !py-2 text-sm" disabled={busy} onClick={() => submit(false)}>Submit</button>{mine && phantom?.signMessage && <button className="btn-hot !py-2 text-sm" disabled={busy} onClick={() => submit(true)}>Submit + prove ownership (sign message)</button>}</div>
+    {err && <div className="text-claw text-xs mt-1">{err}</div>}<div className="text-xs text-white/40 mt-1">Signing a message is free and doesn't send a transaction.</div></div>;
+}

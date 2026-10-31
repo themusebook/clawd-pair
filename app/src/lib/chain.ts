@@ -1,11 +1,11 @@
-import { Connection, PublicKey, VersionedTransaction, TransactionMessage, ComputeBudgetProgram, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { Connection, Keypair, PublicKey, VersionedTransaction, TransactionMessage, ComputeBudgetProgram, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { NATIVE_MINT, TOKEN_2022_PROGRAM_ID } from "@solana/spl-token";
 import { OnlinePumpSdk, PUMP_SDK, feeSharingConfigPda } from "@pump-fun/pump-sdk";
 import BN from "bn.js";
 import { RPC_URL, WS_URL, CLAWD_MINT, COIN_MINT, NETWORK, MAINNET_ENABLED } from "./config";
 export const conn = new Connection(RPC_URL, { commitment: "confirmed", wsEndpoint: WS_URL });
 const sdk = () => new OnlinePumpSdk(conn);
-export type Phantom = { publicKey: PublicKey | null; connect: () => Promise<{ publicKey: PublicKey }>; disconnect: () => Promise<void>; signAndSendTransaction: (tx: VersionedTransaction) => Promise<{ signature: string }> };
+export type Phantom = { publicKey: PublicKey | null; connect: () => Promise<{ publicKey: PublicKey }>; disconnect: () => Promise<void>; signAndSendTransaction: (tx: VersionedTransaction) => Promise<{ signature: string }>; signMessage?: (msg: Uint8Array, enc?: string) => Promise<{ signature: Uint8Array }> };
 export const getPhantom = (): Phantom | null => (window as any).phantom?.solana?.isPhantom ? (window as any).phantom.solana : null;
 export async function curveStats(mint: string) {
   if (!mint) return null;
@@ -61,4 +61,24 @@ export async function distributedFees(mint: string, quoteMint: string, sharehold
     if (sum > 0n) txs.push({ sig: s.signature, amount: sum, time: s.blockTime ?? null });
   }
   return { total: Object.values(per).reduce((a, b) => a + b, 0n), per, txs };
+}
+
+export type LaunchDraft = { name: string; symbol: string; description: string; image_url?: string; initial_buy_sol?: number };
+/** Builds a pump.fun create_v2 coin quoted in CLAWD (same as scripts/dryrun.mjs). The mint keypair is generated in the browser
+ *  and partially signs; the USER signs + sends in Phantom. Nothing is auto-signed. Respects the mainnet gate. */
+export async function launchToken(wallet: Phantom, d: LaunchDraft) {
+  if (NETWORK === "mainnet" && !MAINNET_ENABLED) throw new Error("Mainnet disabled");
+  const user = wallet.publicKey!; const s = sdk(); const mint = Keypair.generate();
+  const quoteMint = new PublicKey(CLAWD_MINT); const global = await s.fetchGlobal();
+  const quoteTokenProgram = (await conn.getAccountInfo(quoteMint))?.owner ?? TOKEN_2022_PROGRAM_ID;
+  const pq = await s.fetchPumpQuote(quoteMint, { global });
+  const meta = btoa(unescape(encodeURIComponent(JSON.stringify({ name: d.name, symbol: d.symbol, description: d.description, image: d.image_url || "" })))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const uri = `${window.location.origin}/api/token-metadata/${meta}`;
+  const ix = await PUMP_SDK.createV2Instruction({ mint: mint.publicKey, name: d.name, symbol: d.symbol, uri, creator: user, user, mayhemMode: false, quoteMint, quoteTokenProgram, pumpQuote: pq?.accounts });
+  const { blockhash } = await conn.getLatestBlockhash();
+  const tx = new VersionedTransaction(new TransactionMessage({ payerKey: user, recentBlockhash: blockhash, instructions: [ComputeBudgetProgram.setComputeUnitLimit({ units: 400_000 }), ix] }).compileToV0Message());
+  tx.sign([mint]); // mint keypair co-signs; Phantom adds the user's signature only after the user approves
+  const { signature } = await wallet.signAndSendTransaction(tx);
+  await conn.confirmTransaction(signature, "confirmed");
+  return { signature, mint: mint.publicKey.toBase58() };
 }

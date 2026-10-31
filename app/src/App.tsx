@@ -5,7 +5,8 @@ import { COIN, NETWORK, MAINNET_ENABLED, CLAWD_MINT, COIN_MINT, CLAWD_MAINNET, L
 import { getPhantom, multiHopBuy, curveStats, sharingInfo, type Phantom } from "./lib/chain";
 import dryrun from "./lib/dryrun.json";
 import Earnings from "./Earnings";
-import { CountdownBanner, ClawdLive, LaunchFeed } from "./Live";
+import { CountdownBanner, ClawdLive, LaunchFeed, SubmitWallet } from "./Live";
+import VoiceLaunch from "./Voice";
 
 const short = (s: string) => (s ? `${s.slice(0, 4)}…${s.slice(-4)}` : "—");
 const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6 } };
@@ -23,6 +24,7 @@ function Nav({ wallet, onConnect }: { wallet: string; onConnect: () => void }) {
       <div className="flex items-center gap-2 font-bold text-lg"><span className="text-2xl">🦀</span> ${COIN.ticker}<span className="text-white/30">/</span><span className="text-claw">$CLAWD</span></div>
       <div className="hidden md:flex gap-6 text-sm text-white/60">{["story", "pair", "flywheel", "earnings", "rewards", "locks", "dryrun"].map(s => <a key={s} href={`#${s}`} className="hover:text-white capitalize">{s === "dryrun" ? "dry run" : s}</a>)}<a href="/log" className="hover:text-white">Build log</a></div>
       <div className="flex items-center gap-3">
+        <a href="#airdrop" className="hidden sm:flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full bg-pinch/20 border border-pinch/40 text-pinch hover:brightness-125"><Gift size={14} /> Airdrop checker</a>
         <a href="/proof" className="hidden sm:flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full bg-gradient-to-r from-claw/20 to-mint/20 border border-mint/30 text-mint hover:brightness-125"><Bot size={14} /> Proof of agent</a>
         <span className={`text-xs font-mono px-2 py-1 rounded-full ${NETWORK === "mainnet" ? "bg-claw/20 text-claw" : "bg-mint/15 text-mint"}`}>{NETWORK}</span>
         <button className="btn-ghost !py-2 text-sm flex items-center gap-2" onClick={onConnect}><Wallet size={16} />{wallet ? short(wallet) : "Connect Phantom"}</button>
@@ -119,16 +121,16 @@ function Flywheel() {
   </section>;
 }
 
-function Rewards({ addr }: { addr: string }) {
+function Rewards({ addr, phantom }: { addr: string; phantom: Phantom | null }) {
   // Eligibility comes from the server (/api/rewards/*): CLAWD holder snapshot + SNAPSHOTS.md rules. The CSV never ships to the browser.
   const [stats, setStats] = useState<any>(null); const [q, setQ] = useState(""); const [hit, setHit] = useState<any>(null);
   useEffect(() => { fetch("/api/rewards/stats").then(r => r.json()).then(setStats).catch(() => {}); }, []);
   useEffect(() => { if (addr) setQ(addr); }, [addr]);
   useEffect(() => { const w = q.trim(); if (!w) return setHit(null); const t = setTimeout(() => fetch(`/api/rewards/check?wallet=${encodeURIComponent(w)}`).then(r => r.json()).then(setHit).catch(() => setHit({ error: "lookup failed" })), 250); return () => clearTimeout(t); }, [q]);
-  return <section id="rewards" className="max-w-6xl mx-auto px-5 py-16">
+  return <section id="airdrop" className="max-w-6xl mx-auto px-5 py-10 scroll-mt-20"><div id="rewards" />
     <motion.div {...fade} className="card">
       <div className="grid md:grid-cols-2 gap-8">
-        <div><h2 className="text-4xl font-bold flex items-center gap-3"><Gift className="text-pinch" /> Holder rewards</h2>
+        <div><h2 className="text-4xl font-bold flex items-center gap-3"><Gift className="text-pinch" /> Airdrop checker</h2><div className="label mt-1">CLAWD holder rewards</div>
           <p className="text-white/70 mt-4">${COIN.ticker} creator fees (paid in CLAWD) fund rewards for CLAWD holders. Eligibility comes from on-chain snapshots, not from buying. Here's the rule:</p>
           <ul className="mt-3 text-sm text-white/70 space-y-1 list-disc pl-5"><li>Hold ≥ {stats?.minBal ?? 100} CLAWD (24 consecutive hourly samples once sampling starts)</li><li>Excluded: the PumpSwap pool and the owner stash</li><li>Share = your balance ÷ eligible total, capped at {stats?.capPctOfEpochPool ?? 2}% of the epoch pool per wallet</li><li>{stats?.epochDays ?? 7}-day epochs. Unclaimed rolls over, clawback after {stats?.unclaimed?.clawbackAfterEpochs ?? 4} epochs</li></ul>
           <div className="mt-4 rounded-2xl bg-pinch/10 border border-pinch/30 p-3 text-sm"><b>No rewards pool yet.</b> Epoch 0 is funded only by PINCH creator fees after launch. Nothing is promised before the pool exists.</div>
@@ -139,6 +141,7 @@ function Rewards({ addr }: { addr: string }) {
             : !hit.inSnapshot ? <div className="text-white/60">Not in this snapshot.</div>
             : hit.eligible ? <><div className="text-mint font-semibold">Eligible. Rank #{hit.rank}</div><div className="font-mono text-sm mt-1">{hit.quantity.toLocaleString(undefined, { maximumFractionDigits: 2 })} CLAWD ({hit.percentage}% of supply)</div><div className="font-mono text-sm mt-1">Estimated share of an epoch pool: <b>{hit.estimatedSharePct.toFixed(4)}%</b>{hit.capped && " (at the 2% cap)"}</div>{hit.flag && <div className="text-xs mt-1 text-pinch">flagged: {hit.flag}</div>}<div className="text-sm mt-1 text-white/60">{hit.rewardAmount ? `Epoch ${hit.epoch}: ${(Number(hit.rewardAmount) / 1e6).toLocaleString()} CLAWD` : "No rewards pool yet. This is an estimate, not a promised amount."}</div></>
             : <><div className="text-white/70 font-semibold">In the snapshot, not eligible</div><div className="text-sm text-white/50 mt-1">{hit.excludedReason}</div></>}</div>}
+          <SubmitWallet wallet={q.trim()} phantom={phantom} />
           <button className="btn-hot w-full mt-4" disabled title="Opens once an audited merkle-distributor is deployed">Claim (opens after distributor deploy)</button>
           <p className="text-xs text-white/40 mt-2">Claims will go through an on-chain merkle distributor, and you sign them yourself. The devnet test paid out with an owner-signed transfer.</p></div>
       </div>
@@ -168,7 +171,7 @@ export default function App() {
   return <div>
     <Nav wallet={addr} onConnect={connect} />
     {NETWORK !== "mainnet" && <div className="bg-mint/10 text-mint text-center text-sm py-2">You're on {NETWORK}. Test tokens only, nothing here has value.{!MAINNET_ENABLED && " Mainnet is off."}</div>}
-    <CountdownBanner /><Hero /><ClawdLive /><LaunchFeed /><Story /><Pair wallet={ph} /><Flywheel /><Earnings /><Rewards addr={addr} /><Locks /><DryRun />
+    <CountdownBanner /><Hero /><Rewards addr={addr} phantom={ph} /><ClawdLive /><VoiceLaunch wallet={ph} onConnect={connect} /><LaunchFeed /><Story /><Pair wallet={ph} /><Flywheel /><Earnings /><Locks /><DryRun />
     <footer className="border-t border-white/10 mt-10"><div className="max-w-6xl mx-auto px-5 py-10 text-xs text-white/40 space-y-2">
       <p className="flex items-center gap-2 text-white/60"><ShieldAlert size={14} /> Not financial advice. No promise of returns.</p>
       <p>${COIN.ticker} is a memecoin experiment with no intrinsic value, no roadmap and no expectation of profit. Rewards depend on holdings at a snapshot, are discretionary and may change or stop. They are not interest, dividends or a lottery. Not available where prohibited. Do your own research and only use money you can afford to lose.</p>

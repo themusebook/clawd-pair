@@ -1,5 +1,6 @@
 // Pinch web server: serves dist/, proxies Solana RPC + WS (secrets stay server-side), live feeds.
 import http from "node:http";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -46,6 +47,13 @@ import { loadRewards, isPubkey } from "./server/rewards.mjs";
 const REWARDS = loadRewards(path.join(path.dirname(fileURLToPath(import.meta.url)), "server", "data"));
 console.log(`rewards: ${REWARDS.stats.owners} holders, ${REWARDS.stats.eligible} eligible`);
 
+import { makeStore, verifyOwner, cleanNote, ipHash, signMessageText, MAX_NOTE } from "./server/submissions.mjs";
+const SUBS = await makeStore(); console.log(`submissions store: ${SUBS.kind.startsWith("file") ? "file (set CONVEX_URL+SUBMIT_SECRET for Convex)" : "convex"}`);
+const clientIp = (req) => String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || req.socket.remoteAddress || "?";
+// Fixed-window per-IP limiter.
+function limiter(max, windowMs) { const m = new Map(); return (ip) => { const now = Date.now(); const e = m.get(ip); if (!e || now - e.t > windowMs) { m.set(ip, { t: now, n: 1 }); if (m.size > 50000) m.clear(); return true; } return ++e.n <= max; }; }
+const submitLimit = limiter(10, 60 * 60_000), lookupLimit = limiter(120, 60_000), voiceLimit = limiter(Number(process.env.VOICE_SESSIONS_PER_HOUR || 6), 60 * 60_000);
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://x");
   try {
@@ -59,6 +67,33 @@ const server = http.createServer(async (req, res) => {
       const w = (url.searchParams.get("wallet") || "").trim();
       if (!isPubkey(w)) return json(res, 400, { error: "invalid wallet: expected base58 Solana public key" });
       return json(res, 200, REWARDS.check(w));
+    }
+    if (url.pathname.startsWith("/api/token-metadata/")) { // stateless metadata JSON for voice/UI launches (encoded in the URL)
+      const raw = url.pathname.slice(20); if (raw.length > 2000) return json(res, 414, { error: "too long" });
+      try { const m = JSON.parse(Buffer.from(raw, "base64url").toString("utf8")); const str = (v, n) => String(v || "").slice(0, n);
+        const img = /^https:\/\//.test(m.image || "") ? str(m.image, 300) : "";
+        res.writeHead(200, { "content-type": "application/json", "cache-control": "public, max-age=31536000, immutable" }); return res.end(JSON.stringify({ name: str(m.name, 32), symbol: str(m.symbol, 10), description: str(m.description, 500), image: img, showName: true, createdOn: "https://pinch.musebook.trade" }));
+      } catch { return json(res, 400, { error: "bad metadata" }); } }
+    if (url.pathname === "/api/airdrop/sign-message") { const w = url.searchParams.get("wallet") || ""; if (!isPubkey(w)) return json(res, 400, { error: "invalid wallet" }); const ts = Date.now(); return json(res, 200, { ts, message: signMessageText(w, ts) }); }
+    if (url.pathname === "/api/airdrop/submit" && req.method === "POST") {
+      const ip = clientIp(req); if (!submitLimit(ip)) return json(res, 429, { error: "too many submissions, try later" });
+      let b; try { b = JSON.parse((await readBody(req)).toString() || "{}"); } catch { return json(res, 400, { error: "bad json" }); }
+      const w = String(b.wallet || "").trim(); if (!isPubkey(w)) return json(res, 400, { error: "invalid wallet: expected base58 Solana public key" });
+      if (b.note && String(b.note).length > MAX_NOTE) return json(res, 400, { error: `note max ${MAX_NOTE} chars` });
+      const verified = b.signature ? verifyOwner(w, b.ts, b.signature) : false;
+      if (b.signature && !verified) return json(res, 400, { error: "signature did not verify (sign the exact message within 10 minutes)" });
+      const r = await SUBS.submit({ wallet: w, note: cleanNote(b.note), verified, ipHash: ipHash(ip) });
+      return json(res, 200, { wallet: w, ...r, label: r.verified ? "verified owner" : "unverified", message: "Submitted, pending review. This does not make the wallet eligible; the owner reviews submissions." });
+    }
+    if (url.pathname === "/api/airdrop/submission") {
+      if (!lookupLimit(clientIp(req))) return json(res, 429, { error: "slow down" });
+      const w = (url.searchParams.get("wallet") || "").trim(); if (!isPubkey(w)) return json(res, 400, { error: "invalid wallet" });
+      const r = await SUBS.get(w); return json(res, 200, r ? { submitted: true, ...r, label: r.verified ? "verified owner" : "unverified" } : { submitted: false, wallet: w });
+    }
+    if (url.pathname === "/api/airdrop/submissions") {
+      const tok = process.env.ADMIN_TOKEN, got = String(req.headers["x-admin-token"] || "");
+      if (!tok || got.length !== tok.length || !crypto.timingSafeEqual(Buffer.from(got), Buffer.from(tok))) return json(res, 401, { error: "unauthorized" });
+      const rows = await SUBS.list(url.searchParams.get("status") || undefined); return json(res, 200, { count: rows.length, store: SUBS.kind.split(":")[0], submissions: rows });
     }
     if (url.pathname === "/api/launches") return json(res, 200, await getLaunches());
     if (url.pathname === "/api/health") return json(res, 200, { ok: true, pumpai: await mcpCall("get_health").catch((e) => ({ error: String(e.message) })) });
@@ -76,9 +111,44 @@ const server = http.createServer(async (req, res) => {
   } catch (e) { if (!res.headersSent) json(res, 502, { error: "upstream error" }); else res.end(); console.error(url.pathname, e.message); }
 });
 
-const wss = new WebSocketServer({ noServer: true });
+const wss = new WebSocketServer({ noServer: true, maxPayload: 1 << 20 });
+// ---- /voice: xAI realtime agent bridge. XAI_API_KEY stays here; the browser only talks to /voice. ----
+const XAI_KEY = process.env.XAI_API_KEY || "", XAI_AGENT = process.env.XAI_AGENT_ID || "agent_esdtAGBx2KxO6CO9";
+const VOICE_MAX_MS = Number(process.env.VOICE_MAX_SECONDS || 300) * 1000, VOICE_MAX_CONCURRENT = Number(process.env.VOICE_MAX_CONCURRENT || 10);
+const VOICE_CLIENT_EVENTS = new Set(["input_audio_buffer.append", "input_audio_buffer.commit", "input_audio_buffer.clear", "conversation.item.create", "response.create", "response.cancel"]);
+const LAUNCH_TOOL = { type: "function", name: "prepare_token_launch", description: "Fill the pump.fun token launch form on the Pinch page so the user can review it and sign in their own Phantom wallet. This never signs, sends, or launches anything by itself. Ask for name, symbol and a short description if missing. Only include initial_buy_sol if the user said an amount.",
+  parameters: { type: "object", properties: { name: { type: "string", description: "Token name, max 32 chars" }, symbol: { type: "string", description: "Ticker, max 10 chars, no $" }, description: { type: "string" }, image_url: { type: "string", description: "https image URL, optional" }, initial_buy_sol: { type: "number", description: "Optional SOL the user wants to buy at launch" } }, required: ["name", "symbol", "description"] } };
+let voiceLive = 0;
+function voiceBridge(client, ip) {
+  voiceLive++; let configured = false; const q = [];
+  const up = new WebSocket(`wss://api.x.ai/v1/realtime?agent_id=${encodeURIComponent(XAI_AGENT)}`, { headers: { Authorization: `Bearer ${XAI_KEY}` } });
+  const send = (o) => client.readyState === 1 && client.send(JSON.stringify(o));
+  const timer = setTimeout(() => { send({ type: "pinch.session_limit", seconds: VOICE_MAX_MS / 1000 }); close(); }, VOICE_MAX_MS);
+  const close = () => { clearTimeout(timer); try { client.close(); } catch {} try { up.close(); } catch {} };
+  up.on("message", (m) => { let e; try { e = JSON.parse(m.toString()); } catch { return; }
+    if (e.type === "session.updated" && !configured) { configured = true; // keep the agent's own tools, add ours, pin PCM16 24 kHz both ways
+      up.send(JSON.stringify({ type: "session.update", session: { tools: [...(e.session?.tools || []).filter((t) => t.name !== LAUNCH_TOOL.name), LAUNCH_TOOL], audio: { input: { format: { type: "audio/pcm", rate: 24000 } }, output: { format: { type: "audio/pcm", rate: 24000 } } } } }));
+      q.splice(0).forEach((x) => up.send(x)); send({ type: "pinch.ready", maxSeconds: VOICE_MAX_MS / 1000 }); return; }
+    if (e.type === "session.created" || e.type === "session.updated") return send({ type: e.type }); // don't leak agent config to the browser
+    if (e.type === "response.function_call_arguments.done" && e.name !== LAUNCH_TOOL.name) return; // agent-side tools aren't ours to run
+    send(e); });
+  up.on("unexpected-response", (_r, res) => { send({ type: "pinch.error", error: `upstream ${res.statusCode}` }); close(); });
+  up.on("close", close); up.on("error", () => { send({ type: "pinch.error", error: "upstream error" }); close(); });
+  client.on("message", (m) => { if (m.length > 512 * 1024) return; let e; try { e = JSON.parse(m.toString()); } catch { return; }
+    if (!VOICE_CLIENT_EVENTS.has(e.type)) return; // browser can't change session/instructions/tools
+    if (e.type === "conversation.item.create" && !["message", "function_call_output"].includes(e.item?.type)) return;
+    const s = JSON.stringify(e); configured && up.readyState === 1 ? up.send(s) : q.length < 200 && q.push(s); });
+  client.on("close", () => { voiceLive--; close(); }); client.on("error", close);
+}
 server.on("upgrade", (req, sock, head) => {
-  if (new URL(req.url, "http://x").pathname !== "/ws" || !WSS) return sock.destroy();
+  const pn = new URL(req.url, "http://x").pathname;
+  if (pn === "/voice") {
+    const ip = clientIp(req);
+    if (!XAI_KEY) { sock.write("HTTP/1.1 503 Service Unavailable\r\n\r\n"); return sock.destroy(); }
+    if (voiceLive >= VOICE_MAX_CONCURRENT || !voiceLimit(ip)) { sock.write("HTTP/1.1 429 Too Many Requests\r\n\r\n"); return sock.destroy(); }
+    return wss.handleUpgrade(req, sock, head, (c) => voiceBridge(c, ip));
+  }
+  if (pn !== "/ws" || !WSS) return sock.destroy();
   wss.handleUpgrade(req, sock, head, (client) => {
     const up = new WebSocket(WSS); const q = [];
     up.on("open", () => { q.splice(0).forEach((m) => up.send(m)); });
