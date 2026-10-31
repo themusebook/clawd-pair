@@ -13,7 +13,7 @@ ENV VITE_NETWORK=$VITE_NETWORK VITE_MAINNET_ENABLED=$VITE_MAINNET_ENABLED VITE_R
 RUN bunx vite build
 FROM node:22-slim
 WORKDIR /app
-RUN npm i --no-save --no-package-lock ws@8 @noble/curves@1.9.7 >/dev/null
+RUN npm i --no-save --no-package-lock ws@8 @noble/curves@1.9.7 convex@1 >/dev/null
 COPY server.mjs ./
 COPY server ./server
 COPY scripts ./scripts
