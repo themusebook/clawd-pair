@@ -3,11 +3,11 @@ import { Connection, Keypair, PublicKey, Transaction, ComputeBudgetProgram, send
 import { TOKEN_2022_PROGRAM_ID, NATIVE_MINT, TOKEN_PROGRAM_ID, getAssociatedTokenAddressSync, getAccount } from "@solana/spl-token";
 import { OnlinePumpSdk, PUMP_SDK, bondingCurvePda, feeSharingConfigPda, canonicalPumpPoolPda } from "@pump-fun/pump-sdk";
 import BN from "bn.js"; import fs from "fs";
-const RPC = process.env.RPC || fs.readFileSync(new URL("../devnet-test/rpc.url", import.meta.url), "utf8").trim();
+const RPC = process.env.RPC || "https://solana-devnet.api.onfinality.io/public";
 if (/mainnet/.test(RPC)) throw new Error("refusing mainnet");
 const CLUSTER = process.env.CLUSTER || "devnet";
 const c = new Connection(RPC, "confirmed"); const sdk = new OnlinePumpSdk(c);
-const kp = n => Keypair.fromSecretKey(Uint8Array.from(JSON.parse(fs.readFileSync(new URL(`../devnet-test/${n}.json`, import.meta.url)))));
+const kp = n => Keypair.fromSecretKey(Uint8Array.from(JSON.parse(fs.readFileSync(`${process.env.KEYDIR || new URL("../devnet-test", import.meta.url).pathname}/${n}.json`))));
 const owner = kp("owner"), buyer = kp("buyer"), w50 = kp("w50"), w40 = kp("w40"), w10 = kp("w10");
 const log = []; const out = new URL(`../dryrun-${CLUSTER}.json`, import.meta.url);
 const rec = (step, sig, extra = {}) => { const e = { step, sig, url: `https://explorer.solana.com/tx/${sig}?cluster=${CLUSTER === "local" ? "custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899" : "devnet"}`, ...extra }; log.push(e); console.log("OK", step, sig); fs.writeFileSync(out, JSON.stringify(log, null, 2)); };
