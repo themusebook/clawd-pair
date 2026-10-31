@@ -56,11 +56,14 @@ const submitLimit = limiter(10, 60 * 60_000), lookupLimit = limiter(120, 60_000)
 
 import { makeTolybot } from "./server/tolybot.mjs";
 const TOLYBOT = makeTolybot({ rpc: RPC });
+import { makeSimd } from "./server/simd.mjs";
+const SIMD = makeSimd();
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://x");
   try {
     if (await TOLYBOT(req, res, url, { json, readBody, clientIp })) return;
+    if (await SIMD(req, res, url, { json })) return;
     if (url.pathname === "/rpc" && req.method === "POST") {
       if (!RPC) return json(res, 503, { error: "RPC not configured" });
       const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: await readBody(req), signal: AbortSignal.timeout(20000) });

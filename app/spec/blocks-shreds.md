@@ -1,0 +1,3 @@
+- Blocks are sequences of entries, split into **shreds** (data + erasure-coding) for propagation ([Agave docs](https://docs.anza.xyz/consensus/turbine-block-propagation)).
+- Only chained Merkle shreds are accepted; the old format is deprecated (**SIMD-0313**). Chained block ids are validated (**SIMD-0340**).
+- Pending: block footer (SIMD-0307), bank_hash in footer (SIMD-0298), fixed 32+32 FEC sets (SIMD-0317), stricter shred validation (SIMD-0504).

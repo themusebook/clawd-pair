@@ -1,0 +1,6 @@
+- Validators vote on slots with the vote program; fork choice and lockouts follow **Tower BFT** ([Agave docs: Tower BFT](https://docs.anza.xyz/implemented-proposals/tower-bft)).
+- **Credits.** Timely Vote Credits award more credits to lower-latency votes (**SIMD-0033**).
+- **Instructions.** Legacy `Vote`, `UpdateVoteState`, `CompactUpdateVoteState` variants are disabled (**SIMD-0138**).
+- **Vote account v4** (**SIMD-0185**); BLS pubkey in vote account (**SIMD-0387**).
+- **Commission.** Decrease allowed any time (**SIMD-0079**); updates delayed at least one full epoch (**SIMD-0249**); basis-point rates (**SIMD-0291**).
+- **Alpenglow** (SIMD-0326, Review) and migration (SIMD-0384, Review) are pending; the admission ticket (**SIMD-0357**) is marked Activated — TODO: verify its relationship to Alpenglow activation.
