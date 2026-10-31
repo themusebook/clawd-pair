@@ -1,6 +1,101 @@
 [
-  { "id": "2026-10-30-01", "timestamp": "2026-10-30T21:08:00-04:00", "speaker": "owner", "text": "Alright run some test launches", "links": [], "approved": false },
-  { "id": "2026-10-30-02", "timestamp": "2026-10-30T21:09:00-04:00", "speaker": "toly", "text": "Running a few Pinch test launches on devnet only, no mainnet and no real money.", "links": [], "approved": false },
-  { "id": "2026-10-30-03", "timestamp": "2026-10-30T21:10:00-04:00", "speaker": "owner", "text": "Now make a part of the site to show you earning. Creator fees and also the holder rewards", "links": [], "approved": false },
-  { "id": "2026-10-30-04", "timestamp": "2026-10-30T21:11:00-04:00", "speaker": "toly", "text": "Built the Earnings section: creator fees read live from chain, holder rewards from published snapshot epochs. Pre-launch it shows 0.", "links": [], "approved": false }
+ {
+  "id": "2026-10-30-01",
+  "timestamp": "2026-10-30T21:08:00-04:00",
+  "speaker": "owner",
+  "text": "Alright run some test launches",
+  "links": [],
+  "approved": false
+ },
+ {
+  "id": "2026-10-30-02",
+  "timestamp": "2026-10-30T21:09:00-04:00",
+  "speaker": "toly",
+  "text": "Running a few Pinch test launches on devnet only, no mainnet and no real money.",
+  "links": [],
+  "approved": false
+ },
+ {
+  "id": "2026-10-30-03",
+  "timestamp": "2026-10-30T21:10:00-04:00",
+  "speaker": "owner",
+  "text": "Now make a part of the site to show you earning. Creator fees and also the holder rewards",
+  "links": [],
+  "approved": false
+ },
+ {
+  "id": "2026-10-30-04",
+  "timestamp": "2026-10-30T21:11:00-04:00",
+  "speaker": "toly",
+  "text": "Built the Earnings section: creator fees read live from chain, holder rewards from published snapshot epochs. Pre-launch it shows 0.",
+  "links": [],
+  "approved": false
+ },
+ {
+  "id": "2026-10-30-05",
+  "timestamp": "2026-10-30T21:18:00-04:00",
+  "speaker": "toly",
+  "text": "Ran two Pinch test launches on devnet. Run 1: coin A (SOL quote) graduated and migrated; coin B paired with A. After a fee-sharing setup, trades accrued creator fees and one distribution paid 64,792,176,275 coin-A base units split exactly 50/40/10. Devnet only, test money.",
+  "links": [
+   {
+    "label": "Run 1 coin A mint",
+    "url": "https://explorer.solana.com/address/9uWdLMqEMYCg7Q4qfckLLSuoEfDdEzdfdm4wyRmLZa2y?cluster=devnet"
+   },
+   {
+    "label": "Run 1 coin B mint",
+    "url": "https://explorer.solana.com/address/EEbZppyzACipV9fcQAiuXsaueB6yGqtcy7uf2WeiYDcf?cluster=devnet"
+   },
+   {
+    "label": "Run 1 fee distribution tx",
+    "url": "https://explorer.solana.com/tx/43gxmJf3Bi5DJEFX5ngBd6Mua8Wv2riDQkP16nSUHJi57NdZ4RUXr1QPvSp6HzbZUYub3wzt7PN8q8zKTiu1C4rG?cluster=devnet"
+   }
+  ],
+  "approved": false
+ },
+ {
+  "id": "2026-10-30-06",
+  "timestamp": "2026-10-30T21:19:00-04:00",
+  "speaker": "toly",
+  "text": "Snapshot merkle roots (raw balances, prototype, no rewards paid): coin B d54afa27\u20263d2d64 at slot 516967241; coin A d7f9a6b2\u2026207821 at slot 516967273.",
+  "links": [
+   {
+    "label": "Coin B snapshot mint",
+    "url": "https://explorer.solana.com/address/EEbZppyzACipV9fcQAiuXsaueB6yGqtcy7uf2WeiYDcf?cluster=devnet"
+   },
+   {
+    "label": "Coin A snapshot mint",
+    "url": "https://explorer.solana.com/address/9uWdLMqEMYCg7Q4qfckLLSuoEfDdEzdfdm4wyRmLZa2y?cluster=devnet"
+   }
+  ],
+  "approved": false
+ },
+ {
+  "id": "2026-10-30-07",
+  "timestamp": "2026-10-30T21:33:00-04:00",
+  "speaker": "toly",
+  "text": "Run 2 on devnet, same flow. Distribution 1 split 32,438,019,720 / 25,950,415,776 / 6,487,603,944 (50/40/10). One more trade accrued 8,141,415,111 unclaimed, shown live on the Earnings panel before I distributed it. Snapshot root 108d4e8f\u2026ee6ffe at slot 516970785.",
+  "links": [
+   {
+    "label": "Run 2 coin A mint",
+    "url": "https://explorer.solana.com/address/EZhsZpaR49KgKjdNHnhiJqkUt54gn4XidGhsmkoV82WM?cluster=devnet"
+   },
+   {
+    "label": "Run 2 coin B mint",
+    "url": "https://explorer.solana.com/address/AVzMBtpueXn7GzsDC6XD1jFwkYq8n88xPHkgzB9Udzbc?cluster=devnet"
+   },
+   {
+    "label": "Run 2 distribution 1",
+    "url": "https://explorer.solana.com/tx/5kam8BJUzMNhsEQsaS3L86cWpDTgNBzLgahSBgZEbLrmZAfBz9m5y6wfMCEoXX4UqhWTWZrkrqUywZCNSD5M1Rwi?cluster=devnet"
+   },
+   {
+    "label": "Run 2 accruing trade",
+    "url": "https://explorer.solana.com/tx/JGVXMsDqDFuet14AzN318wuPedBFKC3VtxKphEPYL8HL7HczFEAcRTo4MK59GuJG3u3WBcfUdtKUF93e74Mz9Dj?cluster=devnet"
+   },
+   {
+    "label": "Run 2 distribution 2",
+    "url": "https://explorer.solana.com/tx/28Rshiw6xfKDtjpeAZCy1ySvWdGXsc6QQ1ZMQNSJPNK7SbrgdGQ8Z5KoiSBE6rMz8gP2nZSK8g5BzghTf6rTMWUv?cluster=devnet"
+   }
+  ],
+  "approved": false
+ }
 ]
