@@ -5,6 +5,7 @@ import { COIN, NETWORK, MAINNET_ENABLED, CLAWD_MINT, COIN_MINT, CLAWD_MAINNET, L
 import { getPhantom, multiHopBuy, curveStats, sharingInfo, type Phantom } from "./lib/chain";
 import dryrun from "./lib/dryrun.json";
 import Earnings from "./Earnings";
+import SimdSection from "./SimdSection";
 import { CountdownBanner, ClawdLive, LaunchFeed, SubmitWallet } from "./Live";
 import { lazy, Suspense } from "react";
 // tolybot voice is owner-only: compiled in only when VITE_VOICE_ENABLED=true, and rendered only with an owner token in this tab.
@@ -25,9 +26,10 @@ function Nav({ wallet, onConnect }: { wallet: string; onConnect: () => void }) {
   return <nav className="sticky top-0 z-50 backdrop-blur-xl bg-ink/60 border-b border-white/5">
     <div className="max-w-6xl mx-auto flex items-center justify-between px-5 py-4">
       <div className="flex items-center gap-2 font-bold text-lg"><span className="text-2xl">🦀</span> ${COIN.ticker}<span className="text-white/30">/</span><span className="text-claw">$CLAWD</span></div>
-      <div className="hidden md:flex gap-6 text-sm text-white/60">{["story", "pair", "flywheel", "earnings", "rewards", "locks", "dryrun"].map(s => <a key={s} href={`#${s}`} className="hover:text-white capitalize">{s === "dryrun" ? "dry run" : s}</a>)}<a href="/log" className="hover:text-white">Build log</a></div>
+      <div className="hidden md:flex gap-6 text-sm text-white/60"><a href="#simd" className="hover:text-white">SIMD</a>{["story", "pair", "flywheel", "earnings", "rewards", "locks", "dryrun"].map(s => <a key={s} href={`#${s}`} className="hover:text-white capitalize">{s === "dryrun" ? "dry run" : s}</a>)}<a href="/log" className="hover:text-white">Build log</a></div>
       <div className="flex items-center gap-3">
         <a href="#airdrop" className="hidden sm:flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full bg-pinch/20 border border-pinch/40 text-pinch hover:brightness-125"><Gift size={14} /> Airdrop checker</a>
+        <a href="/simd" className="flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full border border-[#14F195]/40 text-[#14F195] bg-gradient-to-r from-[#9945FF]/20 to-[#14F195]/20 hover:brightness-125">SIMD</a>
         <a href="/proof" className="hidden sm:flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full bg-gradient-to-r from-claw/20 to-mint/20 border border-mint/30 text-mint hover:brightness-125"><Bot size={14} /> Proof of agent</a>
         <span className={`text-xs font-mono px-2 py-1 rounded-full ${NETWORK === "mainnet" ? "bg-claw/20 text-claw" : "bg-mint/15 text-mint"}`}>{NETWORK}</span>
         <button className="btn-ghost !py-2 text-sm flex items-center gap-2" onClick={onConnect}><Wallet size={16} />{wallet ? short(wallet) : "Connect Phantom"}</button>
@@ -175,7 +177,7 @@ export default function App() {
   return <div>
     <Nav wallet={addr} onConnect={connect} />
     {NETWORK !== "mainnet" && <div className="bg-mint/10 text-mint text-center text-sm py-2">You're on {NETWORK}. Test tokens only, nothing here has value.{!MAINNET_ENABLED && " Mainnet is off."}</div>}
-    <CountdownBanner /><Hero /><Rewards addr={addr} phantom={ph} /><ClawdLive />{VoiceLaunch && sessionStorage.getItem("pinch-owner") && <Suspense fallback={null}><VoiceLaunch wallet={ph} onConnect={connect} /></Suspense>}<LaunchFeed /><Story /><Pair wallet={ph} /><Flywheel /><Earnings /><Locks /><DryRun />
+    <CountdownBanner /><Hero /><SimdSection /><Rewards addr={addr} phantom={ph} /><ClawdLive />{VoiceLaunch && sessionStorage.getItem("pinch-owner") && <Suspense fallback={null}><VoiceLaunch wallet={ph} onConnect={connect} /></Suspense>}<LaunchFeed /><Story /><Pair wallet={ph} /><Flywheel /><Earnings /><Locks /><DryRun />
     <footer className="border-t border-white/10 mt-10"><div className="max-w-6xl mx-auto px-5 py-10 text-xs text-white/40 space-y-2">
       <p className="flex items-center gap-2 text-white/60"><ShieldAlert size={14} /> Not financial advice. No promise of returns.</p>
       <p>${COIN.ticker} is a memecoin experiment with no intrinsic value, no roadmap and no expectation of profit. Rewards depend on holdings at a snapshot, are discretionary and may change or stop. They are not interest, dividends or a lottery. Not available where prohibited. Do your own research and only use money you can afford to lose.</p>
