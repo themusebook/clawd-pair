@@ -68,7 +68,7 @@ const server = http.createServer(async (req, res) => {
       if (!isPubkey(w)) return json(res, 400, { error: "invalid wallet: expected base58 Solana public key" });
       return json(res, 200, REWARDS.check(w));
     }
-    if (url.pathname.startsWith("/api/token-metadata/")) { // stateless metadata JSON for voice/UI launches (encoded in the URL)
+    if (url.pathname.startsWith("/api/token-metadata/") && process.env.VOICE_ENABLED === "true") { // stateless metadata JSON for voice/UI launches (encoded in the URL)
       const raw = url.pathname.slice(20); if (raw.length > 2000) return json(res, 414, { error: "too long" });
       try { const m = JSON.parse(Buffer.from(raw, "base64url").toString("utf8")); const str = (v, n) => String(v || "").slice(0, n);
         const img = /^https:\/\//.test(m.image || "") ? str(m.image, 300) : "";
@@ -111,8 +111,10 @@ const server = http.createServer(async (req, res) => {
   } catch (e) { if (!res.headersSent) json(res, 502, { error: "upstream error" }); else res.end(); console.error(url.pathname, e.message); }
 });
 
-const wss = new WebSocketServer({ noServer: true, maxPayload: 1 << 20 });
+const wss = new WebSocketServer({ noServer: true, maxPayload: 1 << 20, handleProtocols: (ps) => (ps.has("pinch-owner") ? "pinch-owner" : false) });
 // ---- /voice: xAI realtime agent bridge. XAI_API_KEY stays here; the browser only talks to /voice. ----
+const VOICE_ON = process.env.VOICE_ENABLED === "true", VOICE_TOKEN = process.env.VOICE_OWNER_TOKEN || process.env.ADMIN_TOKEN || "";
+const safeEq = (a, b) => { const x = Buffer.from(String(a)), y = Buffer.from(String(b)); return x.length === y.length && x.length > 0 && crypto.timingSafeEqual(x, y); };
 const XAI_KEY = process.env.XAI_API_KEY || "", XAI_AGENT = process.env.XAI_AGENT_ID || "agent_esdtAGBx2KxO6CO9";
 const VOICE_MAX_MS = Number(process.env.VOICE_MAX_SECONDS || 300) * 1000, VOICE_MAX_CONCURRENT = Number(process.env.VOICE_MAX_CONCURRENT || 10);
 const VOICE_CLIENT_EVENTS = new Set(["input_audio_buffer.append", "input_audio_buffer.commit", "input_audio_buffer.clear", "conversation.item.create", "response.create", "response.cancel"]);
@@ -120,6 +122,7 @@ const LAUNCH_TOOL = { type: "function", name: "prepare_token_launch", descriptio
   parameters: { type: "object", properties: { name: { type: "string", description: "Token name, max 32 chars" }, symbol: { type: "string", description: "Ticker, max 10 chars, no $" }, description: { type: "string" }, image_url: { type: "string", description: "https image URL, optional" }, initial_buy_sol: { type: "number", description: "Optional SOL the user wants to buy at launch" } }, required: ["name", "symbol", "description"] } };
 let voiceLive = 0;
 function voiceBridge(client, ip) {
+  console.log("voice: owner session -> opening upstream");
   voiceLive++; let configured = false; const q = [];
   const up = new WebSocket(`wss://api.x.ai/v1/realtime?agent_id=${encodeURIComponent(XAI_AGENT)}`, { headers: { Authorization: `Bearer ${XAI_KEY}` } });
   const send = (o) => client.readyState === 1 && client.send(JSON.stringify(o));
@@ -144,7 +147,10 @@ server.on("upgrade", (req, sock, head) => {
   const pn = new URL(req.url, "http://x").pathname;
   if (pn === "/voice") {
     const ip = clientIp(req);
-    if (!XAI_KEY) { sock.write("HTTP/1.1 503 Service Unavailable\r\n\r\n"); return sock.destroy(); }
+    // Owner-only. Off unless VOICE_ENABLED=true; token via Sec-WebSocket-Protocol "pinch-owner, <token>". No upstream socket before auth.
+    if (!VOICE_ON || !XAI_KEY || !VOICE_TOKEN) { sock.write("HTTP/1.1 404 Not Found\r\n\r\n"); return sock.destroy(); }
+    const protos = String(req.headers["sec-websocket-protocol"] || "").split(",").map((x) => x.trim());
+    if (protos[0] !== "pinch-owner" || !safeEq(protos[1] || "", VOICE_TOKEN)) { console.warn("voice: unauthorized attempt"); sock.write("HTTP/1.1 401 Unauthorized\r\n\r\n"); return sock.destroy(); }
     if (voiceLive >= VOICE_MAX_CONCURRENT || !voiceLimit(ip)) { sock.write("HTTP/1.1 429 Too Many Requests\r\n\r\n"); return sock.destroy(); }
     return wss.handleUpgrade(req, sock, head, (c) => voiceBridge(c, ip));
   }

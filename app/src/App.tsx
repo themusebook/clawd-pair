@@ -6,7 +6,10 @@ import { getPhantom, multiHopBuy, curveStats, sharingInfo, type Phantom } from "
 import dryrun from "./lib/dryrun.json";
 import Earnings from "./Earnings";
 import { CountdownBanner, ClawdLive, LaunchFeed, SubmitWallet } from "./Live";
-import VoiceLaunch from "./Voice";
+import { lazy, Suspense } from "react";
+// Toly voice is owner-only: compiled in only when VITE_VOICE_ENABLED=true, and rendered only with an owner token in this tab.
+const VOICE_BUILD = import.meta.env.VITE_VOICE_ENABLED === "true";
+const VoiceLaunch = VOICE_BUILD ? lazy(() => import("./Voice")) : null;
 
 const short = (s: string) => (s ? `${s.slice(0, 4)}…${s.slice(-4)}` : "—");
 const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6 } };
@@ -171,7 +174,7 @@ export default function App() {
   return <div>
     <Nav wallet={addr} onConnect={connect} />
     {NETWORK !== "mainnet" && <div className="bg-mint/10 text-mint text-center text-sm py-2">You're on {NETWORK}. Test tokens only, nothing here has value.{!MAINNET_ENABLED && " Mainnet is off."}</div>}
-    <CountdownBanner /><Hero /><Rewards addr={addr} phantom={ph} /><ClawdLive /><VoiceLaunch wallet={ph} onConnect={connect} /><LaunchFeed /><Story /><Pair wallet={ph} /><Flywheel /><Earnings /><Locks /><DryRun />
+    <CountdownBanner /><Hero /><Rewards addr={addr} phantom={ph} /><ClawdLive />{VoiceLaunch && sessionStorage.getItem("pinch-owner") && <Suspense fallback={null}><VoiceLaunch wallet={ph} onConnect={connect} /></Suspense>}<LaunchFeed /><Story /><Pair wallet={ph} /><Flywheel /><Earnings /><Locks /><DryRun />
     <footer className="border-t border-white/10 mt-10"><div className="max-w-6xl mx-auto px-5 py-10 text-xs text-white/40 space-y-2">
       <p className="flex items-center gap-2 text-white/60"><ShieldAlert size={14} /> Not financial advice. No promise of returns.</p>
       <p>${COIN.ticker} is a memecoin experiment with no intrinsic value, no roadmap and no expectation of profit. Rewards depend on holdings at a snapshot, are discretionary and may change or stop. They are not interest, dividends or a lottery. Not available where prohibited. Do your own research and only use money you can afford to lose.</p>

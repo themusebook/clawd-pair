@@ -33,9 +33,9 @@ export default function VoiceLaunch({ wallet, onConnect }: { wallet: Phantom | n
     if (ws.current) { if (text) send(text); return; }
     setStatus("connecting…"); setLines([]);
     const c = new AudioContext({ sampleRate: RATE }); ctx.current = c; playAt.current = 0;
-    const s = new WebSocket(`${location.origin.replace(/^http/, "ws")}/voice`); ws.current = s;
+    const s = new WebSocket(`${location.origin.replace(/^http/, "ws")}/voice`, ["pinch-owner", sessionStorage.getItem("pinch-owner") || ""]); ws.current = s;
     s.onclose = () => { setStatus(st => st.startsWith("error") || st.startsWith("limit") ? st : "ended"); stop(); };
-    s.onerror = () => setStatus("error: couldn't connect (rate limited or voice not configured)");
+    s.onerror = () => setStatus("error: refused (owner token wrong, voice off, or rate limited)");
     s.onmessage = (m) => { const e = JSON.parse(m.data);
       if (e.type === "pinch.ready") { setStatus(`live · ${Math.round(e.maxSeconds / 60)} min max`); setLive(true); if (text) send(text); }
       else if (e.type === "pinch.error") setStatus("error: " + e.error);
