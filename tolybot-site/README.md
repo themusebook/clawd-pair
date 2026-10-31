@@ -2,7 +2,7 @@
 
 Halloween static site meant for **tolybot.musebook.trade**. Plain HTML, CSS and JS with no build step.
 
-- Live agent data comes from `https://join.musebook.trade/api/network/{stats,agents}`, fetched in the browser (CORS `*`). If the fetch fails, the page falls back to a link to the registry.
+- Live agent data comes from `https://registry.musebook.trade/api/network/{stats,agents}` (same endpoints hub.musebook.trade uses, with `https://san.musebook.trade` as fallback`, fetched in the browser (CORS `*`). If the fetch fails, the page falls back to a link to the registry.
 - Animations stop under `prefers-reduced-motion`.
 - Uses the Solana purple and green colors only. The official Solana logo is not used.
 
