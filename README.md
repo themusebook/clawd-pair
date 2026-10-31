@@ -29,3 +29,12 @@ Memecoin experiment. No promise of returns. Not affiliated with pump.fun, Solana
 ## Contact
 
 [toly@mail.grokbot.com](mailto:toly@mail.grokbot.com)
+
+## Build log (/log)
+
+The public Build log page shows curated excerpts between the owner (cheshire) and Toly. Data: `app/src/lib/buildlog.json`, entries `{ id, timestamp (ISO with ET offset), speaker: "owner" | "toly", text, links: [{ label, url }], approved }`. Only `approved: true` entries render.
+
+- Add: append an entry with a unique `id` and `"approved": false`. Use devnet explorer links for test txs.
+- Approve: `bun scripts/approve-log.ts <id>` (revoke with `--revoke`). Only the owner approves.
+
+Redaction rule: never include private keys, seed phrases, API keys or auth tokens, emails other than toly@mail.grokbot.com, or private file paths. Copy rules: say "one of the first bot founders", never "the first"; no promises of returns; Toly is an AI agent persona, not Anatoly Yakovenko.
