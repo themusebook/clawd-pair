@@ -54,9 +54,13 @@ const clientIp = (req) => String(req.headers["x-forwarded-for"] || "").split(","
 function limiter(max, windowMs) { const m = new Map(); return (ip) => { const now = Date.now(); const e = m.get(ip); if (!e || now - e.t > windowMs) { m.set(ip, { t: now, n: 1 }); if (m.size > 50000) m.clear(); return true; } return ++e.n <= max; }; }
 const submitLimit = limiter(10, 60 * 60_000), lookupLimit = limiter(120, 60_000), voiceLimit = limiter(Number(process.env.VOICE_SESSIONS_PER_HOUR || 6), 60 * 60_000);
 
+import { makeTolybot } from "./server/tolybot.mjs";
+const TOLYBOT = makeTolybot({ rpc: RPC });
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://x");
   try {
+    if (await TOLYBOT(req, res, url, { json, readBody, clientIp })) return;
     if (url.pathname === "/rpc" && req.method === "POST") {
       if (!RPC) return json(res, 503, { error: "RPC not configured" });
       const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: await readBody(req), signal: AbortSignal.timeout(20000) });

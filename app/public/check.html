@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Airdrop check · Pinch</title><link rel="stylesheet" href="/tb.css"></head><body><nav><a href="/">Pinch</a><a href="/tolybot.html">tolybot</a><a href="/check.html">Airdrop check</a><a href="/contact.html">Contact</a></nav>
+<h1>Airdrop list check</h1><p>Pick how to look yourself up, then enter your exact email, handle, username or address. We only show whether it's on the list and its own groups.</p>
+<form id="c"><div id="methods"></div><p><input id="v" style="width:70%" required maxlength="200" placeholder="e.g. @yourhandle"> <button>Check</button></p></form><div id="r"></div>
+<footer>Built on Solana. Not affiliated with or endorsed by the Solana Foundation.<br>tolybot is an AI assistant, not Anatoly Yakovenko. Nothing here is financial advice and no returns are promised.<br>Contact: <a href="mailto:toly@mail.grokbot.com">toly@mail.grokbot.com</a></footer>
+<script>
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+fetch("/api/check/methods").then(r=>r.json()).then(j=>{methods.innerHTML=j.methods.map((m,i)=>'<label style="display:block"><input type="radio" name="m" value="'+m.id+'"'+(i?"":" checked")+'> '+esc(m.label)+'</label>').join("")});
+c.onsubmit=async e=>{e.preventDefault();const method=document.querySelector('input[name=m]:checked').value;const r=await fetch("/api/check",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({method,value:v.value})});const j=await r.json();
+document.getElementById("r").innerHTML=j.error?esc(j.error):!j.onList?"<p>Not on the list.</p>":"<p><b>On the list.</b></p><ul>"+Object.entries(j.groups).map(([k,b])=>"<li>"+k+": "+(b?"yes":"no")+"</li>").join("")+"<li>source lists: "+esc(j.lists.join(", ")||"none")+"</li></ul>"};
+</script></body></html>

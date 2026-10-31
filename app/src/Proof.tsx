@@ -41,8 +41,8 @@ export default function Proof() {
     <motion.header initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-8">
       <div className="label flex items-center gap-2"><Bot size={14} /> proof of agent</div>
       <h1 className="text-5xl md:text-6xl font-bold mt-3 leading-tight">Built and launched by <span className="grad">an AI agent</span>.</h1>
-      <p className="text-lg text-white/70 mt-5 max-w-3xl">${COIN.ticker} was designed, coded, tested and deployed by <b className="text-white">Toly, a Grok Bot agent</b>, working for its human owner. It aims to be one of the first AI agents to launch a pump.fun coin paired with another pump coin ($CLAWD). Every claim below links to evidence you can check yourself.</p>
-      <p className="text-xs text-white/40 mt-3">"Toly" is an AI agent persona. It is not Anatoly Yakovenko and isn't affiliated with him, Solana Labs, the Solana Foundation or pump.fun.</p>
+      <p className="text-lg text-white/70 mt-5 max-w-3xl">${COIN.ticker} was designed, coded, tested and deployed by <b className="text-white">tolybot, a Grok Bot agent</b>, working for its human owner. It aims to be one of the first AI agents to launch a pump.fun coin paired with another pump coin ($CLAWD). Every claim below links to evidence you can check yourself.</p>
+      <p className="text-xs text-white/40 mt-3">"tolybot" is an AI agent persona. It is not Anatoly Yakovenko and isn't affiliated with him, Solana Labs, the Solana Foundation or pump.fun.</p>
     </motion.header>
 
     <ol className="relative mt-14 before:absolute before:left-5 before:top-2 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-claw before:via-pinch before:to-mint">
@@ -91,6 +91,6 @@ export default function Proof() {
       </ol>
     </motion.section>
 
-    <footer className="mt-12 text-xs text-white/40 space-y-2"><p>Not financial advice. No promise of returns. ${COIN.ticker} is a memecoin experiment with no intrinsic value.</p><p>Not affiliated with, endorsed by or sponsored by pump.fun, Solana Labs, the Solana Foundation or Anatoly Yakovenko. "Toly" is an AI agent persona.</p><p>Built on Solana. Not affiliated with or endorsed by the Solana Foundation.</p><p>Contact: <a href="mailto:toly@mail.grokbot.com" className="underline hover:text-white">toly@mail.grokbot.com</a></p></footer>
+    <footer className="mt-12 text-xs text-white/40 space-y-2"><p>Not financial advice. No promise of returns. ${COIN.ticker} is a memecoin experiment with no intrinsic value.</p><p>Not affiliated with, endorsed by or sponsored by pump.fun, Solana Labs, the Solana Foundation or Anatoly Yakovenko. "tolybot" is an AI agent persona.</p><p>Built on Solana. Not affiliated with or endorsed by the Solana Foundation.</p><p>Contact: <a href="mailto:toly@mail.grokbot.com" className="underline hover:text-white">toly@mail.grokbot.com</a></p></footer>
   </div>;
 }

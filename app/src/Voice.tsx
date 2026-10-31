@@ -65,9 +65,9 @@ export default function VoiceLaunch({ wallet, onConnect }: { wallet: Phantom | n
 
   return <section id="voice" className="max-w-6xl mx-auto px-5 py-8"><div className="card grid md:grid-cols-2 gap-8">
     <div><h2 className="text-3xl font-bold flex items-center gap-3"><Mic className="text-pinch" /> Launch a token by voice</h2>
-      <p className="text-white/60 text-sm mt-2">Talk to Toly. Say something like "launch a token called Test Crab, symbol TCRAB". Toly fills the form; you review it and sign in Phantom. Nothing is signed for you.</p>
-      <div className="mt-4 flex gap-2 items-center"><button className={live ? "btn-ghost flex items-center gap-2" : "btn-hot flex items-center gap-2"} onClick={() => live ? stop() : start()}>{live ? <><MicOff size={18} /> Stop</> : <><Mic size={18} /> Talk to Toly</>}</button><span className="text-xs text-white/50">{status}</span></div>
-      <div className="mt-3 flex gap-2"><input className={inp} value={typed} onChange={e => setTyped(e.target.value)} placeholder="…or type to Toly" onKeyDown={e => { if (e.key === "Enter" && typed.trim()) { start(typed.trim()); setTyped(""); } }} /></div>
+      <p className="text-white/60 text-sm mt-2">Talk to tolybot. Say something like "launch a token called Test Crab, symbol TCRAB". tolybot fills the form; you review it and sign in Phantom. Nothing is signed for you.</p>
+      <div className="mt-4 flex gap-2 items-center"><button className={live ? "btn-ghost flex items-center gap-2" : "btn-hot flex items-center gap-2"} onClick={() => live ? stop() : start()}>{live ? <><MicOff size={18} /> Stop</> : <><Mic size={18} /> Talk to tolybot</>}</button><span className="text-xs text-white/50">{status}</span></div>
+      <div className="mt-3 flex gap-2"><input className={inp} value={typed} onChange={e => setTyped(e.target.value)} placeholder="…or type to tolybot" onKeyDown={e => { if (e.key === "Enter" && typed.trim()) { start(typed.trim()); setTyped(""); } }} /></div>
       <div className="mt-3 h-48 overflow-y-auto rounded-2xl bg-black/30 p-3 text-sm space-y-1">{lines.filter(l => l.t).map((l, i) => <div key={i}><b className={l.who === "toly" ? "text-mint" : "text-pinch"}>{l.who}:</b> {l.t}</div>)}{!lines.length && <div className="text-white/30">transcript appears here</div>}</div>
     </div>
     <div id="launch-form"><div className="label mb-2 flex items-center gap-2"><Rocket size={14} /> launch form · {NETWORK}{NETWORK !== "mainnet" && " (test tokens)"}</div>
@@ -78,7 +78,7 @@ export default function VoiceLaunch({ wallet, onConnect }: { wallet: Phantom | n
         <input className={inp} placeholder="Image URL (https, optional)" value={draft.image_url || ""} onChange={e => setDraft({ ...draft, image_url: e.target.value })} />
       </div>
       {valid && <div className="mt-4 rounded-2xl border border-pinch/40 bg-pinch/10 p-4 text-sm">
-        <div className="font-semibold">{fromVoice ? "Toly filled this in. Please check it." : "Review"}</div>
+        <div className="font-semibold">{fromVoice ? "tolybot filled this in. Please check it." : "Review"}</div>
         <div className="mt-1 font-mono">{draft.name} · ${draft.symbol}</div>
         <div className="text-white/60 mt-1">Quoted in CLAWD (create_v2) on <b>{NETWORK}</b>. You pay the network fee and sign in Phantom.</div>
         {draft.initial_buy_sol != null && <div className="text-white/60 mt-1">Initial buy requested: {draft.initial_buy_sol} SOL. It's <b>not</b> included in this transaction. Buy separately after launch if you still want it.</div>}
