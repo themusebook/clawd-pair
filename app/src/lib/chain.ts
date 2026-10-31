@@ -23,6 +23,16 @@ export async function sharingInfo(mint: string) {
   const cfg: any = PUMP_SDK.decodeSharingConfig(ai as any);
   return { pda: pda.toBase58(), shareholders: (cfg.shareholders || []).map((s: any) => ({ address: s.address.toBase58(), bps: s.shareBps })) };
 }
+/** Read-only quote for SOL -> CLAWD -> NEW. Simulates the route (no signature, no send). */
+export async function quoteBuy(sol: number, user?: PublicKey | null, slippageBps = 1500) {
+  if (!COIN_MINT || !(sol > 0)) return null;
+  const s = sdk(); const who = user ?? new PublicKey("11111111111111111111111111111111");
+  const hops = await s.resolveMultiHopRoute([NATIVE_MINT, new PublicKey(CLAWD_MINT), new PublicKey(COIN_MINT)], "buy");
+  const amountIn = new BN(Math.floor(sol * LAMPORTS_PER_SOL));
+  const sim: any = await s.simulateMultiHopSwap({ user: who, hops, side: "buy", amountIn });
+  const out = new BN(String(sim.amountOut ?? sim));
+  return { hops: hops.length, amountOut: out.toString(), minOut: out.muln(10000 - slippageBps).divn(10000).toString(), uiOut: Number(out.toString()) / 1e6 };
+}
 /** Builds SOL -> CLAWD -> NEW multi_hop_swap; the USER signs in Phantom. No server key involved. */
 export async function multiHopBuy(wallet: Phantom, sol: number, slippageBps = 1500) {
   if (NETWORK === "mainnet" && !MAINNET_ENABLED) throw new Error("Mainnet disabled");
