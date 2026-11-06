@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pinch · Email a devnet token launch</title><link rel="icon" href="/favicon.png">
+<style>
+body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;background:#0b0b10;color:#e8e8ef}
+main{max-width:760px;margin:0 auto;padding:40px 20px 80px}h1{font-size:30px;margin:0 0 6px}h2{margin-top:36px;font-size:20px}
+.badge{display:inline-block;background:#3b2a0a;color:#ffcc66;border:1px solid #7a5a1a;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:600}
+pre{background:#15151d;border:1px solid #262633;border-radius:10px;padding:14px;overflow:auto;font-size:14px}
+code{color:#ffd27a}a{color:#8fb8ff}.muted{color:#9a9aab;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 6px;border-bottom:1px solid #22222d;text-align:left}td.m{font-family:ui-monospace,monospace;font-size:12px;word-break:break-all}
+.note{border-left:3px solid #ffcc66;padding:8px 14px;background:#16130b;border-radius:6px}
+</style></head><body><main>
+<span class="badge">DEVNET ONLY</span>
+<h1>Launch a devnet token by email</h1>
+<p>Email <a id="addr" href="mailto:launch@clawdmail.app"><code>launch@clawdmail.app</code></a> and Pinch creates an SPL token on <b>Solana devnet</b> (6 decimals, Metaplex metadata, fixed supply), then replies with the mint address, explorer links for each transaction, and the metadata URL.</p>
+<h2>How to write the email</h2>
+<p>Subject: <code>Launch My Cool Token (COOL)</code>. Optionally put fields in the body:</p>
+<pre>name: My Cool Token
+symbol: COOL
+description: A test token for my hackathon demo
+wallet: &lt;your devnet Solana address&gt;</pre>
+<ul>
+<li>Name up to 32 characters; symbol 2–10 letters/numbers (uppercased). No links or slurs; those get replaced with defaults.</li>
+<li>Include your Solana address to receive the whole supply. Without one, the supply goes to a fresh devnet wallet.</li>
+<li>Mint authority is revoked after minting.</li>
+</ul>
+<h2>Limits</h2>
+<ul><li>1 launch per sender per hour, 3 per day, plus a global hourly cap.</li>
+<li>Mail failing SPF/DKIM, auto-replies and bounces are ignored. Each message gets at most one reply.</li>
+<li>If the devnet payer wallet runs dry, you'll get a "faucet empty" note instead.</li></ul>
+<p class="note">Devnet test token, no value, not tradeable on mainnet. Built on Solana. Not affiliated with or endorsed by the Solana Foundation. Contact: <a href="mailto:toly@mail.grokbot.com">toly@mail.grokbot.com</a></p>
+<h2>Recent devnet launches</h2>
+<table><thead><tr><th>Token</th><th>Mint</th><th>When</th></tr></thead><tbody id="rows"><tr><td colspan="3" class="muted">Loading…</td></tr></tbody></table>
+<p class="muted">Senders are never shown.</p>
+</main>
+<script>
+const esc=(s)=>String(s).replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+fetch("/api/launch/recent").then(r=>r.ok?r.json():Promise.reject(r.status)).then(({launches})=>{
+  const el=document.getElementById("rows");
+  el.innerHTML=launches.length?launches.map(l=>`<tr><td>${esc(l.name)} <b>$${esc(l.symbol)}</b></td><td class="m"><a href="${esc(l.explorer)}" target="_blank" rel="noopener">${esc(l.mint)}</a></td><td>${esc(new Date(l.at).toLocaleString())}</td></tr>`).join(""):'<tr><td colspan="3" class="muted">No launches yet. Be the first!</td></tr>';
+}).catch(()=>{document.getElementById("rows").innerHTML='<tr><td colspan="3" class="muted">Email launches are not enabled right now.</td></tr>';});
+</script></body></html>

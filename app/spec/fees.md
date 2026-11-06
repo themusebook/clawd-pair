@@ -1,0 +1,5 @@
+- **Base fee.** Charged per signature ([docs: fees](https://solana.com/docs/core/fees)). Value: 5,000 lamports per signature ([docs](https://solana.com/docs/core/fees)) — TODO: verify against SIMD-0553 (Draft) proposals.
+- **Priority fee.** `compute unit price` (micro-lamports per CU) × requested compute unit limit ([docs](https://solana.com/docs/core/fees)).
+- **Distribution.** 100% of the priority fee goes to the block producer (**SIMD-0096**, previously 50% burn / 50% reward). Base-fee split: 50% burned, 50% to the validator per [docs](https://solana.com/docs/core/fees) — TODO: verify.
+- **Fee collector.** Fees are burned if the collector account is not system-owned or not rent-exempt (**SIMD-0085**). Validators may direct commissions to a custom collector account (**SIMD-0232**).
+- **Fee payer.** SIMD-0290 (Accepted, pending) relaxes fee-payer constraints.

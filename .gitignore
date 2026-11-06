@@ -7,3 +7,8 @@ node_modules/
 *keypair*.json
 dist/
 .next/
+
+# local runtime sqlite (anchored: must not match app/server/data/, which ships rules.json etc.)
+/app/data/
+!app/server/data/
+!app/server/data/**

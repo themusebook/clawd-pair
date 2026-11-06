@@ -1,0 +1,18 @@
+{
+  "intro": "> **Unofficial community draft. Built on Solana. Not affiliated with or endorsed by the Solana Foundation.** Contact: toly@mail.grokbot.com\n\nOne living spec for Solana's protocol rules. Each section lists the SIMDs that define or changed it. Only SIMDs with status **Activated** (live on Mainnet Beta per SIMD-0001) are normative; everything else is in **Pending changes**. Statements marked `TODO: verify` have not yet been checked against a source.",
+  "sections": [
+    { "id": "accounts", "title": "Accounts and the account model", "file": "accounts.md", "simds": ["0084","0105","0162","0175","0183","0194","0215","0220","0223","0267","0392","0436","0437","0438"] },
+    { "id": "transactions", "title": "Transactions (format, signatures, versioned messages, ALTs)", "file": "transactions.md", "simds": ["0083","0128","0160","0186","0191","0242","0296","0297","0376","0385","0406","0596","0610"] },
+    { "id": "fees", "title": "Fees and priority fees", "file": "fees.md", "simds": ["0085","0096","0232","0290","0553"] },
+    { "id": "compute-budget", "title": "Compute budget", "file": "compute-budget.md", "simds": ["0170","0182","0207","0256","0268","0286","0306","0339","0458","0582"] },
+    { "id": "runtime", "title": "Runtime (sBPF, syscalls, CPI, rent)", "file": "runtime.md", "simds": ["0047","0093","0127","0129","0133","0137","0166","0173","0174","0178","0189","0219","0222","0284","0302","0321","0334","0359","0377","0388","0431","0432","0433","0449","0459","0460","0500","0512","0529","0558","0565","0607","0648","0650","0670","0683","0684","0688","0690"] },
+    { "id": "programs", "title": "Built-in and core programs", "file": "programs.md", "simds": ["0075","0088","0089","0128","0140","0148","0152","0153","0159","0196","0266","0312","0391","0418","0430","0444","0490","0495","0506"] },
+    { "id": "vote-tower", "title": "Vote program and Tower BFT", "file": "vote-tower.md", "simds": ["0033","0079","0138","0185","0204","0249","0291","0326","0337","0357","0384","0387","0464","0608","0609"] },
+    { "id": "leader-poh", "title": "Leader schedule and Proof of History", "file": "leader-poh.md", "simds": ["0180","0525"] },
+    { "id": "slots-epochs-stake", "title": "Slots, epochs and stake", "file": "slots-epochs-stake.md", "simds": ["0148","0149","0391","0525","0599"] },
+    { "id": "rewards-inflation", "title": "Rewards and inflation", "file": "rewards-inflation.md", "simds": ["0118","0123","0392","0550","0599"] },
+    { "id": "blocks-shreds", "title": "Block and shred format", "file": "blocks-shreds.md", "simds": ["0298","0307","0313","0317","0333","0340","0504"] },
+    { "id": "gossip-turbine", "title": "Gossip and Turbine (overview)", "file": "gossip-turbine.md", "simds": ["0332"] },
+    { "id": "feature-gates", "title": "Feature gates", "file": "feature-gates.md", "simds": ["0001","0089"] }
+  ]
+}

@@ -1,0 +1,6 @@
+- Each transaction has a compute-unit (CU) budget set with Compute Budget program instructions ([docs: fees & compute](https://solana.com/docs/core/fees)). Max per transaction: 1.4M CUs ([docs](https://solana.com/docs/core/fees)).
+- **Default limit.** Without an explicit limit, 200,000 CUs are allocated per non-compute-budget top-level instruction, but only 3,000 CUs for builtin program instructions (**SIMD-0170**).
+- **Failures.** Certain irregular sBPF VM failures consume all requested CUs (**SIMD-0182**).
+- **Block limits.** Raised to 50M (**SIMD-0207**), 60M (**SIMD-0256**) and 100M CUs (**SIMD-0286**). Per-writable-account limit: 40% of the block limit (**SIMD-0306**, previously 12M). Under slot-time reduction (**SIMD-0525**), per-slot limits scale with slot time — current effective value: TODO: verify.
+- **Votes.** Simple vote transactions are costed like normal transactions; the separate vote CU limit is obsolete (**SIMD-0458**).
+- **CPI.** Up to 255 account infos per CPI, with CU charges for serialized account infos and metas (**SIMD-0339**). CPI nesting limit increase: SIMD-0268 (Accepted, pending).

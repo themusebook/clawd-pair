@@ -1,0 +1,16 @@
+{
+  "rulesVersion": "1.0.0",
+  "frozen": "2026-10-31",
+  "source": "AIRDROP-PLAN.md decisions 1-6",
+  "token": { "mint": "8cHzQHUS2s2h8TzCmfqPKYiM4dSt4roa3n7MyRLApump", "symbol": "CLAWD", "decimals": 6 },
+  "minBal": 100,
+  "minBalConsecutiveSamples": 24,
+  "capPctOfEpochPool": 2,
+  "epochDays": 7,
+  "samplesPerEpoch": 168,
+  "scoring": "time-weighted balance over hourly samples; v1 checker uses the single holder-export snapshot until samples exist",
+  "reward": "floor(epochPool * score / sum(score)), per-wallet capped at capPctOfEpochPool of the pool, excess redistributed pro-rata",
+  "unclaimed": { "policy": "roll over to next epoch", "clawbackAfterEpochs": 4 },
+  "funding": { "source": "PINCH creator fees (paid in CLAWD)", "seeding": false, "status": "no rewards pool yet; nothing is promised before the pool exists" },
+  "exclusionsFile": "config/exclude.json"
+}

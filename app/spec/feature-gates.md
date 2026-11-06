@@ -1,0 +1,3 @@
+- Consensus changes are activated through **feature gates**: accounts owned by `Feature111111111111111111111111111111111111`, now a Core BPF program (**SIMD-0089**). A feature becomes active at an epoch boundary once its account is created and the cluster activates it; the account then records `activated_at` slot (TODO: verify against official docs on feature activation).
+- The process for proposals, statuses and feature tracking is **SIMD-0001** (Living). "Activated" means activated on mainnet beta (**SIMD-0001**).
+- The `/simd` page reads each feature account with a read-only `getMultipleAccounts` call on mainnet, devnet and testnet and shows *unknown* if the RPC fails.

@@ -1,0 +1,129 @@
+{
+  "note": "READ-ONLY single snapshot (raw balance at slot, NOT time-weighted). Leaf amount = raw balance; prototype only.",
+  "rpc": "https://solana-devnet.api.onfinality.io/public",
+  "slot": 516967273,
+  "takenAt": "2026-10-31T01:18:53.583Z",
+  "mint": "9uWdLMqEMYCg7Q4qfckLLSuoEfDdEzdfdm4wyRmLZa2y",
+  "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+  "decimals": 6,
+  "supply": "996193151759844",
+  "mode": "getProgramAccounts(full)",
+  "stats": {
+    "ownersWithBalance": 10,
+    "eligible": 5,
+    "excluded": 5,
+    "eligiblePctSupply": 85.148,
+    "top10": [
+      {
+        "wallet": "6dBrKJ1pxm7uddeKoqTDQVj69ayW2bxftZETDqZPxXP1",
+        "ui": 696513367.101456,
+        "pctSupply": 69.9175,
+        "excluded": null
+      },
+      {
+        "wallet": "HbR6EvJifiNyDdjUQG9UacJUiAEzeWLb8LiR1GpQkVMi",
+        "ui": 151660771.980837,
+        "pctSupply": 15.224,
+        "excluded": null
+      },
+      {
+        "wallet": "AG41g8WuTL3ZAHFyMxdTozG4myB9M4m8AWJTULZMbQGJ",
+        "ui": 101042014.402788,
+        "pctSupply": 10.1428,
+        "excluded": "off-curve(PDA/program-owned)"
+      },
+      {
+        "wallet": "Ac8wtb7UXgLpfj2iKLWjjvUr14fcwyFSTeCMwgCwtjUs",
+        "ui": 46657431.247858,
+        "pctSupply": 4.6835,
+        "excluded": "off-curve(PDA/program-owned)"
+      },
+      {
+        "wallet": "FsC8AAgHkcHYi3guYWk2XkjZEJGFamgviGtAhfuYjC4u",
+        "ui": 197431.418594,
+        "pctSupply": 0.0198,
+        "excluded": "off-curve(PDA/program-owned)"
+      },
+      {
+        "wallet": "5YxQFdt3Tr9zJLvkFccqXVUwhdTWJQc1fFg2YPbxvxeD",
+        "ui": 57343.432034,
+        "pctSupply": 0.0057,
+        "excluded": "off-curve(PDA/program-owned)"
+      },
+      {
+        "wallet": "GUCJHwBevJ9UBfEUAQAx5VcebwjF3icBbuHb6nqdMRDB",
+        "ui": 32396.088138,
+        "pctSupply": 0.0032,
+        "excluded": null
+      },
+      {
+        "wallet": "2GcPXYDoLbmsJPZMV5oQqDmoDVArvCuFX7tbPuTJKrZB",
+        "ui": 25916.87051,
+        "pctSupply": 0.0026,
+        "excluded": null
+      },
+      {
+        "wallet": "3GvaN8h8po5zdtJJjpPmYYoTvRbmPFtp1MaU8qzDhsfH",
+        "ui": 6479.217627,
+        "pctSupply": 0.0006,
+        "excluded": null
+      },
+      {
+        "wallet": "5rJzv1m48vrhLNhVSc3DTYBmLbvXDLfSmNBxgnmhgjvr",
+        "ui": 0.000002,
+        "pctSupply": 0,
+        "excluded": "off-curve(PDA/program-owned)"
+      }
+    ]
+  },
+  "merkleRoot": "d7f9a6b298a244133ab34b307c24d50c51b7df9887ac72e4de660fe849207821",
+  "leaves": [
+    {
+      "wallet": "2GcPXYDoLbmsJPZMV5oQqDmoDVArvCuFX7tbPuTJKrZB",
+      "amount": "25916870510"
+    },
+    {
+      "wallet": "3GvaN8h8po5zdtJJjpPmYYoTvRbmPFtp1MaU8qzDhsfH",
+      "amount": "6479217627"
+    },
+    {
+      "wallet": "6dBrKJ1pxm7uddeKoqTDQVj69ayW2bxftZETDqZPxXP1",
+      "amount": "696513367101456"
+    },
+    {
+      "wallet": "GUCJHwBevJ9UBfEUAQAx5VcebwjF3icBbuHb6nqdMRDB",
+      "amount": "32396088138"
+    },
+    {
+      "wallet": "HbR6EvJifiNyDdjUQG9UacJUiAEzeWLb8LiR1GpQkVMi",
+      "amount": "151660771980837"
+    }
+  ],
+  "excluded": [
+    {
+      "wallet": "AG41g8WuTL3ZAHFyMxdTozG4myB9M4m8AWJTULZMbQGJ",
+      "amount": "101042014402788",
+      "reason": "off-curve(PDA/program-owned)"
+    },
+    {
+      "wallet": "Ac8wtb7UXgLpfj2iKLWjjvUr14fcwyFSTeCMwgCwtjUs",
+      "amount": "46657431247858",
+      "reason": "off-curve(PDA/program-owned)"
+    },
+    {
+      "wallet": "FsC8AAgHkcHYi3guYWk2XkjZEJGFamgviGtAhfuYjC4u",
+      "amount": "197431418594",
+      "reason": "off-curve(PDA/program-owned)"
+    },
+    {
+      "wallet": "5YxQFdt3Tr9zJLvkFccqXVUwhdTWJQc1fFg2YPbxvxeD",
+      "amount": "57343432034",
+      "reason": "off-curve(PDA/program-owned)"
+    },
+    {
+      "wallet": "5rJzv1m48vrhLNhVSc3DTYBmLbvXDLfSmNBxgnmhgjvr",
+      "amount": "2",
+      "reason": "off-curve(PDA/program-owned)"
+    }
+  ]
+}

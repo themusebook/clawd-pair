@@ -14,8 +14,9 @@ const SPL = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 const EXCLUDE_OWNERS: Record<string, string> = {
   GBzd5ooMFkYtYgzUMKfzyaEJpvzxvm5FK4FDJcpVJJcH: "pumpswap-pool",
   HJYrK1vLqwQYjUJn3taqfaFX4yf7Yx6qCHAUGag9rAHj: "bonding-curve",
-  // TODO: known CEX hot wallets, creator wallet, user's ~34% wallet (user decision)
 };
+// Exclusions come from config/exclude.json (AIRDROP-PLAN.md build step 2).
+try { for (const e of JSON.parse(fs.readFileSync("config/exclude.json", "utf8")).exclude) EXCLUDE_OWNERS[e.wallet] = e.reason; } catch {}
 const RPCS = process.env.RPC ? [process.env.RPC] : ALLOW_MAINNET
   ? ["https://api.mainnet-beta.solana.com", "https://solana-rpc.publicnode.com", "https://solana.drpc.org"]
   : ["https://solana-devnet.api.onfinality.io/public"];

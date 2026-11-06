@@ -1,0 +1,3 @@
+- **Inflation schedule.** Initial 8%, disinflation 15% per year, long-term 1.5% ([docs: inflation](https://docs.anza.xyz/implemented-proposals/ed_overview/ed_validation_client_economics/ed_vce_state_validation_protocol_based_rewards)) — TODO: verify link and values. SIMD-0550 (Review) proposes doubling disinflation.
+- **Distribution.** Epoch rewards are distributed across multiple blocks (**SIMD-0118**). Rent-related stake adjustments during reward calculation: **SIMD-0392**.
+- **Block revenue sharing** (SIMD-0123) is in Review.

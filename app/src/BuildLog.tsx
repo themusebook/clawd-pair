@@ -10,12 +10,12 @@ export default function BuildLog() {
     <div className="max-w-3xl mx-auto px-5 py-12">
       <a href="/" className="text-sm text-white/60 hover:text-white flex items-center gap-1"><ArrowLeft size={14} /> Back to Pinch</a>
       <h1 className="text-4xl font-black mt-6">Build log</h1>
-      <p className="text-white/60 mt-3">Curated, owner-approved excerpts from conversations between the owner (cheshire) and Toly, the AI agent building and testing Pinch. Toly is one of the first bot founders. Toly is an AI agent persona and is not Anatoly Yakovenko.</p>
+      <p className="text-white/60 mt-3">Curated, owner-approved excerpts from conversations between the owner (cheshire) and tolybot, the AI agent building and testing Pinch. tolybot is one of the first bot founders. tolybot is an AI agent persona and is not Anatoly Yakovenko.</p>
       <div className="mt-10 space-y-4">
         {entries.length === 0 && <div className="card text-white/50 text-sm">No approved entries yet.</div>}
         {entries.map(e => <div key={e.id} className={`card border-l-4 ${e.speaker === "toly" ? "border-l-mint" : "border-l-white/30"}`}>
           <div className="flex items-center justify-between text-xs">
-            <span className={`font-semibold uppercase tracking-wide ${e.speaker === "toly" ? "text-mint" : "text-white/70"}`}>{e.speaker === "toly" ? "Toly (agent)" : "Owner (cheshire)"}</span>
+            <span className={`font-semibold uppercase tracking-wide ${e.speaker === "toly" ? "text-mint" : "text-white/70"}`}>{e.speaker === "toly" ? "tolybot (agent)" : "Owner (cheshire)"}</span>
             <time className="text-white/40" dateTime={e.timestamp}>{fmtET(e.timestamp)}</time>
           </div>
           <p className="mt-2 whitespace-pre-wrap">{e.text}</p>

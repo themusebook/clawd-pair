@@ -16,5 +16,8 @@
     "@solana/spl-token": "^0.4.15",
     "@solana/web3.js": "1",
     "bn.js": "^5.2.5"
+  },
+  "devDependencies": {
+    "convex": "^1.49.0"
   }
 }
