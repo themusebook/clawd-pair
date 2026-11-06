@@ -1,0 +1,10 @@
+{
+  "_note": "Public IDs only. The PINCH/CLAWD custom pair = a pump.fun create_v2 coin whose quote mint is CLAWD (not SOL). Curve first, then migrate_v2 to a PumpSwap PINCH/CLAWD pool.",
+  "programs": {
+    "pump": "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
+    "pump_amm": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+    "pump_fees": "pfeeUxB6jkeY1Hxd7CsFCAjcbHA9rWtchMGdZ6VojVZ"
+  },
+  "mainnet": { "clawd": "8cHzQHUS2s2h8TzCmfqPKYiM4dSt4roa3n7MyRLApump", "clawd_sol_pool": "GBzd5ooMFkYtYgzUMKfzyaEJpvzxvm5FK4FDJcpVJJcH", "pinch": null, "enabled": false },
+  "devnet": { "clawd_standin_A": "9uWdLMqEMYCg7Q4qfckLLSuoEfDdEzdfdm4wyRmLZa2y", "pinch_standin_B": "EEbZppyzACipV9fcQAiuXsaueB6yGqtcy7uf2WeiYDcf" }
+}

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Bot, Flame, Gift, Lock, Wallet, ArrowRight, Zap, ShieldAlert, Repeat, Sparkles, ExternalLink } from "lucide-react";
 import { COIN, NETWORK, MAINNET_ENABLED, CLAWD_MINT, COIN_MINT, CLAWD_MAINNET, LAUNCH_AT, explorer } from "./lib/config";
-import { getPhantom, multiHopBuy, curveStats, sharingInfo, type Phantom } from "./lib/chain";
+import { getPhantom, multiHopBuy, quoteBuy, curveStats, sharingInfo, type Phantom } from "./lib/chain";
 import dryrun from "./lib/dryrun.json";
 import Earnings from "./Earnings";
 import SimdSection from "./SimdSection";
@@ -81,6 +81,8 @@ function Story() {
 function Pair({ wallet }: { wallet: Phantom | null }) {
   const [stats, setStats] = useState<any>(null); const [amt, setAmt] = useState("0.05"); const [busy, setBusy] = useState(false); const [msg, setMsg] = useState<{ ok: boolean; t: string; sig?: string } | null>(null);
   useEffect(() => { const f = () => curveStats(COIN_MINT).then(setStats); f(); const t = setInterval(f, 15000); return () => clearInterval(t); }, []);
+  const [q, setQ] = useState<{ uiOut: number; minOut: string } | null | "err">(null);
+  useEffect(() => { const n = Number(amt); if (!COIN_MINT || !(n > 0)) return setQ(null); const t = setTimeout(() => quoteBuy(n, wallet?.publicKey).then(setQ).catch(() => setQ("err")), 400); return () => clearTimeout(t); }, [amt, wallet]);
   const prog = stats ? Math.min(100, 100 - (stats.realTokens / 793_100_000) * 100) : 0;
   const tradeOff = NETWORK === "mainnet" && !MAINNET_ENABLED;
   const buy = async () => { if (!wallet?.publicKey) return setMsg({ ok: false, t: "Connect Phantom first (set it to devnet)." }); setBusy(true); setMsg(null);
@@ -97,7 +99,7 @@ function Pair({ wallet }: { wallet: Phantom | null }) {
     <motion.div {...fade} className="card mt-6 grid md:grid-cols-[1fr_auto] gap-6 items-end">
       <div><div className="label mb-2 flex items-center gap-2"><Zap size={14} /> one-click multi-hop buy</div>
         <div className="flex items-center gap-3 flex-wrap font-mono text-sm">{["SOL", "CLAWD", COIN.ticker].map((x, i) => <span key={x} className="flex items-center gap-3"><span className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10">{x}</span>{i < 2 && <ArrowRight size={16} className="text-pinch" />}</span>)}</div>
-        <div className="mt-4 flex items-center gap-3"><input value={amt} onChange={e => setAmt(e.target.value)} className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 w-40 font-mono outline-none focus:border-pinch" /><span className="text-white/50">SOL</span></div>
+        <div className="mt-4 flex items-center gap-3"><input value={amt} onChange={e => setAmt(e.target.value)} className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 w-40 font-mono outline-none focus:border-pinch" /><span className="text-white/50">SOL</span><span className="font-mono text-sm text-white/70">{q === "err" ? "quote unavailable" : q ? `≈ ${q.uiOut.toLocaleString(undefined, { maximumFractionDigits: 2 })} $${COIN.ticker} (min ${(Number(q.minOut) / 1e6).toLocaleString(undefined, { maximumFractionDigits: 2 })})` : ""}</span></div>
         <p className="text-xs text-white/40 mt-2">Built in your browser and signed in Phantom. The server never sees or signs your transaction. 15% slippage guard.</p></div>
       <button className="btn-hot text-lg" disabled={busy || tradeOff || !COIN_MINT} onClick={buy}>{tradeOff ? "Mainnet disabled" : busy ? "Signing…" : `Buy $${COIN.ticker}`}</button>
       {msg && <div className={`md:col-span-2 text-sm ${msg.ok ? "text-mint" : "text-claw"}`}>{msg.t} {msg.sig && <a className="underline" target="_blank" href={explorer("tx", msg.sig)}>view tx</a>}</div>}
